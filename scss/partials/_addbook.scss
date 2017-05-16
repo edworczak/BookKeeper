@@ -33,6 +33,24 @@
     }
   }
 
+  .add-new-book__row--lent {
+    & {
+      align-items: center;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 5rem;
+      width: 100%;
+    }
+  }
+
+  .checkbox-container {
+    margin-right: 2rem;
+  }
+
+  .add-new-book__row:last-of-type {
+    margin-bottom: 0;
+  }
+
   .add-new-book__info {
     color: $color-alert;
     font-size: 2rem;

@@ -9814,13 +9814,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }, {
       key: 'cancelAction',
       value: function cancelAction(event) {
+        this.setState({
+          valueTitle: "",
+          valueAuthor: "",
+          valueLent: false,
+          valueLentTo: "",
+          info: ""
+        });
         _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
       }
     }, {
       key: 'saveAction',
       value: function saveAction(event) {
         if (this.state.valueTitle.length > 0 && this.state.valueAuthor.length > 0) {
-          if (this.state.valueLent && this.state.valueLentTo) {
+          if (this.state.valueLent && this.state.valueLentTo.length > 0) {
             var newIndex = exampleBookList.length + 1;
             exampleBookList.push({
               "Id": newIndex,
@@ -9830,6 +9837,27 @@ document.addEventListener('DOMContentLoaded', function () {
               "LentTo": this.state.valueLentTo
             });
             this.setState({
+              valueTitle: "",
+              valueAuthor: "",
+              valueLent: false,
+              valueLentTo: "",
+              info: ""
+            });
+            _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
+          } else if (!this.state.valueLent) {
+            var _newIndex = exampleBookList.length + 1;
+            exampleBookList.push({
+              "Id": _newIndex,
+              "Title": this.state.valueTitle,
+              "Author": this.state.valueAuthor,
+              "Lent": this.state.valueLent,
+              "LentTo": null
+            });
+            this.setState({
+              valueTitle: "",
+              valueAuthor: "",
+              valueLent: false,
+              valueLentTo: "",
               info: ""
             });
             _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
@@ -9873,25 +9901,17 @@ document.addEventListener('DOMContentLoaded', function () {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'add-new-book__row' },
+              { className: 'add-new-book__row--lent' },
               _react2.default.createElement(
                 'div',
-                null,
+                { className: 'checkbox-container' },
+                _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.valueLent, onChange: function onChange(event) {
+                    return _this9.ifLent(event);
+                  } }),
                 _react2.default.createElement(
-                  'div',
-                  { className: 'checkbox-container' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'checkbox' },
-                    _react2.default.createElement('input', { id: 'ifLent', type: 'checkbox', value: this.state.valueLent, onChange: function onChange(event) {
-                        return _this9.ifLent(event);
-                      } }),
-                    _react2.default.createElement(
-                      'label',
-                      { htmlFor: 'ifLent' },
-                      'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
-                    )
-                  )
+                  'label',
+                  { htmlFor: 'box-1' },
+                  'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
                 )
               ),
               _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.valueLentTo, onChange: function onChange(event) {

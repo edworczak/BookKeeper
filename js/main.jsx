@@ -128,6 +128,13 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     cancelAction(event) {
+      this.setState({
+        valueTitle: "",
+        valueAuthor: "",
+        valueLent: false,
+        valueLentTo: "",
+        info: ""
+      });
       ReactDOM.render(
         <App books={exampleBookList} />,
         document.getElementById('app')
@@ -141,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function(){
       ) {
         if (
           (this.state.valueLent) &&
-          (this.state.valueLentTo)
+          (this.state.valueLentTo.length > 0)
         ) {
           const newIndex = exampleBookList.length + 1;
           exampleBookList.push (
@@ -154,8 +161,34 @@ document.addEventListener('DOMContentLoaded', function(){
             }
           );
           this.setState({
+            valueTitle: "",
+            valueAuthor: "",
+            valueLent: false,
+            valueLentTo: "",
             info: ""
-          })
+          });
+          ReactDOM.render(
+            <App books={exampleBookList} />,
+            document.getElementById('app')
+          );
+        } else if (!this.state.valueLent) {
+          const newIndex = exampleBookList.length + 1;
+          exampleBookList.push (
+            {
+              "Id": newIndex,
+              "Title": this.state.valueTitle,
+              "Author": this.state.valueAuthor,
+              "Lent": this.state.valueLent,
+              "LentTo": null
+            }
+          );
+          this.setState({
+            valueTitle: "",
+            valueAuthor: "",
+            valueLent: false,
+            valueLentTo: "",
+            info: ""
+          });
           ReactDOM.render(
             <App books={exampleBookList} />,
             document.getElementById('app')
@@ -181,13 +214,11 @@ document.addEventListener('DOMContentLoaded', function(){
             <input type="text" className="input-details" placeholder="podaj autora" value={this.state.valueAuthor} onChange={event => this.addAuthor(event)} />
             <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.valueTitle} onChange={event => this.addTitle(event)} />
           </div>
-          <div className="add-new-book__row">
-            <div><div className="checkbox-container">
-              <div className="checkbox">
-                <input id="ifLent" type="checkbox" value={this.state.valueLent} onChange={event => this.ifLent(event)} />
-		            <label htmlFor="ifLent">Książka została pożyczona</label>
-    	        </div>
-            </div></div>
+          <div className="add-new-book__row--lent">
+            <div className="checkbox-container">
+              <input type="checkbox" id="box-1" value={this.state.valueLent} onChange={event => this.ifLent(event)}/>
+              <label htmlFor="box-1">Książka została pożyczona</label>
+            </div>
             <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.valueLentTo} onChange={event => this.addLentTo(event)} />
           </div>
           <div className="add-new-book__row">
