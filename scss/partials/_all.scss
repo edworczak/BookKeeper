@@ -1,0 +1,68 @@
+html {
+  font-family: 'Raleway', Verdana, sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+}
+
+.container {
+  @extend %flexrow;
+  width: 100vw;
+  min-height: $height-content;
+}
+
+.menu {
+  background-color: $color-main;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: $height-content;
+  padding: $padding;
+  width: 25vw;
+}
+
+.books-list {
+  font-size: 1.2rem;
+  min-height: $height-content;
+  width: 75vw;
+}
+
+.table-row {
+  & {
+    align-items: center;
+    display: flex;
+    height: 5rem;
+    justify-content: space-around;
+    padding: 0 $padding;
+    width: 100%;
+  }
+  * {
+    width: 25%;
+  }
+}
+
+footer {
+  align-items: center;
+  background-color: $color-action;
+  color: $color-font-ondark;
+  display: flex;
+  font-size: 1.2rem;
+  height: 10vh;
+  justify-content: center;
+  min-height: 5rem;
+  width: 100vw;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid $color-lines;
+  margin: 0;
+}
+
+.table-content {
+  &>div:nth-child(odd) {
+    background-color: $color-row-bg-lighter
+  }
+  &>div:nth-child(even) {
+    background-color: $color-row-bg-darker;
+  }
+}
