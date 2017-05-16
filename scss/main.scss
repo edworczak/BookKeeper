@@ -1,6 +1,10 @@
 @import "modules/reset";
 @import "modules/variables";
 @import "modules/mixins";
-@import "modules/extends";
+
+@import "partials/inputs";
+@import "partials/buttons";
 
 @import "partials/all";
+@import "partials/booklist";
+@import "partials/menu";

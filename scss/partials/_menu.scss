@@ -1,0 +1,23 @@
+.menu {
+
+  & {
+    background-color: $color-main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: $height-content;
+    padding: $padding;
+    width: 25vw;
+  }
+
+  & > * {
+    color: $color-font-ondark;
+    text-align: center;
+  }
+
+  input {
+    @extend %input;
+    border: 0px;
+  }
+
+}

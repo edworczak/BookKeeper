@@ -47,7 +47,11 @@ document.addEventListener('DOMContentLoaded', function(){
     render() {
       const logo = "./img/logo.png";
       return <div className="menu">
-        <div><img src={logo} /></div>
+        <div>
+          <img src={logo} />
+          <button className="action">Dodaj nową książkę</button>
+          <input type="text" />
+        </div>
         <div><a>Ustawienia</a></div>
       </div>;
     }

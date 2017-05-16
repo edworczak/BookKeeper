@@ -5,39 +5,9 @@ html {
 }
 
 .container {
-  @extend %flexrow;
+  display: flex;
   width: 100vw;
   min-height: $height-content;
-}
-
-.menu {
-  background-color: $color-main;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: $height-content;
-  padding: $padding;
-  width: 25vw;
-}
-
-.books-list {
-  font-size: 1.2rem;
-  min-height: $height-content;
-  width: 75vw;
-}
-
-.table-row {
-  & {
-    align-items: center;
-    display: flex;
-    height: 5rem;
-    justify-content: space-around;
-    padding: 0 $padding;
-    width: 100%;
-  }
-  * {
-    width: 25%;
-  }
 }
 
 footer {
@@ -56,13 +26,4 @@ hr {
   border: 0;
   border-top: 1px solid $color-lines;
   margin: 0;
-}
-
-.table-content {
-  &>div:nth-child(odd) {
-    background-color: $color-row-bg-lighter
-  }
-  &>div:nth-child(even) {
-    background-color: $color-row-bg-darker;
-  }
 }

@@ -9668,7 +9668,13 @@ document.addEventListener('DOMContentLoaded', function () {
           _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement('img', { src: logo })
+            _react2.default.createElement('img', { src: logo }),
+            _react2.default.createElement(
+              'button',
+              { className: 'action' },
+              'Dodaj now\u0105 ksi\u0105\u017Ck\u0119'
+            ),
+            _react2.default.createElement('input', { type: 'text' })
           ),
           _react2.default.createElement(
             'div',

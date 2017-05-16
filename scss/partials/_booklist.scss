@@ -1,0 +1,28 @@
+.books-list {
+  font-size: 1.2rem;
+  min-height: $height-content;
+  width: 75vw;
+}
+
+.table-row {
+  & {
+    align-items: center;
+    display: flex;
+    height: 5rem;
+    justify-content: space-around;
+    padding: 0 $padding;
+    width: 100%;
+  }
+  * {
+    width: 25%;
+  }
+}
+
+.table-content {
+  &>div:nth-child(odd) {
+    background-color: $color-row-bg-lighter
+  }
+  &>div:nth-child(even) {
+    background-color: $color-row-bg-darker;
+  }
+}

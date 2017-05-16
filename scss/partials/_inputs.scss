@@ -1,0 +1,13 @@
+%input {
+  & {
+    background-color: $color-row-bg-lighter;
+    border-radius: 2.5rem;
+    box-sizing: border-box;
+    color: $color-font;
+    height: 5rem;
+    padding: 0 2rem;
+  }
+  &:focus {
+    outline: none;
+  }
+}

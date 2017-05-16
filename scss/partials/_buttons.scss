@@ -1,0 +1,23 @@
+button {
+
+  & {
+    border: 0px;
+    border-radius: 2.5rem;
+    color: $color-font-ondark;
+    height: 5rem;
+    padding: 0 2rem;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.action {
+    background-color: $color-action;
+  }
+
+  &.alert {
+    background-color: $color-alert;
+  }
+
+}
