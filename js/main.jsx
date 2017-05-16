@@ -89,10 +89,11 @@ document.addEventListener('DOMContentLoaded', function(){
     constructor(props) {
       super(props);
       this.state = {
-        valueTitle: "podaj tytuł",
-        valueAuthor: "podaj autora",
+        valueTitle: "",
+        valueAuthor: "",
         valueLent: false,
-        valueLentTo: "podaj imię i nazwisko"
+        valueLentTo: "",
+        info: ""
       }
     }
 
@@ -134,20 +135,41 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     saveAction(event) {
-      const newIndex = exampleBookList.length + 1;
-      exampleBookList.push (
-        {
-          "Id": newIndex,
-          "Title": this.state.valueTitle,
-          "Author": this.state.valueAuthor,
-          "Lent": this.state.valueLent,
-          "LentTo": this.state.valueLentTo
+      if (
+        (this.state.valueTitle.length > 0) &&
+        (this.state.valueAuthor.length > 0)
+      ) {
+        if (
+          (this.state.valueLent) &&
+          (this.state.valueLentTo)
+        ) {
+          const newIndex = exampleBookList.length + 1;
+          exampleBookList.push (
+            {
+              "Id": newIndex,
+              "Title": this.state.valueTitle,
+              "Author": this.state.valueAuthor,
+              "Lent": this.state.valueLent,
+              "LentTo": this.state.valueLentTo
+            }
+          );
+          this.setState({
+            info: ""
+          })
+          ReactDOM.render(
+            <App books={exampleBookList} />,
+            document.getElementById('app')
+          );
+        } else {
+          this.setState({
+            info: "Podaj dane osoby pożyczającej"
+          })
         }
-      );
-      ReactDOM.render(
-        <App books={exampleBookList} />,
-        document.getElementById('app')
-      );
+      } else {
+        this.setState({
+          info: "Podaj autora i tytuł książki"
+        })
+      }
     }
 
     render() {
@@ -156,15 +178,25 @@ document.addEventListener('DOMContentLoaded', function(){
           <h1>Dodaj nową książkę</h1>
           <hr />
           <div className="add-new-book__row">
-            <input type="text" placeholder={this.state.valueAuthor} onChange={event => this.addAuthor(event)} />
-            <input type="text" placeholder={this.state.valueTitle} onChange={event => this.addTitle(event)} />
+            <input type="text" className="input-details" placeholder="podaj autora" value={this.state.valueAuthor} onChange={event => this.addAuthor(event)} />
+            <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.valueTitle} onChange={event => this.addTitle(event)} />
           </div>
           <div className="add-new-book__row">
-            <div><input type="checkbox" value={this.state.valueLent} className="checkbox" onChange={event => this.ifLent(event)}/> Książka została pożyczona</div>
-            <input type="text" placeholder={this.state.valueLentTo} onChange={event => this.addLentTo(event)} />
+            <div><div className="checkbox-container">
+              <div className="checkbox">
+                <input id="ifLent" type="checkbox" value={this.state.valueLent} onChange={event => this.ifLent(event)} />
+		            <label htmlFor="ifLent">Książka została pożyczona</label>
+    	        </div>
+            </div></div>
+            <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.valueLentTo} onChange={event => this.addLentTo(event)} />
           </div>
-          <button className="alert" onClick={event => this.cancelAction(event)}>Anuluj</button>
-          <button className="action" onClick={event => this.saveAction(event)}>Zapisz</button>
+          <div className="add-new-book__row">
+            <div className="add-new-book__info"><h2>{this.state.info}</h2></div>
+            <div>
+              <button className="alert" onClick={event => this.cancelAction(event)}>Anuluj</button>
+              <button className="action" onClick={event => this.saveAction(event)}>Zapisz</button>
+            </div>
+          </div>
         </div>
       </div>
     }

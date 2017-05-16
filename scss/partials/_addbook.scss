@@ -17,21 +17,33 @@
     padding: 5rem;
   }
 
-  input {
+  .input-details {
     @extend %input;
     border: 1px solid $color-lines;
-    width: 45%;
+    min-width: 44rem;
   }
 
   .add-new-book__row {
     & {
+      align-items: center;
       display: flex;
       justify-content: space-between;
       margin-bottom: 2rem;
+      width: 100%;
     }
+  }
+
+  .add-new-book__info {
+    color: $color-alert;
+    font-size: 2rem;
+    font-weight: 600;
   }
 
   button {
     width: 15rem;
+  }
+
+  button:first-of-type {
+    margin-right: 1rem;
   }
 }

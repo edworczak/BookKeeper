@@ -9768,10 +9768,11 @@ document.addEventListener('DOMContentLoaded', function () {
       var _this8 = _possibleConstructorReturn(this, (AddNewBookForm.__proto__ || Object.getPrototypeOf(AddNewBookForm)).call(this, props));
 
       _this8.state = {
-        valueTitle: "podaj tytuł",
-        valueAuthor: "podaj autora",
+        valueTitle: "",
+        valueAuthor: "",
         valueLent: false,
-        valueLentTo: "podaj imię i nazwisko"
+        valueLentTo: "",
+        info: ""
       };
       return _this8;
     }
@@ -9818,15 +9819,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }, {
       key: 'saveAction',
       value: function saveAction(event) {
-        var newIndex = exampleBookList.length + 1;
-        exampleBookList.push({
-          "Id": newIndex,
-          "Title": this.state.valueTitle,
-          "Author": this.state.valueAuthor,
-          "Lent": this.state.valueLent,
-          "LentTo": this.state.valueLentTo
-        });
-        _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
+        if (this.state.valueTitle.length > 0 && this.state.valueAuthor.length > 0) {
+          if (this.state.valueLent && this.state.valueLentTo) {
+            var newIndex = exampleBookList.length + 1;
+            exampleBookList.push({
+              "Id": newIndex,
+              "Title": this.state.valueTitle,
+              "Author": this.state.valueAuthor,
+              "Lent": this.state.valueLent,
+              "LentTo": this.state.valueLentTo
+            });
+            this.setState({
+              info: ""
+            });
+            _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
+          } else {
+            this.setState({
+              info: "Podaj dane osoby pożyczającej"
+            });
+          }
+        } else {
+          this.setState({
+            info: "Podaj autora i tytuł książki"
+          });
+        }
       }
     }, {
       key: 'render',
@@ -9848,10 +9864,10 @@ document.addEventListener('DOMContentLoaded', function () {
             _react2.default.createElement(
               'div',
               { className: 'add-new-book__row' },
-              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueAuthor, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.valueAuthor, onChange: function onChange(event) {
                   return _this9.addAuthor(event);
                 } }),
-              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueTitle, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.valueTitle, onChange: function onChange(event) {
                   return _this9.addTitle(event);
                 } })
             ),
@@ -9861,28 +9877,57 @@ document.addEventListener('DOMContentLoaded', function () {
               _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement('input', { type: 'checkbox', value: this.state.valueLent, className: 'checkbox', onChange: function onChange(event) {
-                    return _this9.ifLent(event);
-                  } }),
-                ' Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+                _react2.default.createElement(
+                  'div',
+                  { className: 'checkbox-container' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'checkbox' },
+                    _react2.default.createElement('input', { id: 'ifLent', type: 'checkbox', value: this.state.valueLent, onChange: function onChange(event) {
+                        return _this9.ifLent(event);
+                      } }),
+                    _react2.default.createElement(
+                      'label',
+                      { htmlFor: 'ifLent' },
+                      'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+                    )
+                  )
+                )
               ),
-              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueLentTo, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.valueLentTo, onChange: function onChange(event) {
                   return _this9.addLentTo(event);
                 } })
             ),
             _react2.default.createElement(
-              'button',
-              { className: 'alert', onClick: function onClick(event) {
-                  return _this9.cancelAction(event);
-                } },
-              'Anuluj'
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'action', onClick: function onClick(event) {
-                  return _this9.saveAction(event);
-                } },
-              'Zapisz'
+              'div',
+              { className: 'add-new-book__row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'add-new-book__info' },
+                _react2.default.createElement(
+                  'h2',
+                  null,
+                  this.state.info
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'button',
+                  { className: 'alert', onClick: function onClick(event) {
+                      return _this9.cancelAction(event);
+                    } },
+                  'Anuluj'
+                ),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'action', onClick: function onClick(event) {
+                      return _this9.saveAction(event);
+                    } },
+                  'Zapisz'
+                )
+              )
             )
           )
         );

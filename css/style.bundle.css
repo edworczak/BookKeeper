@@ -43,7 +43,7 @@ table {
 div, header, footer {
   box-sizing: border-box; }
 
-.menu .search input, .add-new-book__bg input {
+.menu .search input, .add-new-book__bg .input-details {
   background-color: #ffffff;
   border-radius: 2.5rem;
   box-sizing: border-box;
@@ -52,19 +52,52 @@ div, header, footer {
   height: 5rem;
   padding: 0 2rem; }
 
-.menu .search input:focus, .add-new-book__bg input:focus {
+.menu .search input:focus, .add-new-book__bg .input-details:focus {
   outline: none; }
 
-.checkbox {
-  background-color: #ffffff;
-  border: 1px solid #087E8B;
-  border-radius: 0.3rem;
-  height: 2.5rem;
-  width: 2.5rem; }
+.checkbox-container {
+  position: absolute; }
+
+.checkbox input {
+  display: none; }
+
+.checkbox label {
+  font-size: 24px;
+  color: #bfbfbf;
+  display: inline-block;
+  padding: 0 0 0 1em;
+  cursor: pointer; }
+
+.checkbox label:before {
+  content: '';
+  display: inline-block;
+  background: #55D8C6;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  border-radius: 80%;
+  box-shadow: 0px 1px 0 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border: 10px solid #fff;
+  transition: border .3s ease; }
+
+.checkbox input:checked + label:before {
+  border-color: #fff;
+  border-width: 3px; }
+
+.checkbox input + label {
+  transition: color .7s ease; }
+
+.checkbox input:checked + label {
+  color: #5D5D5D; }
 
 button.action, button.alert, button.book-action {
   border: 0px;
-  color: #ffffff; }
+  color: #ffffff;
+  cursor: pointer; }
 
 button.action, button.alert {
   border-radius: 2.5rem;
@@ -135,9 +168,9 @@ hr.ondark {
 .table-row {
   align-items: center;
   display: flex;
-  height: 5rem;
+  min-height: 5rem;
   justify-content: space-around;
-  padding: 0 5rem;
+  padding: 1.2rem 5rem;
   width: 100%; }
 
 .table-row .table__title {
@@ -146,7 +179,11 @@ hr.ondark {
 .table-row .table__author, .table-row .table__state {
   width: 25%; }
 
+.table-row .table__title, .table-row .table__author, .table-row .table__state {
+  padding-right: 3rem; }
+
 .table-row .table__action {
+  min-width: 9rem;
   width: 10%; }
 
 .table-content > div:nth-child(odd) {
@@ -210,14 +247,24 @@ hr.ondark {
   min-width: 100rem;
   padding: 5rem; }
 
-.add-new-book__bg input {
+.add-new-book__bg .input-details {
   border: 1px solid #c7c7c7;
-  width: 45%; }
+  min-width: 44rem; }
 
 .add-new-book__bg .add-new-book__row {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem; }
+  margin-bottom: 2rem;
+  width: 100%; }
+
+.add-new-book__bg .add-new-book__info {
+  color: #E56399;
+  font-size: 2rem;
+  font-weight: 600; }
 
 .add-new-book__bg button {
   width: 15rem; }
+
+.add-new-book__bg button:first-of-type {
+  margin-right: 1rem; }
