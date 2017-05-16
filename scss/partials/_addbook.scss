@@ -1,0 +1,37 @@
+.add-new-book__bg {
+  & {
+    align-items: center;
+    background-color: $color-main;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+  }
+
+  .add-new-book__form {
+    background-color: $color-row-bg-lighter;
+    border: 0px;
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+    min-width: 100rem;
+    padding: 5rem;
+  }
+
+  input {
+    @extend %input;
+    border: 1px solid $color-lines;
+    width: 45%;
+  }
+
+  .add-new-book__row {
+    & {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+  }
+
+  button {
+    width: 15rem;
+  }
+}

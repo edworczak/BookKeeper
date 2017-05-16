@@ -10,7 +10,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, hr {
   margin: 0;
   padding: 0;
   border: 0;
@@ -43,21 +43,32 @@ table {
 div, header, footer {
   box-sizing: border-box; }
 
-.menu input {
+.menu .search input, .add-new-book__bg input {
   background-color: #ffffff;
   border-radius: 2.5rem;
   box-sizing: border-box;
   color: #4f4f4f;
+  font-size: 1.2rem;
   height: 5rem;
   padding: 0 2rem; }
 
-.menu input:focus {
+.menu .search input:focus, .add-new-book__bg input:focus {
   outline: none; }
 
-button {
+.checkbox {
+  background-color: #ffffff;
+  border: 1px solid #087E8B;
+  border-radius: 0.3rem;
+  height: 2.5rem;
+  width: 2.5rem; }
+
+button.action, button.alert, button.book-action {
   border: 0px;
+  color: #ffffff; }
+
+button.action, button.alert {
   border-radius: 2.5rem;
-  color: #ffffff;
+  font-size: 1.6rem;
   height: 5rem;
   padding: 0 2rem; }
 
@@ -70,15 +81,30 @@ button.action {
 button.alert {
   background-color: #E56399; }
 
-html {
+button.book-action {
+  background-color: #087E8B;
+  border-radius: 0.3rem;
+  font-size: 1.2rem;
+  height: 2.5rem;
+  margin-right: 0.5rem;
+  width: 2.5rem; }
+
+button.book-action:last-of-type {
+  margin-right: 0px; }
+
+html, * {
   font-family: 'Raleway', Verdana, sans-serif;
   font-size: 10px;
   font-weight: 300; }
 
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem; }
+
 .container {
   display: flex;
   width: 100vw;
-  min-height: 90vh; }
+  min-height: 95vh; }
 
 footer {
   align-items: center;
@@ -86,20 +112,25 @@ footer {
   color: #ffffff;
   display: flex;
   font-size: 1.2rem;
-  height: 10vh;
+  height: 5vh;
   justify-content: center;
-  min-height: 5rem;
   width: 100vw; }
 
 hr {
   border: 0;
   border-top: 1px solid #c7c7c7;
-  margin: 0; }
+  margin-bottom: 5rem; }
+
+hr.ondark {
+  border-top: 1px solid #ffffff; }
 
 .books-list {
   font-size: 1.2rem;
-  min-height: 90vh;
-  width: 75vw; }
+  min-height: 95vh;
+  width: 100%; }
+
+.books-list hr {
+  margin: 0; }
 
 .table-row {
   align-items: center;
@@ -109,8 +140,14 @@ hr {
   padding: 0 5rem;
   width: 100%; }
 
-.table-row * {
+.table-row .table__title {
+  width: 40%; }
+
+.table-row .table__author, .table-row .table__state {
   width: 25%; }
+
+.table-row .table__action {
+  width: 10%; }
 
 .table-content > div:nth-child(odd) {
   background-color: #ffffff; }
@@ -123,13 +160,64 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 90vh;
+  min-height: 95vh;
   padding: 5rem;
-  width: 25vw; }
+  width: 30rem; }
 
 .menu > * {
   color: #ffffff;
   text-align: center; }
 
-.menu input {
-  border: 0px; }
+.menu .menu__content > * {
+  margin-bottom: 5rem; }
+
+.menu button {
+  min-width: 20rem;
+  margin-bottom: 1rem; }
+
+.menu .search {
+  position: relative;
+  color: #4f4f4f;
+  font-size: 1.1rem; }
+
+.menu .search input {
+  min-width: 20rem;
+  background: #ffffff;
+  border: 0;
+  border-radius: 2.5rem; }
+
+.menu .search input {
+  text-indent: 2rem; }
+
+.menu .search .fa-search {
+  position: absolute;
+  top: 1.9rem;
+  left: 2rem; }
+
+.add-new-book__bg {
+  align-items: center;
+  background-color: #01172F;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw; }
+
+.add-new-book__bg .add-new-book__form {
+  background-color: #ffffff;
+  border: 0px;
+  border-radius: 0.3rem;
+  box-sizing: border-box;
+  min-width: 100rem;
+  padding: 5rem; }
+
+.add-new-book__bg input {
+  border: 1px solid #c7c7c7;
+  width: 45%; }
+
+.add-new-book__bg .add-new-book__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem; }
+
+.add-new-book__bg button {
+  width: 15rem; }

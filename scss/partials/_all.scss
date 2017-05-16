@@ -1,7 +1,12 @@
-html {
+html, * {
   font-family: 'Raleway', Verdana, sans-serif;
   font-size: 10px;
   font-weight: 300;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
 }
 
 .container {
@@ -16,14 +21,17 @@ footer {
   color: $color-font-ondark;
   display: flex;
   font-size: 1.2rem;
-  height: 10vh;
+  height: 100vh - $height-content;
   justify-content: center;
-  min-height: 5rem;
   width: 100vw;
 }
 
 hr {
   border: 0;
   border-top: 1px solid $color-lines;
-  margin: 0;
+  margin-bottom: 5rem;
+}
+
+hr.ondark {
+  border-top: 1px solid $color-font-ondark;
 }

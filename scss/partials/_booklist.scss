@@ -1,7 +1,12 @@
 .books-list {
-  font-size: 1.2rem;
-  min-height: $height-content;
-  width: 75vw;
+  & {
+    font-size: 1.2rem;
+    min-height: $height-content;
+    width: 100%;
+  }
+  hr {
+    margin: 0;
+  }
 }
 
 .table-row {
@@ -13,8 +18,14 @@
     padding: 0 $padding;
     width: 100%;
   }
-  * {
+  .table__title {
+    width: 40%;
+  }
+  .table__author, .table__state {
     width: 25%;
+  }
+  .table__action {
+    width: 10%;
   }
 }
 

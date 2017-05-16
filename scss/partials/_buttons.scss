@@ -1,23 +1,44 @@
-button {
+%buttons {
+  border: 0px;
+  color: $color-font-ondark;
+}
 
-  & {
-    border: 0px;
-    border-radius: 2.5rem;
-    color: $color-font-ondark;
-    height: 5rem;
-    padding: 0 2rem;
-  }
+%big-buttons {
+  @extend %buttons;
+  border-radius: 2.5rem;
+  font-size: 1.6rem;
+  height: 5rem;
+  padding: 0 2rem;
+}
+
+button {
 
   &:focus {
     outline: none;
   }
 
   &.action {
+    @extend %big-buttons;
     background-color: $color-action;
   }
 
   &.alert {
+    @extend %big-buttons;
     background-color: $color-alert;
+  }
+
+  &.book-action {
+    @extend %buttons;
+    background-color: $color-action;
+    border-radius: 0.3rem;
+    font-size: 1.2rem;
+    height: 2.5rem;
+    margin-right: 0.5rem;
+    width: 2.5rem;
+  }
+
+  &.book-action:last-of-type {
+    margin-right: 0px;
   }
 
 }

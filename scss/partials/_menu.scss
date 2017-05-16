@@ -7,7 +7,7 @@
     justify-content: space-between;
     min-height: $height-content;
     padding: $padding;
-    width: 25vw;
+    width: 30rem;
   }
 
   & > * {
@@ -15,9 +15,37 @@
     text-align: center;
   }
 
-  input {
+  .menu__content > * {
+    margin-bottom: 5rem;
+  }
+
+  button {
+    min-width: 20rem;
+    margin-bottom: 1rem;
+  }
+
+  .search {
+    position: relative;
+    color: $color-font;
+    font-size: 1.1rem;
+  }
+
+  .search input {
     @extend %input;
-    border: 0px;
+    min-width: 20rem;
+    background: $color-row-bg-lighter;
+    border: 0;
+    border-radius: 2.5rem;
+  }
+
+  .search input {
+    text-indent: 2rem;
+  }
+
+  .search .fa-search {
+    position: absolute;
+    top: 1.9rem;
+    left: 2rem;
   }
 
 }

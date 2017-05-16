@@ -9529,8 +9529,50 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var BookRow = function (_React$Component) {
-    _inherits(BookRow, _React$Component);
+  var BookHeader = function (_React$Component) {
+    _inherits(BookHeader, _React$Component);
+
+    function BookHeader() {
+      _classCallCheck(this, BookHeader);
+
+      return _possibleConstructorReturn(this, (BookHeader.__proto__ || Object.getPrototypeOf(BookHeader)).apply(this, arguments));
+    }
+
+    _createClass(BookHeader, [{
+      key: 'render',
+      value: function render() {
+        return _react2.default.createElement(
+          'div',
+          { className: 'table-row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'table__title' },
+            'tytu\u0142'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'table__author' },
+            'autor'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'table__state' },
+            'stan'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'table__action' },
+            'akcja'
+          )
+        );
+      }
+    }]);
+
+    return BookHeader;
+  }(_react2.default.Component);
+
+  var BookRow = function (_React$Component2) {
+    _inherits(BookRow, _React$Component2);
 
     function BookRow() {
       _classCallCheck(this, BookRow);
@@ -9562,7 +9604,7 @@ document.addEventListener('DOMContentLoaded', function () {
           _react2.default.createElement(
             'div',
             { className: 'table__action' },
-            this.props.action
+            _react2.default.createElement(BookActionButtons, null)
           )
         );
       }
@@ -9571,8 +9613,68 @@ document.addEventListener('DOMContentLoaded', function () {
     return BookRow;
   }(_react2.default.Component);
 
-  var BooksList = function (_React$Component2) {
-    _inherits(BooksList, _React$Component2);
+  var BookActionButtons = function (_React$Component3) {
+    _inherits(BookActionButtons, _React$Component3);
+
+    function BookActionButtons() {
+      _classCallCheck(this, BookActionButtons);
+
+      return _possibleConstructorReturn(this, (BookActionButtons.__proto__ || Object.getPrototypeOf(BookActionButtons)).apply(this, arguments));
+    }
+
+    _createClass(BookActionButtons, [{
+      key: 'showInfo',
+      value: function showInfo(event) {
+        console.log("pokazuję informacje");
+      }
+    }, {
+      key: 'editBook',
+      value: function editBook(event) {
+        console.log("pokazuję okno edycji");
+      }
+    }, {
+      key: 'deleteBook',
+      value: function deleteBook(event) {
+        console.log("kasuję");
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this4 = this;
+
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { className: 'book-action', onClick: function onClick(event) {
+                return _this4.showInfo(event);
+              } },
+            _react2.default.createElement('i', { className: 'fa fa-info', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'book-action', onClick: function onClick(event) {
+                return _this4.editBook(event);
+              } },
+            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'book-action', onClick: function onClick(event) {
+                return _this4.deleteBook(event);
+              } },
+            _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true' })
+          )
+        );
+      }
+    }]);
+
+    return BookActionButtons;
+  }(_react2.default.Component);
+
+  var BooksList = function (_React$Component4) {
+    _inherits(BooksList, _React$Component4);
 
     function BooksList() {
       _classCallCheck(this, BooksList);
@@ -9583,13 +9685,21 @@ document.addEventListener('DOMContentLoaded', function () {
     _createClass(BooksList, [{
       key: 'render',
       value: function render() {
+        var books = this.props.books;
+        var tableRows = [];
+
+        for (var i = 0; i < books.length; i++) {
+          if (books[i].Lent) {
+            tableRows.push(_react2.default.createElement(BookRow, { key: books[i].Id, title: books[i].Title, author: books[i].Author, state: "pożyczona: " + books[i].LentTo, action: _react2.default.createElement(BookActionButtons, null) }));
+          } else {
+            tableRows.push(_react2.default.createElement(BookRow, { key: books[i].Id, title: books[i].Title, author: books[i].Author, state: 'na miejscu', action: _react2.default.createElement(BookActionButtons, null) }));
+          }
+        }
+
         return _react2.default.createElement(
           'div',
           { className: 'table-content' },
-          _react2.default.createElement(BookRow, { title: 'Ginekolodzy', author: 'J\xFCrgen Thorwald', state: 'na miejscu', action: '...' }),
-          _react2.default.createElement(BookRow, { title: 'House of Cards', author: 'Michael Dobbs', state: 'na miejscu', action: '...' }),
-          _react2.default.createElement(BookRow, { title: 'Sekrety urody Koreanek. Elementarz piel\u0119gnacji', author: 'Charlotte Cho', state: 'po\u017Cyczona: Monika Konieczna', action: '...' }),
-          _react2.default.createElement(BookRow, { title: 'Zew Cthulhu', author: 'Howard Phillips Lovecraft', state: 'po\u017Cyczona: Olga Kierzkowska', action: '...' })
+          tableRows
         );
       }
     }]);
@@ -9597,8 +9707,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return BooksList;
   }(_react2.default.Component);
 
-  var BooksTable = function (_React$Component3) {
-    _inherits(BooksTable, _React$Component3);
+  var BooksTable = function (_React$Component5) {
+    _inherits(BooksTable, _React$Component5);
 
     function BooksTable() {
       _classCallCheck(this, BooksTable);
@@ -9612,9 +9722,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return _react2.default.createElement(
           'div',
           { className: 'books-list' },
-          _react2.default.createElement(BookRow, { title: 'tytu\u0142', author: 'autor', state: 'stan', action: 'akcje' }),
+          _react2.default.createElement(BookHeader, null),
           _react2.default.createElement('hr', null),
-          _react2.default.createElement(BooksList, null)
+          _react2.default.createElement(BooksList, { books: this.props.books })
         );
       }
     }]);
@@ -9622,8 +9732,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return BooksTable;
   }(_react2.default.Component);
 
-  var Footer = function (_React$Component4) {
-    _inherits(Footer, _React$Component4);
+  var Footer = function (_React$Component6) {
+    _inherits(Footer, _React$Component6);
 
     function Footer() {
       _classCallCheck(this, Footer);
@@ -9649,8 +9759,173 @@ document.addEventListener('DOMContentLoaded', function () {
     return Footer;
   }(_react2.default.Component);
 
-  var Menu = function (_React$Component5) {
-    _inherits(Menu, _React$Component5);
+  var AddNewBookForm = function (_React$Component7) {
+    _inherits(AddNewBookForm, _React$Component7);
+
+    function AddNewBookForm(props) {
+      _classCallCheck(this, AddNewBookForm);
+
+      var _this8 = _possibleConstructorReturn(this, (AddNewBookForm.__proto__ || Object.getPrototypeOf(AddNewBookForm)).call(this, props));
+
+      _this8.state = {
+        valueTitle: "podaj tytuł",
+        valueAuthor: "podaj autora",
+        valueLent: false,
+        valueLentTo: "podaj imię i nazwisko"
+      };
+      return _this8;
+    }
+
+    _createClass(AddNewBookForm, [{
+      key: 'addTitle',
+      value: function addTitle(event) {
+        this.setState({
+          valueTitle: event.target.value
+        });
+      }
+    }, {
+      key: 'addAuthor',
+      value: function addAuthor(event) {
+        this.setState({
+          valueAuthor: event.target.value
+        });
+      }
+    }, {
+      key: 'ifLent',
+      value: function ifLent(event) {
+        if (this.state.valueLent) {
+          this.setState({
+            valueLent: false
+          });
+        } else {
+          this.setState({
+            valueLent: true
+          });
+        }
+      }
+    }, {
+      key: 'addLentTo',
+      value: function addLentTo(event) {
+        this.setState({
+          valueLentTo: event.target.value
+        });
+      }
+    }, {
+      key: 'cancelAction',
+      value: function cancelAction(event) {
+        _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
+      }
+    }, {
+      key: 'saveAction',
+      value: function saveAction(event) {
+        var newIndex = exampleBookList.length + 1;
+        exampleBookList.push({
+          "Id": newIndex,
+          "Title": this.state.valueTitle,
+          "Author": this.state.valueAuthor,
+          "Lent": this.state.valueLent,
+          "LentTo": this.state.valueLentTo
+        });
+        _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this9 = this;
+
+        return _react2.default.createElement(
+          'div',
+          { className: 'add-new-book__bg' },
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__form' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Dodaj now\u0105 ksi\u0105\u017Ck\u0119'
+            ),
+            _react2.default.createElement('hr', null),
+            _react2.default.createElement(
+              'div',
+              { className: 'add-new-book__row' },
+              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueAuthor, onChange: function onChange(event) {
+                  return _this9.addAuthor(event);
+                } }),
+              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueTitle, onChange: function onChange(event) {
+                  return _this9.addTitle(event);
+                } })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'add-new-book__row' },
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement('input', { type: 'checkbox', value: this.state.valueLent, className: 'checkbox', onChange: function onChange(event) {
+                    return _this9.ifLent(event);
+                  } }),
+                ' Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+              ),
+              _react2.default.createElement('input', { type: 'text', placeholder: this.state.valueLentTo, onChange: function onChange(event) {
+                  return _this9.addLentTo(event);
+                } })
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'alert', onClick: function onClick(event) {
+                  return _this9.cancelAction(event);
+                } },
+              'Anuluj'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'action', onClick: function onClick(event) {
+                  return _this9.saveAction(event);
+                } },
+              'Zapisz'
+            )
+          )
+        );
+      }
+    }]);
+
+    return AddNewBookForm;
+  }(_react2.default.Component);
+
+  var AddNewBookButton = function (_React$Component8) {
+    _inherits(AddNewBookButton, _React$Component8);
+
+    function AddNewBookButton() {
+      _classCallCheck(this, AddNewBookButton);
+
+      return _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).apply(this, arguments));
+    }
+
+    _createClass(AddNewBookButton, [{
+      key: 'addNewBook',
+      value: function addNewBook(event) {
+        _reactDom2.default.render(_react2.default.createElement(AddNewBookForm, null), document.getElementById('app'));
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this11 = this;
+
+        return _react2.default.createElement(
+          'button',
+          { className: 'action', onClick: function onClick(event) {
+              return _this11.addNewBook(event);
+            } },
+          'Dodaj now\u0105 ksi\u0105\u017Ck\u0119'
+        );
+      }
+    }]);
+
+    return AddNewBookButton;
+  }(_react2.default.Component);
+
+  var Menu = function (_React$Component9) {
+    _inherits(Menu, _React$Component9);
 
     function Menu() {
       _classCallCheck(this, Menu);
@@ -9667,22 +9942,19 @@ document.addEventListener('DOMContentLoaded', function () {
           { className: 'menu' },
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'menu__content' },
             _react2.default.createElement('img', { src: logo }),
+            _react2.default.createElement('hr', { className: 'ondark' }),
             _react2.default.createElement(
-              'button',
-              { className: 'action' },
-              'Dodaj now\u0105 ksi\u0105\u017Ck\u0119'
-            ),
-            _react2.default.createElement('input', { type: 'text' })
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'a',
+              'div',
               null,
-              'Ustawienia'
+              _react2.default.createElement(AddNewBookButton, null),
+              _react2.default.createElement(
+                'div',
+                { className: 'search' },
+                _react2.default.createElement('span', { className: 'fa fa-search' }),
+                _react2.default.createElement('input', { placeholder: 'Wyszukaj' })
+              )
             )
           )
         );
@@ -9692,8 +9964,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return Menu;
   }(_react2.default.Component);
 
-  var App = function (_React$Component6) {
-    _inherits(App, _React$Component6);
+  var App = function (_React$Component10) {
+    _inherits(App, _React$Component10);
 
     function App() {
       _classCallCheck(this, App);
@@ -9711,7 +9983,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'div',
             { className: 'container' },
             _react2.default.createElement(Menu, null),
-            _react2.default.createElement(BooksTable, null)
+            _react2.default.createElement(BooksTable, { books: this.props.books })
           ),
           _react2.default.createElement(Footer, null)
         );
@@ -9721,7 +9993,27 @@ document.addEventListener('DOMContentLoaded', function () {
     return App;
   }(_react2.default.Component);
 
-  _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+  var exampleBookList = [{
+    "Id": 1,
+    "Title": "Ginekolodzy",
+    "Author": "Jürgen Thorwald",
+    "Lent": false,
+    "LentTo": null
+  }, {
+    "Id": 2,
+    "Title": "Sekrety urody Koreanek. Elementarz pielęgnacji",
+    "Author": "Charlotte Cho",
+    "Lent": true,
+    "LentTo": "Monika Konieczna"
+  }, {
+    "Id": 3,
+    "Title": "Zew Cthulhu",
+    "Author": "Howard Phillips Lovecraft",
+    "Lent": true,
+    "LentTo": "Olga Kierzkowska"
+  }];
+
+  _reactDom2.default.render(_react2.default.createElement(App, { books: exampleBookList }), document.getElementById('app'));
 });
 
 /***/ }),
