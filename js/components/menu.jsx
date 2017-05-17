@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 // Import components
 import AddNewBookForm from './addbookform.jsx';
+import Search from './search.jsx';
 
 class AddNewBookButton extends React.Component {
   addNewBook(event) {
@@ -26,10 +27,7 @@ export default class Menu extends React.Component {
         <hr className="ondark" />
         <div>
           <AddNewBookButton />
-          <div className="search">
-            <span className="fa fa-search"></span>
-            <input placeholder="Wyszukaj" />
-          </div>
+          <Search filterText={this.props.filterText} areLent={this.props.areLent} onSearchBar={this.props.onSearchBar} onCheckboxAreLent={this.props.onCheckboxAreLent} />
         </div>
       </div>
     </div>;

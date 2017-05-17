@@ -18,7 +18,7 @@ class BookRow extends React.Component {
       <div className="table__title">{this.props.title}</div>
       <div className="table__author">{this.props.author}</div>
       <div className="table__state">{this.props.state}</div>
-      <div className="table__action"><BookActionButtons /></div>
+      <div className="table__action"><BookActionButtons callback={this.props.callback} index={this.props.index}/></div>
     </div>;
   }
 }
@@ -28,8 +28,7 @@ class BookActionButtons extends React.Component {
     super(props);
     this.state= {
       info: false,
-      edit: false,
-      delete: false
+      edit: false
     }
   }
 
@@ -41,35 +40,73 @@ class BookActionButtons extends React.Component {
     console.log("pokazuję okno edycji");
   }
 
-  deleteThisBook(event) {
-    this.setState({
-      delete: true
-    })
+  deleteThisBook(i) {
+    this.props.callback(this.props.index);
   }
 
   render() {
     return <div>
       <button className="book-action" onClick={event => this.showInfo(event)}><i className="fa fa-info" aria-hidden="true"></i></button>
       <button className="book-action" onClick={event => this.editBook(event)}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-      <button className="book-action" onClick={event => this.deleteBook(event)}><i className="fa fa-times" aria-hidden="true"></i></button>
+      <button className="book-action" onClick={index => this.deleteThisBook(index)}><i className="fa fa-times" aria-hidden="true"></i></button>
     </div>;
   }
 }
 
 class BooksList extends React.Component {
-  onClick(event) {
-    console.log(this.props.key);
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: this.props.books
+    }
+  }
+
+  removeBook(index) {
+    const books = this.state.books
+    books.splice(index, 1);
+
+    this.setState({
+      books: books
+    });
   }
 
   render() {
-    const books = (this.props.books);
+    const books = (this.state.books);
     const tableRows = [];
 
     for (let i=0; i<books.length; i++) {
-      if (books[i].Lent) {
-        tableRows.push(<BookRow key={books[i].Id} title={books[i].Title} author={books[i].Author} state={"pożyczona: " + books[i].LentTo} action={<BookActionButtons callback={button => this.onClick(button)} />} />)
-      } else {
-        tableRows.push(<BookRow key={books[i].Id} title={books[i].Title} author={books[i].Author} state="na miejscu" action={<BookActionButtons />} />)
+      let titleLower = books[i].Title.toLowerCase();
+      let authorLower = books[i].Author.toLowerCase();
+      let titleUpper = books[i].Title.toUpperCase();
+      let authorUpper = books[i].Author.toUpperCase();
+
+      if (
+        (titleLower.indexOf(this.props.filterText) !== -1) ||
+        (titleUpper.indexOf(this.props.filterText) !== -1) ||
+        (authorLower.indexOf(this.props.filterText) !== -1) ||
+        (authorUpper.indexOf(this.props.filterText) !== -1)
+      ) {
+        if (books[i].Lent) {
+          tableRows.push(
+            <BookRow
+            key={books[i].Id}
+            title={books[i].Title}
+            author={books[i].Author}
+            state={"pożyczona: " + books[i].LentTo}
+            index={i}
+            callback={i => this.removeBook(i)} />
+          )
+        } else {
+          tableRows.push(
+            <BookRow
+            key={books[i].Id}
+            title={books[i].Title}
+            author={books[i].Author}
+            state="na miejscu"
+            index={i}
+            callback={i => this.removeBook(i)} />
+          )
+        }
       }
     }
 
@@ -84,7 +121,7 @@ export default class BooksTable extends React.Component {
     return <div className="books-list">
       <BookHeader />
       <hr />
-      <BooksList books={this.props.books} />
+      <BooksList books={this.props.books} filterText={this.props.filterText}  areLent={this.props.areLent} />
     </div>;
   }
 }
