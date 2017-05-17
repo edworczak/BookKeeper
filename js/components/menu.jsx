@@ -27,6 +27,7 @@ export default class Menu extends React.Component {
         <hr className="ondark" />
         <div>
           <AddNewBookButton />
+          <hr className="ondark" />
           <Search filterText={this.props.filterText} areLent={this.props.areLent} onSearchBar={this.props.onSearchBar} onCheckboxAreLent={this.props.onCheckboxAreLent} />
         </div>
       </div>

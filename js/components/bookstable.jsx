@@ -77,14 +77,10 @@ class BooksList extends React.Component {
     for (let i=0; i<books.length; i++) {
       let titleLower = books[i].Title.toLowerCase();
       let authorLower = books[i].Author.toLowerCase();
-      let titleUpper = books[i].Title.toUpperCase();
-      let authorUpper = books[i].Author.toUpperCase();
 
       if (
-        ((titleLower.indexOf(this.props.filterText) !== -1) ||
-        (titleUpper.indexOf(this.props.filterText) !== -1) ||
-        (authorLower.indexOf(this.props.filterText) !== -1) ||
-        (authorUpper.indexOf(this.props.filterText) !== -1)) &&
+        ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1) ||
+        (authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1)) &&
         (books[i].Lent || !this.props.areLent)
       ) {
         if (books[i].Lent) {

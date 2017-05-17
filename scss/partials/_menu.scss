@@ -21,13 +21,14 @@
 
   button {
     min-width: 20rem;
-    margin-bottom: 1rem;
+    margin-bottom: 5rem;
   }
 
   .search {
     position: relative;
     color: $color-font;
     font-size: 1.1rem;
+    margin-bottom: 2rem;
   }
 
   .search input {
