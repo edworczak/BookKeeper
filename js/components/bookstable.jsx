@@ -81,10 +81,11 @@ class BooksList extends React.Component {
       let authorUpper = books[i].Author.toUpperCase();
 
       if (
-        (titleLower.indexOf(this.props.filterText) !== -1) ||
+        ((titleLower.indexOf(this.props.filterText) !== -1) ||
         (titleUpper.indexOf(this.props.filterText) !== -1) ||
         (authorLower.indexOf(this.props.filterText) !== -1) ||
-        (authorUpper.indexOf(this.props.filterText) !== -1)
+        (authorUpper.indexOf(this.props.filterText) !== -1)) &&
+        (books[i].Lent || !this.props.areLent)
       ) {
         if (books[i].Lent) {
           tableRows.push(

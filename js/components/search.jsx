@@ -22,6 +22,10 @@ export default class Search extends React.Component {
         <span className="fa fa-search"></span>
         <input type="text" placeholder="Wyszukaj" value={this.props.filterText} onChange={this.handleTextChange} />
       </div>
+      <div className="checkbox-container">
+        <input type="checkbox" id="areLent" checked={this.props.areLent}  onChange={this.handleCheckboxChange}/>
+        <label htmlFor="areLent">tylko pożyczone</label>
+      </div>
     </div>;
   }
 }
