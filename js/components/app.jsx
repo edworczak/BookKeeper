@@ -51,14 +51,12 @@ export default class App extends React.Component {
       url: bookLink,
       dataType: "json"
     }).done((response) => {
-      response.remove();
+      books.splice(index, 1);
+      this.setState({
+        books: books
+      });
     }).fail(function(error) {
       console.log("error");
-    });
-
-    books.splice(index, 1);
-    this.setState({
-      books: books
     });
   }
 

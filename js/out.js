@@ -6798,6 +6798,8 @@ var App = function (_React$Component2) {
   }, {
     key: 'removeBook',
     value: function removeBook(index) {
+      var _this3 = this;
+
       var books = this.state.books;
       var bookLink = books[index]._links.book.href;
 
@@ -6806,14 +6808,12 @@ var App = function (_React$Component2) {
         url: bookLink,
         dataType: "json"
       }).done(function (response) {
-        response.remove();
+        books.splice(index, 1);
+        _this3.setState({
+          books: books
+        });
       }).fail(function (error) {
         console.log("error");
-      });
-
-      books.splice(index, 1);
-      this.setState({
-        books: books
       });
     }
 
@@ -6822,7 +6822,7 @@ var App = function (_React$Component2) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this4 = this;
 
       function load(books) {
         var array = [];
@@ -6842,7 +6842,7 @@ var App = function (_React$Component2) {
         url: _books2.default,
         dataType: "json"
       }).done(function (response) {
-        _this3.setState({
+        _this4.setState({
           books: load(response)
         });
       }).fail(function (error) {
@@ -6852,7 +6852,7 @@ var App = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _react2.default.createElement(
         'div',
@@ -6862,7 +6862,7 @@ var App = function (_React$Component2) {
           { className: 'container' },
           _react2.default.createElement(_menu2.default, { books: this.state.books, filterText: this.state.filterText, areLent: this.state.areLent, onSearchBar: this.handleSearchBar, onCheckboxAreLent: this.handleCheckboxAreLent }),
           _react2.default.createElement(_bookstable2.default, { books: this.state.books, filterText: this.state.filterText, areLent: this.state.areLent, callback: function callback(index) {
-              return _this4.removeBook(index);
+              return _this5.removeBook(index);
             } })
         ),
         _react2.default.createElement(Footer, null)
