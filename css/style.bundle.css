@@ -177,11 +177,14 @@ hr.ondark {
   padding: 1.2rem 5rem;
   width: 100%; }
 
+.table-row .table__id {
+  width: 2rem; }
+
 .table-row .table__title {
   width: 40%; }
 
 .table-row .table__author, .table-row .table__state {
-  width: 25%; }
+  width: 20%; }
 
 .table-row .table__title, .table-row .table__author, .table-row .table__state {
   padding-right: 3rem; }

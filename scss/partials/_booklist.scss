@@ -18,11 +18,14 @@
     padding: 1.2rem $padding;
     width: 100%;
   }
+  .table__id {
+    width: 2rem;
+  }
   .table__title {
     width: 40%;
   }
   .table__author, .table__state {
-    width: 25%;
+    width: 20%;
   }
   .table__title, .table__author, .table__state {
     padding-right: 3rem;

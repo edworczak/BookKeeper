@@ -26,7 +26,7 @@ export default class Menu extends React.Component {
         <img src={logo} />
         <hr className="ondark" />
         <div>
-          <AddNewBookButton />
+          <AddNewBookButton books={this.props.books} />
           <hr className="ondark" />
           <Search filterText={this.props.filterText} areLent={this.props.areLent} onSearchBar={this.props.onSearchBar} onCheckboxAreLent={this.props.onCheckboxAreLent} />
         </div>

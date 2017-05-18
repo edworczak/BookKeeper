@@ -45,11 +45,6 @@ export default class App extends React.Component {
   removeBook(index) {
     const books = this.state.books;
     const bookLink = books[index]._links.book.href;
-    console.log(bookLink);
-    books.splice(index, 1);
-    this.setState({
-      books: books
-    });
 
     $.ajax({
       method: "DELETE",
@@ -59,6 +54,11 @@ export default class App extends React.Component {
       response.remove();
     }).fail(function(error) {
       console.log("error");
+    });
+
+    books.splice(index, 1);
+    this.setState({
+      books: books
     });
   }
 
