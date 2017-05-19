@@ -6775,6 +6775,10 @@ var App = function (_React$Component2) {
 
     _this2.handleSearchBar = _this2.handleSearchBar.bind(_this2);
     _this2.handleCheckboxAreLent = _this2.handleCheckboxAreLent.bind(_this2);
+    _this2.handleNewTitle = _this2.handleNewTitle.bind(_this2);
+    _this2.handleNewAuthor = _this2.handleNewAuthor.bind(_this2);
+    _this2.handleNewLent = _this2.handleNewLent.bind(_this2);
+    _this2.handleNewLentTo = _this2.handleNewLentTo.bind(_this2);
     return _this2;
   }
 
@@ -6790,6 +6794,34 @@ var App = function (_React$Component2) {
     value: function handleCheckboxAreLent(areLent) {
       this.setState({
         areLent: areLent
+      });
+    }
+  }, {
+    key: 'handleNewTitle',
+    value: function handleNewTitle(newTitle) {
+      this.setState({
+        newTitle: newTitle
+      });
+    }
+  }, {
+    key: 'handleNewAuthor',
+    value: function handleNewAuthor(newAuthor) {
+      this.setState({
+        newAuthor: newAuthor
+      });
+    }
+  }, {
+    key: 'handleNewLent',
+    value: function handleNewLent(newLent) {
+      this.setState({
+        newLent: newLent
+      });
+    }
+  }, {
+    key: 'handleNewLentTo',
+    value: function handleNewLentTo(newLentTo) {
+      this.setState({
+        newLentTo: newLentTo
       });
     }
 
@@ -6860,8 +6892,21 @@ var App = function (_React$Component2) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          _react2.default.createElement(_menu2.default, { books: this.state.books, filterText: this.state.filterText, areLent: this.state.areLent, onSearchBar: this.handleSearchBar, onCheckboxAreLent: this.handleCheckboxAreLent }),
-          _react2.default.createElement(_bookstable2.default, { books: this.state.books, filterText: this.state.filterText, areLent: this.state.areLent, callback: function callback(index) {
+          _react2.default.createElement(_menu2.default, {
+            books: this.state.books,
+            filterText: this.state.filterText,
+            areLent: this.state.areLent,
+            onSearchBar: this.handleSearchBar,
+            onCheckboxAreLent: this.handleCheckboxAreLent,
+            onNewTitle: this.handleNewTitle,
+            onNewAuthor: this.handleNewAuthor,
+            onNewLent: this.handleNewLent,
+            onNewLentTo: this.handleNewLentTo }),
+          _react2.default.createElement(_bookstable2.default, {
+            books: this.state.books,
+            filterText: this.state.filterText,
+            areLent: this.state.areLent,
+            callback: function callback(index) {
               return _this5.removeBook(index);
             } })
         ),
@@ -9863,9 +9908,9 @@ var _app = __webpack_require__(52);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _examplebooklist = __webpack_require__(53);
+var _books = __webpack_require__(94);
 
-var _examplebooklist2 = _interopRequireDefault(_examplebooklist);
+var _books2 = _interopRequireDefault(_books);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9878,7 +9923,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Import components
 
 
-// Example array
+// Database url
 
 
 var AddNewBookForm = function (_React$Component) {
@@ -9890,39 +9935,51 @@ var AddNewBookForm = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (AddNewBookForm.__proto__ || Object.getPrototypeOf(AddNewBookForm)).call(this, props));
 
     _this.state = {
-      valueTitle: "",
-      valueAuthor: "",
-      valueLent: false,
-      valueLentTo: "",
-      info: ""
+      newTitle: "",
+      newAuthor: "",
+      newLent: false,
+      newLentTo: "",
+      disabled: true,
+      info: "",
+      books: []
     };
     return _this;
   }
 
   _createClass(AddNewBookForm, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState({
+        books: newProps.books
+      });
+    }
+  }, {
     key: 'addTitle',
     value: function addTitle(event) {
       this.setState({
-        valueTitle: event.target.value
+        newTitle: event.target.value
       });
     }
   }, {
     key: 'addAuthor',
     value: function addAuthor(event) {
       this.setState({
-        valueAuthor: event.target.value
+        newAuthor: event.target.value
       });
     }
   }, {
     key: 'ifLent',
     value: function ifLent(event) {
-      if (this.state.valueLent) {
+      if (this.state.newLent) {
         this.setState({
-          valueLent: false
+          newLent: false,
+          newLentTo: "",
+          disabled: true
         });
       } else {
         this.setState({
-          valueLent: true
+          newLent: true,
+          disabled: false
         });
       }
     }
@@ -9930,7 +9987,7 @@ var AddNewBookForm = function (_React$Component) {
     key: 'addLentTo',
     value: function addLentTo(event) {
       this.setState({
-        valueLentTo: event.target.value
+        newLentTo: event.target.value
       });
     }
   }, {
@@ -9943,46 +10000,51 @@ var AddNewBookForm = function (_React$Component) {
         valueLentTo: "",
         info: ""
       });
-      _reactDom2.default.render(_react2.default.createElement(_app2.default, { books: _examplebooklist2.default }), document.getElementById('app'));
+      _reactDom2.default.render(_react2.default.createElement(_app2.default, { books: exampleBookList }), document.getElementById('app'));
     }
   }, {
     key: 'saveAction',
     value: function saveAction(event) {
-      if (this.state.valueTitle.length > 0 && this.state.valueAuthor.length > 0) {
-        if (this.state.valueLent && this.state.valueLentTo.length > 0) {
-          var newIndex = _examplebooklist2.default.length + 1;
-          _examplebooklist2.default.push({
-            "Id": newIndex,
-            "Title": this.state.valueTitle,
-            "Author": this.state.valueAuthor,
-            "Lent": this.state.valueLent,
-            "LentTo": this.state.valueLentTo
+      function newBook(title, author, lent, lentTo) {
+        var newBook = {
+          title: title,
+          author: author,
+          lent: lent,
+          lentTo: lentTo };
+        return newBook;
+      }
+
+      function refreshList() {
+        _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
+      }
+
+      if (this.state.newTitle.length > 0 && this.state.newAuthor.length > 0) {
+        if (this.state.newLent && this.state.newLentTo.length > 0) {
+          var bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo);
+          $.ajax({
+            method: "POST",
+            url: _books2.default,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(bookDetails)
+          }).done(function (response) {
+            refreshList();
+          }).fail(function (error) {
+            console.log("error");
           });
-          this.setState({
-            valueTitle: "",
-            valueAuthor: "",
-            valueLent: false,
-            valueLentTo: "",
-            info: ""
+        } else if (!this.state.newLent) {
+          var _bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null);
+          $.ajax({
+            method: "POST",
+            url: _books2.default,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(_bookDetails)
+          }).done(function (response) {
+            refreshList();
+          }).fail(function (error) {
+            console.log("error");
           });
-          _reactDom2.default.render(_react2.default.createElement(_app2.default, { books: _examplebooklist2.default }), document.getElementById('app'));
-        } else if (!this.state.valueLent) {
-          var _newIndex = _examplebooklist2.default.length + 1;
-          _examplebooklist2.default.push({
-            "Id": _newIndex,
-            "Title": this.state.valueTitle,
-            "Author": this.state.valueAuthor,
-            "Lent": this.state.valueLent,
-            "LentTo": null
-          });
-          this.setState({
-            valueTitle: "",
-            valueAuthor: "",
-            valueLent: false,
-            valueLentTo: "",
-            info: ""
-          });
-          _reactDom2.default.render(_react2.default.createElement(_app2.default, { books: _examplebooklist2.default }), document.getElementById('app'));
         } else {
           this.setState({
             info: "Podaj dane osoby pożyczającej"
@@ -10014,10 +10076,10 @@ var AddNewBookForm = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row' },
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.valueAuthor, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.newAuthor, onChange: function onChange(event) {
                 return _this2.addAuthor(event);
               } }),
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.valueTitle, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.newTitle, onChange: function onChange(event) {
                 return _this2.addTitle(event);
               } })
           ),
@@ -10027,7 +10089,7 @@ var AddNewBookForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'checkbox-container' },
-              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.valueLent, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.newLent, onChange: function onChange(event) {
                   return _this2.ifLent(event);
                 } }),
               _react2.default.createElement(
@@ -10036,9 +10098,9 @@ var AddNewBookForm = function (_React$Component) {
                 'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
               )
             ),
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.valueLentTo, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.newLentTo, onChange: function onChange(event) {
                 return _this2.addLentTo(event);
-              } })
+              }, disabled: this.state.disabled })
           ),
           _react2.default.createElement(
             'div',
@@ -10570,16 +10632,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AddNewBookButton = function (_React$Component) {
   _inherits(AddNewBookButton, _React$Component);
 
-  function AddNewBookButton() {
+  function AddNewBookButton(props) {
     _classCallCheck(this, AddNewBookButton);
 
-    return _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).call(this, props));
+
+    _this.state = {
+      books: []
+    };
+    return _this;
   }
 
   _createClass(AddNewBookButton, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState({
+        books: newProps.books
+      });
+    }
+  }, {
     key: 'addNewBook',
     value: function addNewBook(event) {
-      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, null), document.getElementById('app'));
+      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, {
+        books: this.state.books,
+        onNewTitle: this.props.onNewTitle,
+        onNewAuthor: this.props.onNewAuthor,
+        onNewLent: this.props.onNewLent,
+        onNewLentTo: this.props.onNewLentTo }), document.getElementById('app'));
     }
   }, {
     key: 'render',
@@ -10602,13 +10681,25 @@ var AddNewBookButton = function (_React$Component) {
 var Menu = function (_React$Component2) {
   _inherits(Menu, _React$Component2);
 
-  function Menu() {
+  function Menu(props) {
     _classCallCheck(this, Menu);
 
-    return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).apply(this, arguments));
+    var _this3 = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+    _this3.state = {
+      books: []
+    };
+    return _this3;
   }
 
   _createClass(Menu, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState({
+        books: newProps.books
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var logo = "./img/logo.png";
@@ -10623,7 +10714,12 @@ var Menu = function (_React$Component2) {
           _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(AddNewBookButton, { books: this.props.books }),
+            _react2.default.createElement(AddNewBookButton, {
+              books: this.state.books,
+              onNewTitle: this.props.onNewTitle,
+              onNewAuthor: this.props.onNewAuthor,
+              onNewLent: this.props.onNewLent,
+              onNewLentTo: this.props.onNewLentTo }),
             _react2.default.createElement('hr', { className: 'ondark' }),
             _react2.default.createElement(_search2.default, { filterText: this.props.filterText, areLent: this.props.areLent, onSearchBar: this.props.onSearchBar, onCheckboxAreLent: this.props.onCheckboxAreLent })
           )

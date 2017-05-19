@@ -27,6 +27,10 @@ export default class App extends React.Component {
 
     this.handleSearchBar = this.handleSearchBar.bind(this);
     this.handleCheckboxAreLent = this.handleCheckboxAreLent.bind(this);
+    this.handleNewTitle = this.handleNewTitle.bind(this);
+    this.handleNewAuthor = this.handleNewAuthor.bind(this);
+    this.handleNewLent = this.handleNewLent.bind(this);
+    this.handleNewLentTo = this.handleNewLentTo.bind(this);
   }
 
   handleSearchBar(filterText) {
@@ -38,7 +42,31 @@ export default class App extends React.Component {
   handleCheckboxAreLent(areLent) {
     this.setState({
       areLent: areLent
-    })
+    });
+  }
+
+  handleNewTitle(newTitle) {
+    this.setState({
+      newTitle: newTitle
+    });
+  }
+
+  handleNewAuthor(newAuthor) {
+    this.setState({
+      newAuthor: newAuthor
+    });
+  }
+
+  handleNewLent(newLent) {
+    this.setState({
+      newLent: newLent
+    });
+  }
+
+  handleNewLentTo(newLentTo) {
+    this.setState({
+      newLentTo: newLentTo
+    });
   }
 
   // Book row action buttons
@@ -91,8 +119,21 @@ export default class App extends React.Component {
   render() {
     return <div>
       <div className="container">
-        <Menu books={this.state.books} filterText={this.state.filterText} areLent={this.state.areLent} onSearchBar={this.handleSearchBar} onCheckboxAreLent={this.handleCheckboxAreLent} />
-        <BooksTable books={this.state.books} filterText={this.state.filterText}  areLent={this.state.areLent} callback={index => this.removeBook(index)}/>
+        <Menu
+          books={this.state.books}
+          filterText={this.state.filterText}
+          areLent={this.state.areLent}
+          onSearchBar={this.handleSearchBar}
+          onCheckboxAreLent={this.handleCheckboxAreLent}
+          onNewTitle = {this.handleNewTitle}
+          onNewAuthor = {this.handleNewAuthor}
+          onNewLent = {this.handleNewLent}
+          onNewLentTo = {this.handleNewLentTo} />
+        <BooksTable
+          books={this.state.books}
+          filterText={this.state.filterText}
+          areLent={this.state.areLent}
+          callback={index => this.removeBook(index)}/>
       </div>
       <Footer />
     </div>;

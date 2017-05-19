@@ -4,48 +4,59 @@ import ReactDOM from 'react-dom';
 // Import components
 import App from './app.jsx';
 
-// Example array
-import exampleBookList from '../example/examplebooklist.jsx';
+// Database url
+import BOOKSURL from '../data/books.jsx';
 
 export default class AddNewBookForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valueTitle: "",
-      valueAuthor: "",
-      valueLent: false,
-      valueLentTo: "",
-      info: ""
+      newTitle: "",
+      newAuthor: "",
+      newLent: false,
+      newLentTo: "",
+      disabled: true,
+      info: "",
+      books: []
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      books: newProps.books
+    })
   }
 
   addTitle(event) {
     this.setState({
-      valueTitle: event.target.value
+      newTitle: event.target.value
     })
   }
 
   addAuthor(event) {
     this.setState({
-      valueAuthor: event.target.value
+      newAuthor: event.target.value
     })
   }
 
   ifLent(event) {
-    if (this.state.valueLent) {
+    if (this.state.newLent) {
       this.setState({
-        valueLent: false
+        newLent: false,
+        newLentTo: "",
+        disabled: true
       })
     } else {
       this.setState({
-        valueLent: true
+        newLent: true,
+        disabled: false
       })
     }
   }
 
   addLentTo(event) {
     this.setState({
-      valueLentTo: event.target.value
+      newLentTo: event.target.value
     })
   }
 
@@ -64,57 +75,55 @@ export default class AddNewBookForm extends React.Component {
   }
 
   saveAction(event) {
+    function newBook (title, author, lent, lentTo) {
+      const newBook = {
+        title: title,
+        author: author,
+        lent: lent,
+        lentTo: lentTo}
+      return newBook;
+    }
+
+    function refreshList() {
+      ReactDOM.render(
+        <App />,
+        document.getElementById('app')
+      );
+    }
+
     if (
-      (this.state.valueTitle.length > 0) &&
-      (this.state.valueAuthor.length > 0)
+      (this.state.newTitle.length > 0) &&
+      (this.state.newAuthor.length > 0)
     ) {
       if (
-        (this.state.valueLent) &&
-        (this.state.valueLentTo.length > 0)
+        (this.state.newLent) &&
+        (this.state.newLentTo.length > 0)
       ) {
-        const newIndex = exampleBookList.length + 1;
-        exampleBookList.push (
-          {
-            "Id": newIndex,
-            "Title": this.state.valueTitle,
-            "Author": this.state.valueAuthor,
-            "Lent": this.state.valueLent,
-            "LentTo": this.state.valueLentTo
-          }
-        );
-        this.setState({
-          valueTitle: "",
-          valueAuthor: "",
-          valueLent: false,
-          valueLentTo: "",
-          info: ""
+        const bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo);
+        $.ajax({
+          method: "POST",
+          url: BOOKSURL,
+          dataType: "json",
+          contentType:"application/json; charset=utf-8",
+          data: JSON.stringify(bookDetails)
+        }).done((response) => {
+          refreshList();
+        }).fail(function(error) {
+          console.log("error");
         });
-        ReactDOM.render(
-          <App books={exampleBookList} />,
-          document.getElementById('app')
-        );
-      } else if (!this.state.valueLent) {
-        const newIndex = exampleBookList.length + 1;
-        exampleBookList.push (
-          {
-            "Id": newIndex,
-            "Title": this.state.valueTitle,
-            "Author": this.state.valueAuthor,
-            "Lent": this.state.valueLent,
-            "LentTo": null
-          }
-        );
-        this.setState({
-          valueTitle: "",
-          valueAuthor: "",
-          valueLent: false,
-          valueLentTo: "",
-          info: ""
+      } else if (!this.state.newLent) {
+        const bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null);
+        $.ajax({
+          method: "POST",
+          url: BOOKSURL,
+          dataType: "json",
+          contentType:"application/json; charset=utf-8",
+          data: JSON.stringify(bookDetails)
+        }).done((response) => {
+          refreshList();
+        }).fail(function(error) {
+          console.log("error");
         });
-        ReactDOM.render(
-          <App books={exampleBookList} />,
-          document.getElementById('app')
-        );
       } else {
         this.setState({
           info: "Podaj dane osoby pożyczającej"
@@ -133,15 +142,15 @@ export default class AddNewBookForm extends React.Component {
         <h1>Dodaj nową książkę</h1>
         <hr />
         <div className="add-new-book__row">
-          <input type="text" className="input-details" placeholder="podaj autora" value={this.state.valueAuthor} onChange={event => this.addAuthor(event)} />
-          <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.valueTitle} onChange={event => this.addTitle(event)} />
+          <input type="text" className="input-details" placeholder="podaj autora" value={this.state.newAuthor} onChange={event => this.addAuthor(event)} />
+          <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.newTitle} onChange={event => this.addTitle(event)} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
-            <input type="checkbox" id="box-1" value={this.state.valueLent} onChange={event => this.ifLent(event)}/>
+            <input type="checkbox" id="box-1" value={this.state.newLent} onChange={event => this.ifLent(event)}/>
             <label htmlFor="box-1">Książka została pożyczona</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.valueLentTo} onChange={event => this.addLentTo(event)} />
+          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.newLentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabled} />
         </div>
         <div className="add-new-book__row">
           <div className="add-new-book__info"><h2>{this.state.info}</h2></div>

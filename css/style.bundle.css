@@ -55,6 +55,9 @@ div, header, footer {
 .menu .search input:focus, .add-new-book__bg .input-details:focus {
   outline: none; }
 
+input[type="text"]:disabled {
+  background: #c7c7c7; }
+
 button.action, button.alert, button.book-action {
   border: 0px;
   color: #ffffff;
