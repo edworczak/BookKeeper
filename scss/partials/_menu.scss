@@ -1,12 +1,22 @@
+.menu-below {
+  background-color: $color-main;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: $padding;
+  width: 300px;
+}
+
 .menu {
 
   & {
     background-color: $color-main;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    height: 100vh;
     justify-content: space-between;
-    min-height: $height-content;
     padding: $padding;
+    position: fixed;
     width: 30rem;
   }
 

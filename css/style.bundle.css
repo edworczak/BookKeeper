@@ -58,7 +58,7 @@ div, header, footer {
 input[type="text"]:disabled {
   background: #c7c7c7; }
 
-button.action, button.alert, button.book-action {
+button.action, button.alert, button.book-action, button.book-action--alert {
   border: 0px;
   color: #ffffff;
   cursor: pointer; }
@@ -68,6 +68,13 @@ button.action, button.alert {
   font-size: 1.6rem;
   height: 5rem;
   padding: 0 2rem; }
+
+button.book-action, button.book-action--alert {
+  border-radius: 0.3rem;
+  font-size: 1.2rem;
+  height: 2.5rem;
+  margin-right: 0.5rem;
+  width: 2.5rem; }
 
 button:focus {
   outline: none; }
@@ -79,12 +86,10 @@ button.alert {
   background-color: #E56399; }
 
 button.book-action {
-  background-color: #087E8B;
-  border-radius: 0.3rem;
-  font-size: 1.2rem;
-  height: 2.5rem;
-  margin-right: 0.5rem;
-  width: 2.5rem; }
+  background-color: #087E8B; }
+
+button.book-action--alert {
+  background-color: #E56399; }
 
 button.book-action:last-of-type {
   margin-right: 0px; }
@@ -143,7 +148,7 @@ h1 {
 
 .container {
   display: flex;
-  width: 100vw;
+  width: 100%;
   min-height: 95vh; }
 
 footer {
@@ -154,7 +159,7 @@ footer {
   font-size: 1.2rem;
   height: 5vh;
   justify-content: center;
-  width: 100vw; }
+  width: 100%; }
 
 hr {
   border: 0;
@@ -163,6 +168,11 @@ hr {
 
 hr.ondark {
   border-top: 1px solid #ffffff; }
+
+.table-footer-container {
+  box-sizing: border-box;
+  padding-left: 30rem;
+  width: 100%; }
 
 .books-list {
   font-size: 1.2rem;
@@ -180,8 +190,12 @@ hr.ondark {
   padding: 1.2rem 5rem;
   width: 100%; }
 
+.table-row .table__hidden {
+  margin-right: 5rem;
+  width: 30rem; }
+
 .table-row .table__id {
-  width: 2rem; }
+  width: 3rem; }
 
 .table-row .table__title {
   width: 40%; }
@@ -205,13 +219,22 @@ hr.ondark {
 .table-content > div:nth-child(even) {
   background-color: #f9f9f9; }
 
+.menu-below {
+  background-color: #01172F;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 5rem;
+  width: 300px; }
+
 .menu {
   background-color: #01172F;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: space-between;
-  min-height: 95vh;
   padding: 5rem;
+  position: fixed;
   width: 30rem; }
 
 .menu > * {

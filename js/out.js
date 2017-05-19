@@ -6714,7 +6714,7 @@ var _bookstable = __webpack_require__(91);
 
 var _bookstable2 = _interopRequireDefault(_bookstable);
 
-var _books = __webpack_require__(94);
+var _books = __webpack_require__(53);
 
 var _books2 = _interopRequireDefault(_books);
 
@@ -6732,54 +6732,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Database url
 
 
-var Footer = function (_React$Component) {
-  _inherits(Footer, _React$Component);
-
-  function Footer() {
-    _classCallCheck(this, Footer);
-
-    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
-  }
-
-  _createClass(Footer, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'footer',
-        null,
-        _react2.default.createElement(
-          'p',
-          null,
-          'Ewa Dworczak, 2017'
-        )
-      );
-    }
-  }]);
-
-  return Footer;
-}(_react2.default.Component);
-
-var App = function (_React$Component2) {
-  _inherits(App, _React$Component2);
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
 
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    _this2.state = {
+    _this.state = {
       filterText: '',
       areLent: false,
       books: []
     };
 
-    _this2.handleSearchBar = _this2.handleSearchBar.bind(_this2);
-    _this2.handleCheckboxAreLent = _this2.handleCheckboxAreLent.bind(_this2);
-    _this2.handleNewTitle = _this2.handleNewTitle.bind(_this2);
-    _this2.handleNewAuthor = _this2.handleNewAuthor.bind(_this2);
-    _this2.handleNewLent = _this2.handleNewLent.bind(_this2);
-    _this2.handleNewLentTo = _this2.handleNewLentTo.bind(_this2);
-    return _this2;
+    _this.handleSearchBar = _this.handleSearchBar.bind(_this);
+    _this.handleCheckboxAreLent = _this.handleCheckboxAreLent.bind(_this);
+    _this.handleNewTitle = _this.handleNewTitle.bind(_this);
+    _this.handleNewAuthor = _this.handleNewAuthor.bind(_this);
+    _this.handleNewLent = _this.handleNewLent.bind(_this);
+    _this.handleNewLentTo = _this.handleNewLentTo.bind(_this);
+    return _this;
   }
 
   _createClass(App, [{
@@ -6830,7 +6803,7 @@ var App = function (_React$Component2) {
   }, {
     key: 'removeBook',
     value: function removeBook(index) {
-      var _this3 = this;
+      var _this2 = this;
 
       var books = this.state.books;
       var bookLink = books[index]._links.book.href;
@@ -6841,7 +6814,7 @@ var App = function (_React$Component2) {
         dataType: "json"
       }).done(function (response) {
         books.splice(index, 1);
-        _this3.setState({
+        _this2.setState({
           books: books
         });
       }).fail(function (error) {
@@ -6854,7 +6827,7 @@ var App = function (_React$Component2) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this4 = this;
+      var _this3 = this;
 
       function load(books) {
         var array = [];
@@ -6874,7 +6847,7 @@ var App = function (_React$Component2) {
         url: _books2.default,
         dataType: "json"
       }).done(function (response) {
-        _this4.setState({
+        _this3.setState({
           books: load(response)
         });
       }).fail(function (error) {
@@ -6884,7 +6857,7 @@ var App = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         'div',
@@ -6907,10 +6880,9 @@ var App = function (_React$Component2) {
             filterText: this.state.filterText,
             areLent: this.state.areLent,
             callback: function callback(index) {
-              return _this5.removeBook(index);
+              return _this4.removeBook(index);
             } })
-        ),
-        _react2.default.createElement(Footer, null)
+        )
       );
     }
   }]);
@@ -6941,75 +6913,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var exampleBookList = [{
-  "Id": 1,
-  "Title": "Ginekolodzy",
-  "Author": "Jürgen Thorwald",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 2,
-  "Title": "Sekrety urody Koreanek. Elementarz pielęgnacji",
-  "Author": "Charlotte Cho",
-  "Lent": true,
-  "LentTo": "Monika Konieczna"
-}, {
-  "Id": 3,
-  "Title": "Zew Cthulhu",
-  "Author": "Howard Phillips Lovecraft",
-  "Lent": true,
-  "LentTo": "Olga Kierzkowska"
-}, {
-  "Id": 4,
-  "Title": "Autostopem przez galaktykę",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 5,
-  "Title": "Rodzina O. Sezon I. 1968/69",
-  "Author": "Ewa Madeyska",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 6,
-  "Title": "Idealna",
-  "Author": "Magda Stachula",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 7,
-  "Title": "Zaginiona dziewczyna",
-  "Author": "Gillian Flynn",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 8,
-  "Title": "Trafny wybór",
-  "Author": "Joanne Kathleen Rowling",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 9,
-  "Title": "Igrzyska śmierci",
-  "Author": "Suzanne Collins",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 10,
-  "Title": "Opowieści z  miasta wdów i kroniki z ziemi mężczyzn",
-  "Author": "James Cañón",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 11,
-  "Title": "Holistyczna agencja detektywistyczna Dirka Gentlyego",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}];
+var BOOKSURL = "https://bookkeeper-rest-only.herokuapp.com/books";
 
-exports.default = exampleBookList;
+exports.default = BOOKSURL;
 
 /***/ }),
 /* 54 */
@@ -9908,7 +9814,7 @@ var _app = __webpack_require__(52);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _books = __webpack_require__(94);
+var _books = __webpack_require__(53);
 
 var _books2 = _interopRequireDefault(_books);
 
@@ -10226,7 +10132,7 @@ var BookActionButtons = function (_React$Component) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'book-action', onClick: function onClick(index) {
+          { className: 'book-action--alert', onClick: function onClick(index) {
               return _this2.deleteThisBook(index);
             } },
           _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true' })
@@ -10428,7 +10334,7 @@ var _bookrow = __webpack_require__(89);
 
 var _bookrow2 = _interopRequireDefault(_bookrow);
 
-var _examplebooklist = __webpack_require__(53);
+var _examplebooklist = __webpack_require__(94);
 
 var _examplebooklist2 = _interopRequireDefault(_examplebooklist);
 
@@ -10550,18 +10456,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Import components
 
 
-var BooksTable = function (_React$Component) {
-  _inherits(BooksTable, _React$Component);
+var Footer = function (_React$Component) {
+  _inherits(Footer, _React$Component);
+
+  function Footer() {
+    _classCallCheck(this, Footer);
+
+    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+  }
+
+  _createClass(Footer, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'footer',
+        null,
+        _react2.default.createElement(
+          'p',
+          null,
+          'Ewa Dworczak, 2017'
+        )
+      );
+    }
+  }]);
+
+  return Footer;
+}(_react2.default.Component);
+
+var BooksTable = function (_React$Component2) {
+  _inherits(BooksTable, _React$Component2);
 
   function BooksTable(props) {
     _classCallCheck(this, BooksTable);
 
-    var _this = _possibleConstructorReturn(this, (BooksTable.__proto__ || Object.getPrototypeOf(BooksTable)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (BooksTable.__proto__ || Object.getPrototypeOf(BooksTable)).call(this, props));
 
-    _this.state = {
-      books: _this.props.books
+    _this2.state = {
+      books: _this2.props.books
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(BooksTable, [{
@@ -10576,10 +10509,15 @@ var BooksTable = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'books-list' },
-        _react2.default.createElement(_bookheader2.default, null),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(_bookslist2.default, { books: this.state.books, filterText: this.props.filterText, areLent: this.props.areLent, callback: this.props.callback })
+        { className: 'table-footer-container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'books-list' },
+          _react2.default.createElement(_bookheader2.default, null),
+          _react2.default.createElement('hr', null),
+          _react2.default.createElement(_bookslist2.default, { books: this.state.books, filterText: this.props.filterText, areLent: this.props.areLent, callback: this.props.callback })
+        ),
+        _react2.default.createElement(Footer, null)
       );
     }
   }]);
@@ -10837,9 +10775,75 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BOOKSURL = "https://bookkeeper-rest-only.herokuapp.com/books";
+var exampleBookList = [{
+  "Id": 1,
+  "Title": "Ginekolodzy",
+  "Author": "Jürgen Thorwald",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 2,
+  "Title": "Sekrety urody Koreanek. Elementarz pielęgnacji",
+  "Author": "Charlotte Cho",
+  "Lent": true,
+  "LentTo": "Monika Konieczna"
+}, {
+  "Id": 3,
+  "Title": "Zew Cthulhu",
+  "Author": "Howard Phillips Lovecraft",
+  "Lent": true,
+  "LentTo": "Olga Kierzkowska"
+}, {
+  "Id": 4,
+  "Title": "Autostopem przez galaktykę",
+  "Author": "Douglas Adams",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 5,
+  "Title": "Rodzina O. Sezon I. 1968/69",
+  "Author": "Ewa Madeyska",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 6,
+  "Title": "Idealna",
+  "Author": "Magda Stachula",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 7,
+  "Title": "Zaginiona dziewczyna",
+  "Author": "Gillian Flynn",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 8,
+  "Title": "Trafny wybór",
+  "Author": "Joanne Kathleen Rowling",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 9,
+  "Title": "Igrzyska śmierci",
+  "Author": "Suzanne Collins",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 10,
+  "Title": "Opowieści z  miasta wdów i kroniki z ziemi mężczyzn",
+  "Author": "James Cañón",
+  "Lent": false,
+  "LentTo": null
+}, {
+  "Id": 11,
+  "Title": "Holistyczna agencja detektywistyczna Dirka Gentlyego",
+  "Author": "Douglas Adams",
+  "Lent": false,
+  "LentTo": null
+}];
 
-exports.default = BOOKSURL;
+exports.default = exampleBookList;
 
 /***/ }),
 /* 95 */

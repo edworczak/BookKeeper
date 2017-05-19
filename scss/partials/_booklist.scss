@@ -1,3 +1,9 @@
+.table-footer-container {
+  box-sizing: border-box;
+  padding-left: 30rem;
+  width: 100%;
+}
+
 .books-list {
   & {
     font-size: 1.2rem;
@@ -18,8 +24,12 @@
     padding: 1.2rem $padding;
     width: 100%;
   }
+  .table__hidden {
+    margin-right: 5rem;
+    width: 30rem;
+  }
   .table__id {
-    width: 2rem;
+    width: 3rem;
   }
   .table__title {
     width: 40%;

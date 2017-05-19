@@ -12,6 +12,14 @@
   padding: 0 2rem;
 }
 
+%book-action {
+  border-radius: 0.3rem;
+  font-size: 1.2rem;
+  height: 2.5rem;
+  margin-right: 0.5rem;
+  width: 2.5rem;
+}
+
 button {
 
   &:focus {
@@ -30,12 +38,14 @@ button {
 
   &.book-action {
     @extend %buttons;
+    @extend %book-action;
     background-color: $color-action;
-    border-radius: 0.3rem;
-    font-size: 1.2rem;
-    height: 2.5rem;
-    margin-right: 0.5rem;
-    width: 2.5rem;
+  }
+
+  &.book-action--alert {
+    @extend %buttons;
+    @extend %book-action;
+    background-color: $color-alert;
   }
 
   &.book-action:last-of-type {

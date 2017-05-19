@@ -5,6 +5,14 @@ import ReactDOM from 'react-dom';
 import BookHeader from './bookheader.jsx';
 import BooksList from './bookslist.jsx';
 
+class Footer extends React.Component {
+  render() {
+    return <footer>
+      <p>Ewa Dworczak, 2017</p>
+    </footer>;
+  }
+}
+
 export default class BooksTable extends React.Component {
   constructor(props) {
     super(props);
@@ -20,10 +28,13 @@ export default class BooksTable extends React.Component {
   }
 
   render() {
-    return <div className="books-list">
-      <BookHeader />
-      <hr />
-      <BooksList books={this.state.books} filterText={this.props.filterText}  areLent={this.props.areLent} callback={this.props.callback} />
+    return <div className="table-footer-container">
+      <div className="books-list">
+        <BookHeader />
+        <hr />
+        <BooksList books={this.state.books} filterText={this.props.filterText}  areLent={this.props.areLent} callback={this.props.callback} />
+      </div>
+      <Footer />
     </div>;
   }
 }

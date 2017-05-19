@@ -8,14 +8,6 @@ import BooksTable from './bookstable.jsx';
 // Database url
 import BOOKSURL from '../data/books.jsx';
 
-class Footer extends React.Component {
-  render() {
-    return <footer>
-      <p>Ewa Dworczak, 2017</p>
-    </footer>;
-  }
-}
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -135,7 +127,6 @@ export default class App extends React.Component {
           areLent={this.state.areLent}
           callback={index => this.removeBook(index)}/>
       </div>
-      <Footer />
     </div>;
   }
 }
