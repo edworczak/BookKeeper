@@ -19,3 +19,14 @@
 input[type="text"]:disabled {
   background: $color-lines;
 }
+
+.info {
+  input[type="text"]:disabled {
+    background: $color-row-bg-darker;
+    border: 1px solid $color-row-bg-darker;
+  }
+
+  input[type="checkbox"] + label {
+    cursor: default;
+  }
+}

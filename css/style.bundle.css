@@ -58,6 +58,13 @@ div, header, footer {
 input[type="text"]:disabled {
   background: #c7c7c7; }
 
+.info input[type="text"]:disabled {
+  background: #f9f9f9;
+  border: 1px solid #f9f9f9; }
+
+.info input[type="checkbox"] + label {
+  cursor: default; }
+
 button.action, button.alert, button.book-action, button.book-action--alert {
   border: 0px;
   color: #ffffff;

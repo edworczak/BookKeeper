@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 // Import components
 import App from './app.jsx';
 import EditBookForm from './editbookform.jsx';
+import BookInfo from './bookinfo.jsx';
 
 export default class BookActionButtons extends React.Component {
   constructor(props) {
@@ -15,7 +16,26 @@ export default class BookActionButtons extends React.Component {
   }
 
   showInfo(event) {
-    console.log("pokazuję informacje");
+    if (this.props.lentTo == "") {
+      ReactDOM.render(
+        <BookInfo
+          title={this.props.title}
+          author={this.props.author}
+          lent={this.props.lent}
+          lentTo={this.props.lentTo} />,
+        document.getElementById('app')
+      );
+    } else {
+      ReactDOM.render(
+        <BookInfo
+          title={this.props.title}
+          author={this.props.author}
+          lent={this.props.lent}
+          lentTo={"pożyczona: " + this.props.lentTo} />,
+        document.getElementById('app')
+      );
+    }
+
   }
 
   editBook(event) {
