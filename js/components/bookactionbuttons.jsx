@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// Import components
+import App from './app.jsx';
+import EditBookForm from './editbookform.jsx';
+
 export default class BookActionButtons extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +19,15 @@ export default class BookActionButtons extends React.Component {
   }
 
   editBook(event) {
-    console.log("pokazuję okno edycji");
+    ReactDOM.render(
+      <EditBookForm
+        title={this.props.title}
+        author={this.props.author}
+        lent={this.props.lent}
+        lentTo={this.props.lentTo}
+        linkTo={this.props.linkTo} />,
+      document.getElementById('app')
+    );
   }
 
   deleteThisBook(i) {

@@ -61,7 +61,7 @@ export default class App extends React.Component {
     });
   }
 
-  // Book row action buttons
+  // Delete button
   removeBook(index) {
     const books = this.state.books;
     const bookLink = books[index]._links.book.href;

@@ -6798,7 +6798,7 @@ var App = function (_React$Component) {
       });
     }
 
-    // Book row action buttons
+    // Delete button
 
   }, {
     key: 'removeBook',
@@ -9846,8 +9846,7 @@ var AddNewBookForm = function (_React$Component) {
       newLent: false,
       newLentTo: "",
       disabled: true,
-      info: "",
-      books: []
+      info: ""
     };
     return _this;
   }
@@ -9899,14 +9898,7 @@ var AddNewBookForm = function (_React$Component) {
   }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
-      this.setState({
-        valueTitle: "",
-        valueAuthor: "",
-        valueLent: false,
-        valueLentTo: "",
-        info: ""
-      });
-      _reactDom2.default.render(_react2.default.createElement(_app2.default, { books: exampleBookList }), document.getElementById('app'));
+      _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
     }
   }, {
     key: 'saveAction',
@@ -10070,6 +10062,14 @@ var _reactDom = __webpack_require__(8);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _app = __webpack_require__(52);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _editbookform = __webpack_require__(195);
+
+var _editbookform2 = _interopRequireDefault(_editbookform);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10077,6 +10077,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Import components
+
 
 var BookActionButtons = function (_React$Component) {
   _inherits(BookActionButtons, _React$Component);
@@ -10101,7 +10104,12 @@ var BookActionButtons = function (_React$Component) {
   }, {
     key: 'editBook',
     value: function editBook(event) {
-      console.log("pokazuję okno edycji");
+      _reactDom2.default.render(_react2.default.createElement(_editbookform2.default, {
+        title: this.props.title,
+        author: this.props.author,
+        lent: this.props.lent,
+        lentTo: this.props.lentTo,
+        linkTo: this.props.linkTo }), document.getElementById('app'));
     }
   }, {
     key: 'deleteThisBook',
@@ -10298,7 +10306,14 @@ var BookRow = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'table__action' },
-          _react2.default.createElement(_bookactionbuttons2.default, { callback: this.props.callback, index: this.props.index })
+          _react2.default.createElement(_bookactionbuttons2.default, {
+            callback: this.props.callback,
+            index: this.props.index,
+            title: this.props.title,
+            author: this.props.author,
+            lent: this.props.lent,
+            lentTo: this.props.lentTo,
+            linkTo: this.props.linkTo })
         )
       );
     }
@@ -10378,19 +10393,25 @@ var BooksList = function (_React$Component) {
     value: function render() {
       var tableRows = [];
 
-      function createRow(key, title, author, lent, lentTo, callback) {
+      function createRow(key, title, author, lent, lentTo, linkTo, callback) {
         var state = "";
+        var newLentTo = "";
         if (lent) {
           state = "pożyczona: " + lentTo;
+          newLentTo = lentTo;
         } else {
-          state = "na mniejsu";
+          state = "na miejscu";
+          newLentTo = "";
         }
         tableRows.push(_react2.default.createElement(_bookrow2.default, {
           key: key,
           title: title,
           author: author,
           state: state,
+          lent: lent,
+          lentTo: newLentTo,
           index: key,
+          linkTo: linkTo,
           callback: callback }));
       }
 
@@ -10399,7 +10420,7 @@ var BooksList = function (_React$Component) {
         var authorLower = this.state.books[i].author.toLowerCase();
 
         if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
-          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.props.callback);
+          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i]._links.book.href, this.props.callback);
         }
       }
 
@@ -23339,6 +23360,252 @@ module.exports = traverseAllChildren;
 __webpack_require__(84);
 module.exports = __webpack_require__(85);
 
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(10);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(8);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _app = __webpack_require__(52);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _books = __webpack_require__(53);
+
+var _books2 = _interopRequireDefault(_books);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Import components
+
+
+// Database url
+
+
+var EditBookForm = function (_React$Component) {
+  _inherits(EditBookForm, _React$Component);
+
+  function EditBookForm(props) {
+    _classCallCheck(this, EditBookForm);
+
+    var _this = _possibleConstructorReturn(this, (EditBookForm.__proto__ || Object.getPrototypeOf(EditBookForm)).call(this, props));
+
+    _this.state = {
+      title: _this.props.title,
+      author: _this.props.author,
+      lent: _this.props.lent,
+      lentTo: _this.props.lentTo,
+      linkTo: _this.props.linkTo,
+      disabled: !_this.props.lent,
+      info: ""
+    };
+    return _this;
+  }
+
+  _createClass(EditBookForm, [{
+    key: 'addTitle',
+    value: function addTitle(event) {
+      this.setState({
+        title: event.target.value
+      });
+    }
+  }, {
+    key: 'addAuthor',
+    value: function addAuthor(event) {
+      this.setState({
+        author: event.target.value
+      });
+    }
+  }, {
+    key: 'ifLent',
+    value: function ifLent(event) {
+      if (event.target.checked) {
+        this.setState({
+          lent: true,
+          disabled: false
+        });
+      } else {
+        this.setState({
+          lent: false,
+          lentTo: "",
+          disabled: true
+        });
+      }
+    }
+  }, {
+    key: 'addLentTo',
+    value: function addLentTo(event) {
+      this.setState({
+        lentTo: event.target.value
+      });
+    }
+  }, {
+    key: 'cancelAction',
+    value: function cancelAction(event) {
+      _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
+    }
+  }, {
+    key: 'saveAction',
+    value: function saveAction(event) {
+      function newBook(title, author, lent, lentTo) {
+        var newBook = {
+          title: title,
+          author: author,
+          lent: lent,
+          lentTo: lentTo };
+        return newBook;
+      }
+
+      function refreshList() {
+        _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
+      }
+
+      if (this.state.title.length > 0 && this.state.author.length > 0) {
+        if (this.state.lent && this.state.lentTo.length > 0) {
+          var bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo);
+          $.ajax({
+            method: "PUT",
+            url: this.props.linkTo,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(bookDetails)
+          }).done(function (response) {
+            refreshList();
+          }).fail(function (error) {
+            console.log("error");
+          });
+        } else if (!this.state.newLent) {
+          var _bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null);
+          $.ajax({
+            method: "PUT",
+            url: this.props.linkTo,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(_bookDetails)
+          }).done(function (response) {
+            refreshList();
+          }).fail(function (error) {
+            console.log("error");
+          });
+        } else {
+          this.setState({
+            info: "Podaj dane osoby pożyczającej"
+          });
+        }
+      } else {
+        this.setState({
+          info: "Podaj autora i tytuł książki"
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'add-new-book__bg' },
+        _react2.default.createElement(
+          'div',
+          { className: 'add-new-book__form' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Edytuj ksi\u0105\u017Ck\u0119'
+          ),
+          _react2.default.createElement('hr', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row' },
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.author, onChange: function onChange(event) {
+                return _this2.addAuthor(event);
+              } }),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.title, onChange: function onChange(event) {
+                return _this2.addTitle(event);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row--lent' },
+            _react2.default.createElement(
+              'div',
+              { className: 'checkbox-container' },
+              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.lent, onChange: function onChange(event) {
+                  return _this2.ifLent(event);
+                }, defaultChecked: this.state.lent }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'box-1' },
+                'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+              )
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.lentTo, onChange: function onChange(event) {
+                return _this2.addLentTo(event);
+              }, disabled: this.state.disabled })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'add-new-book__info' },
+              _react2.default.createElement(
+                'h2',
+                null,
+                this.state.info
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'button',
+                { className: 'alert', onClick: function onClick(event) {
+                    return _this2.cancelAction(event);
+                  } },
+                'Anuluj'
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'action', onClick: function onClick(event) {
+                    return _this2.saveAction(event);
+                  } },
+                'Zapisz'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return EditBookForm;
+}(_react2.default.Component);
+
+exports.default = EditBookForm;
 
 /***/ })
 /******/ ]);

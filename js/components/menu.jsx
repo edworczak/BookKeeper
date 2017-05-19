@@ -13,11 +13,11 @@ class AddNewBookButton extends React.Component {
     }
   }
 
-    componentWillReceiveProps(newProps) {
-      this.setState({
-        books: newProps.books
-      })
-    }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      books: newProps.books
+    })
+  }
 
   addNewBook(event) {
     ReactDOM.render(

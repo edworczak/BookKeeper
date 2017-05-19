@@ -7,69 +7,56 @@ import App from './app.jsx';
 // Database url
 import BOOKSURL from '../data/books.jsx';
 
-export default class AddNewBookForm extends React.Component {
+export default class EditBookForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newTitle: "",
-      newAuthor: "",
-      newLent: false,
-      newLentTo: "",
-      disabled: true,
+      title: this.props.title,
+      author: this.props.author,
+      lent: this.props.lent,
+      lentTo: this.props.lentTo,
+      linkTo: this.props.linkTo,
+      disabled: !this.props.lent,
       info: "",
-      books: []
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      books: newProps.books
-    })
   }
 
   addTitle(event) {
     this.setState({
-      newTitle: event.target.value
+      title: event.target.value
     })
   }
 
   addAuthor(event) {
     this.setState({
-      newAuthor: event.target.value
+      author: event.target.value
     })
   }
 
   ifLent(event) {
-    if (this.state.newLent) {
+    if (event.target.checked) {
       this.setState({
-        newLent: false,
-        newLentTo: "",
-        disabled: true
+        lent: true,
+        disabled: false
       })
     } else {
       this.setState({
-        newLent: true,
-        disabled: false
+        lent: false,
+        lentTo: "",
+        disabled: true
       })
     }
   }
 
   addLentTo(event) {
     this.setState({
-      newLentTo: event.target.value
+      lentTo: event.target.value
     })
   }
 
   cancelAction(event) {
-    this.setState({
-      valueTitle: "",
-      valueAuthor: "",
-      valueLent: false,
-      valueLentTo: "",
-      info: ""
-    });
     ReactDOM.render(
-      <App books={exampleBookList} />,
+      <App />,
       document.getElementById('app')
     );
   }
@@ -92,17 +79,17 @@ export default class AddNewBookForm extends React.Component {
     }
 
     if (
-      (this.state.newTitle.length > 0) &&
-      (this.state.newAuthor.length > 0)
+      (this.state.title.length > 0) &&
+      (this.state.author.length > 0)
     ) {
       if (
-        (this.state.newLent) &&
-        (this.state.newLentTo.length > 0)
+        (this.state.lent) &&
+        (this.state.lentTo.length > 0)
       ) {
-        const bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo);
+        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo);
         $.ajax({
-          method: "POST",
-          url: BOOKSURL,
+          method: "PUT",
+          url: this.props.linkTo,
           dataType: "json",
           contentType:"application/json; charset=utf-8",
           data: JSON.stringify(bookDetails)
@@ -112,10 +99,10 @@ export default class AddNewBookForm extends React.Component {
           console.log("error");
         });
       } else if (!this.state.newLent) {
-        const bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null);
+        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null);
         $.ajax({
-          method: "POST",
-          url: BOOKSURL,
+          method: "PUT",
+          url: this.props.linkTo,
           dataType: "json",
           contentType:"application/json; charset=utf-8",
           data: JSON.stringify(bookDetails)
@@ -139,18 +126,18 @@ export default class AddNewBookForm extends React.Component {
   render() {
     return <div className="add-new-book__bg">
       <div className="add-new-book__form">
-        <h1>Dodaj nową książkę</h1>
+        <h1>Edytuj książkę</h1>
         <hr />
         <div className="add-new-book__row">
-          <input type="text" className="input-details" placeholder="podaj autora" value={this.state.newAuthor} onChange={event => this.addAuthor(event)} />
-          <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.newTitle} onChange={event => this.addTitle(event)} />
+          <input type="text" className="input-details" placeholder="podaj autora" value={this.state.author} onChange={event => this.addAuthor(event)} />
+          <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.title} onChange={event => this.addTitle(event)} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
-            <input type="checkbox" id="box-1" value={this.state.newLent} onChange={event => this.ifLent(event)}/>
+            <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent} />
             <label htmlFor="box-1">Książka została pożyczona</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.newLentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabled} />
+          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabled} />
         </div>
         <div className="add-new-book__row">
           <div className="add-new-book__info"><h2>{this.state.info}</h2></div>

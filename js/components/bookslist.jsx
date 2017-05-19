@@ -24,12 +24,15 @@ export default class BooksList extends React.Component {
   render() {
     const tableRows = [];
 
-    function createRow(key, title, author, lent, lentTo, callback) {
+    function createRow(key, title, author, lent, lentTo, linkTo, callback) {
       let state = "";
+      let newLentTo = "";
       if (lent) {
         state = "pożyczona: " + lentTo;
+        newLentTo = lentTo;
       } else {
-        state = "na mniejsu";
+        state = "na miejscu";
+        newLentTo = "";
       }
       tableRows.push(
         <BookRow
@@ -37,7 +40,10 @@ export default class BooksList extends React.Component {
         title={title}
         author={author}
         state={state}
+        lent={lent}
+        lentTo={newLentTo}
         index={key}
+        linkTo={linkTo}
         callback={callback} />
       )
     }
@@ -51,7 +57,7 @@ export default class BooksList extends React.Component {
         (authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1)) &&
         (this.state.books[i].lent || !this.props.areLent)
       ) {
-        createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.props.callback);
+        createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i]._links.book.href, this.props.callback);
       }
     }
 

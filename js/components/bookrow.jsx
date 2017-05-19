@@ -11,7 +11,16 @@ export default class BookRow extends React.Component {
       <div className="table__title">{this.props.title}</div>
       <div className="table__author">{this.props.author}</div>
       <div className="table__state">{this.props.state}</div>
-      <div className="table__action"><BookActionButtons callback={this.props.callback} index={this.props.index}/></div>
+      <div className="table__action">
+        <BookActionButtons
+        callback={this.props.callback}
+        index={this.props.index}
+        title={this.props.title}
+        author={this.props.author}
+        lent={this.props.lent}
+        lentTo={this.props.lentTo}
+        linkTo={this.props.linkTo} />
+      </div>
     </div>;
   }
 }
