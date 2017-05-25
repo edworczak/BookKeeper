@@ -17,6 +17,7 @@ export default class EditBookForm extends React.Component {
       lentTo: this.props.lentTo,
       linkTo: this.props.linkTo,
       disabled: !this.props.lent,
+      description: this.props.description,
       info: "",
     }
   }
@@ -54,6 +55,12 @@ export default class EditBookForm extends React.Component {
     })
   }
 
+  addDescription(event) {
+    this.setState({
+      description: event.target.value
+    })
+  }
+
   cancelAction(event) {
     ReactDOM.render(
       <App />,
@@ -62,12 +69,14 @@ export default class EditBookForm extends React.Component {
   }
 
   saveAction(event) {
-    function newBook (title, author, lent, lentTo) {
+    function newBook (title, author, lent, lentTo, description) {
       const newBook = {
         title: title,
         author: author,
         lent: lent,
-        lentTo: lentTo}
+        lentTo: lentTo,
+        description: description
+      }
       return newBook;
     }
 
@@ -86,7 +95,7 @@ export default class EditBookForm extends React.Component {
         (this.state.lent) &&
         (this.state.lentTo.length > 0)
       ) {
-        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo);
+        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo, this.state.description);
         $.ajax({
           method: "PUT",
           url: this.props.linkTo,
@@ -99,7 +108,7 @@ export default class EditBookForm extends React.Component {
           console.log("error");
         });
       } else if (!this.state.newLent) {
-        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null);
+        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null, this.state.description);
         $.ajax({
           method: "PUT",
           url: this.props.linkTo,
@@ -131,6 +140,9 @@ export default class EditBookForm extends React.Component {
         <div className="add-new-book__row">
           <input type="text" className="input-details" placeholder="podaj autora" value={this.state.author} onChange={event => this.addAuthor(event)} />
           <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.title} onChange={event => this.addTitle(event)} />
+        </div>
+        <div className="add-new-book__row info">
+          <textarea maxLength="500" placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">

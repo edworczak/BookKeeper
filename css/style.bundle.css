@@ -56,8 +56,6 @@ textarea:focus, .menu .search input:focus, .add-new-book__bg .input-details:focu
   outline: none; }
 
 textarea {
-  background: #f9f9f9;
-  border: 1px solid #f9f9f9;
   height: 10.6rem;
   padding: 2rem;
   resize: none;

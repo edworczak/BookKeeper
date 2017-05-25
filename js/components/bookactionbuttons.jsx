@@ -32,7 +32,8 @@ export default class BookActionButtons extends React.Component {
           title={this.props.title}
           author={this.props.author}
           lent={this.props.lent}
-          lentTo={"pożyczona: " + this.props.lentTo} />,
+          lentTo={"pożyczona: " + this.props.lentTo}
+          description={this.props.description} />,
         document.getElementById('app')
       );
     }
@@ -46,7 +47,8 @@ export default class BookActionButtons extends React.Component {
         author={this.props.author}
         lent={this.props.lent}
         lentTo={this.props.lentTo}
-        linkTo={this.props.linkTo} />,
+        linkTo={this.props.linkTo}
+        description={this.props.description} />,
       document.getElementById('app')
     );
   }

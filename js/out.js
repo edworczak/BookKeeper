@@ -9846,6 +9846,7 @@ var AddNewBookForm = function (_React$Component) {
       newLent: false,
       newLentTo: "",
       disabled: true,
+      description: "",
       info: ""
     };
     return _this;
@@ -9896,6 +9897,13 @@ var AddNewBookForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'addDescription',
+    value: function addDescription(event) {
+      this.setState({
+        description: event.target.value
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -9903,12 +9911,14 @@ var AddNewBookForm = function (_React$Component) {
   }, {
     key: 'saveAction',
     value: function saveAction(event) {
-      function newBook(title, author, lent, lentTo) {
+      function newBook(title, author, lent, lentTo, description) {
         var newBook = {
           title: title,
           author: author,
           lent: lent,
-          lentTo: lentTo };
+          lentTo: lentTo,
+          description: description
+        };
         return newBook;
       }
 
@@ -9918,7 +9928,7 @@ var AddNewBookForm = function (_React$Component) {
 
       if (this.state.newTitle.length > 0 && this.state.newAuthor.length > 0) {
         if (this.state.newLent && this.state.newLentTo.length > 0) {
-          var bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo);
+          var bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo, this.state.description);
           $.ajax({
             method: "POST",
             url: _books2.default,
@@ -9931,7 +9941,7 @@ var AddNewBookForm = function (_React$Component) {
             console.log("error");
           });
         } else if (!this.state.newLent) {
-          var _bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null);
+          var _bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null, this.state.description);
           $.ajax({
             method: "POST",
             url: _books2.default,
@@ -9979,6 +9989,13 @@ var AddNewBookForm = function (_React$Component) {
               } }),
             _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.newTitle, onChange: function onChange(event) {
                 return _this2.addTitle(event);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row info' },
+            _react2.default.createElement('textarea', { maxLength: '500', placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
+                return _this2.addDescription(event);
               } })
           ),
           _react2.default.createElement(
@@ -10115,7 +10132,8 @@ var BookActionButtons = function (_React$Component) {
           title: this.props.title,
           author: this.props.author,
           lent: this.props.lent,
-          lentTo: "pożyczona: " + this.props.lentTo }), document.getElementById('app'));
+          lentTo: "pożyczona: " + this.props.lentTo,
+          description: this.props.description }), document.getElementById('app'));
       }
     }
   }, {
@@ -10126,7 +10144,8 @@ var BookActionButtons = function (_React$Component) {
         author: this.props.author,
         lent: this.props.lent,
         lentTo: this.props.lentTo,
-        linkTo: this.props.linkTo }), document.getElementById('app'));
+        linkTo: this.props.linkTo,
+        description: this.props.description }), document.getElementById('app'));
     }
   }, {
     key: 'deleteThisBook',
@@ -10768,6 +10787,7 @@ var EditBookForm = function (_React$Component) {
       lentTo: _this.props.lentTo,
       linkTo: _this.props.linkTo,
       disabled: !_this.props.lent,
+      description: _this.props.description,
       info: ""
     };
     return _this;
@@ -10811,6 +10831,13 @@ var EditBookForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'addDescription',
+    value: function addDescription(event) {
+      this.setState({
+        description: event.target.value
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -10818,12 +10845,14 @@ var EditBookForm = function (_React$Component) {
   }, {
     key: 'saveAction',
     value: function saveAction(event) {
-      function newBook(title, author, lent, lentTo) {
+      function newBook(title, author, lent, lentTo, description) {
         var newBook = {
           title: title,
           author: author,
           lent: lent,
-          lentTo: lentTo };
+          lentTo: lentTo,
+          description: description
+        };
         return newBook;
       }
 
@@ -10833,7 +10862,7 @@ var EditBookForm = function (_React$Component) {
 
       if (this.state.title.length > 0 && this.state.author.length > 0) {
         if (this.state.lent && this.state.lentTo.length > 0) {
-          var bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo);
+          var bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo, this.state.description);
           $.ajax({
             method: "PUT",
             url: this.props.linkTo,
@@ -10846,7 +10875,7 @@ var EditBookForm = function (_React$Component) {
             console.log("error");
           });
         } else if (!this.state.newLent) {
-          var _bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null);
+          var _bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null, this.state.description);
           $.ajax({
             method: "PUT",
             url: this.props.linkTo,
@@ -10894,6 +10923,13 @@ var EditBookForm = function (_React$Component) {
               } }),
             _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.title, onChange: function onChange(event) {
                 return _this2.addTitle(event);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row info' },
+            _react2.default.createElement('textarea', { maxLength: '500', placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
+                return _this2.addDescription(event);
               } })
           ),
           _react2.default.createElement(

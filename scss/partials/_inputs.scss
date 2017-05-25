@@ -18,8 +18,6 @@
 
 textarea {
   @extend %input;
-  background: $color-row-bg-darker;
-  border: 1px solid $color-row-bg-darker;
   height: 10.6rem;
   padding: 2rem;
   resize: none;
