@@ -19,6 +19,7 @@ export default class BookRow extends React.Component {
         author={this.props.author}
         lent={this.props.lent}
         lentTo={this.props.lentTo}
+        description={this.props.description}
         linkTo={this.props.linkTo} />
       </div>
     </div>;

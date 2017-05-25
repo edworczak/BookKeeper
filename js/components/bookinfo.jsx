@@ -29,11 +29,14 @@ export default class BookInfo extends React.Component {
   render() {
     return <div className="add-new-book__bg">
       <div className="add-new-book__form">
-        <h1>Edytuj książkę</h1>
+        <h1>Informacje o książce</h1>
         <hr />
         <div className="add-new-book__row info">
           <input type="text" className="input-details" value={this.state.author} disabled={true} />
           <input type="text" className="input-details" value={this.state.title} disabled={true} />
+        </div>
+        <div className="add-new-book__row info">
+          <textarea maxLength="50" value={this.props.description} disabled={true} />
         </div>
         <div className="add-new-book__row--lent info">
           <div className="checkbox-container">

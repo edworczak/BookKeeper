@@ -23,6 +23,13 @@
     min-width: 44rem;
   }
 
+  .input-details {
+    @extend %input;
+    border: 1px solid $color-lines;
+    height: 5rem;
+    width: 44rem;
+  }
+
   .add-new-book__row {
     & {
       align-items: center;

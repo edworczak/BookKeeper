@@ -43,7 +43,7 @@ table {
 div, header, footer {
   box-sizing: border-box; }
 
-.menu .search input, .add-new-book__bg .input-details {
+textarea, .menu .search input, .add-new-book__bg .input-details {
   background-color: #ffffff;
   border-radius: 2.5rem;
   box-sizing: border-box;
@@ -52,13 +52,21 @@ div, header, footer {
   height: 5rem;
   padding: 0 2rem; }
 
-.menu .search input:focus, .add-new-book__bg .input-details:focus {
+textarea:focus, .menu .search input:focus, .add-new-book__bg .input-details:focus {
   outline: none; }
+
+textarea {
+  background: #f9f9f9;
+  border: 1px solid #f9f9f9;
+  height: 10.6rem;
+  padding: 2rem;
+  resize: none;
+  width: 100%; }
 
 input[type="text"]:disabled {
   background: #c7c7c7; }
 
-.info input[type="text"]:disabled {
+.info input[type="text"]:disabled, .info textarea:disabled {
   background: #f9f9f9;
   border: 1px solid #f9f9f9; }
 
@@ -294,6 +302,11 @@ hr.ondark {
 .add-new-book__bg .input-details {
   border: 1px solid #c7c7c7;
   min-width: 44rem; }
+
+.add-new-book__bg .input-details {
+  border: 1px solid #c7c7c7;
+  height: 5rem;
+  width: 44rem; }
 
 .add-new-book__bg .add-new-book__row {
   align-items: center;

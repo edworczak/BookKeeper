@@ -16,12 +16,22 @@
 
 }
 
+textarea {
+  @extend %input;
+  background: $color-row-bg-darker;
+  border: 1px solid $color-row-bg-darker;
+  height: 10.6rem;
+  padding: 2rem;
+  resize: none;
+  width: 100%;
+}
+
 input[type="text"]:disabled {
   background: $color-lines;
 }
 
 .info {
-  input[type="text"]:disabled {
+  input[type="text"]:disabled, textarea:disabled {
     background: $color-row-bg-darker;
     border: 1px solid $color-row-bg-darker;
   }

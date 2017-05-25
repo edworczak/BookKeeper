@@ -22,7 +22,8 @@ export default class BookActionButtons extends React.Component {
           title={this.props.title}
           author={this.props.author}
           lent={this.props.lent}
-          lentTo={this.props.lentTo} />,
+          lentTo={"na miejscu"}
+          description={this.props.description} />,
         document.getElementById('app')
       );
     } else {
