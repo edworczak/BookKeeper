@@ -9906,6 +9906,23 @@ var AddNewBookForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // Auto height in textareas
+      $(document).one('focus.autoExpand', 'textarea.autoExpand', function () {
+        var savedValue = this.value;
+        this.value = '';
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+      }).on('input.autoExpand', 'textarea.autoExpand', function () {
+        var minRows = this.getAttribute('data-min-rows') | 0,
+            rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 20);
+        this.rows = minRows + rows;
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -9954,30 +9971,24 @@ var AddNewBookForm = function (_React$Component) {
       var bookDetails = newBook(this.state.title, this.state.author, this.state.publisher, this.state.publishedOn, this.state.description, this.state.read, this.state.rating, this.state.lent, this.state.lentTo);
 
       if (this.state.title.length > 0 && this.state.author.length > 0) {
-        if (this.state.lent && this.state.lentTo.length > 0) {
-          $.ajax({
-            method: "POST",
-            url: _books2.default,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(bookDetails)
-          }).done(function (response) {
-            refreshList();
-          }).fail(function (error) {
-            console.log("error");
-          });
-        } else if (!this.state.lent) {
-          $.ajax({
-            method: "POST",
-            url: _books2.default,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(bookDetails)
-          }).done(function (response) {
-            refreshList();
-          }).fail(function (error) {
-            console.log("error");
-          });
+        if (!this.state.lent || this.state.lent && this.state.lentTo.length > 0) {
+          if (this.state.rating >= 0 && this.state.rating <= 10 || (this.state.rating = "")) {
+            $.ajax({
+              method: "POST",
+              url: _books2.default,
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+              data: JSON.stringify(bookDetails)
+            }).done(function (response) {
+              refreshList();
+            }).fail(function (error) {
+              console.log("error");
+            });
+          } else {
+            this.setState({
+              info: "Ocena musi być w skali 0-10"
+            });
+          }
         } else {
           this.setState({
             info: "Podaj dane osoby pożyczającej"
@@ -10029,7 +10040,7 @@ var AddNewBookForm = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row' },
-            _react2.default.createElement('textarea', { placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
+            _react2.default.createElement('textarea', { className: 'autoExpand', rows: '3', 'data-min-rows': '3', maxLength: '1000', placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
                 return _this2.addDescription(event);
               } })
           ),
@@ -10347,6 +10358,11 @@ var BookHeader = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
+          { className: 'table__rating' },
+          'ocena'
+        ),
+        _react2.default.createElement(
+          'div',
           { className: 'table__state' },
           'stan'
         ),
@@ -10422,7 +10438,7 @@ var BookInfo = function (_React$Component) {
       publishedOn: _this.props.publishedOn,
       read: _this.props.read,
       rating: _this.props.rating,
-      description: _this.props.description,
+      description: "",
       lent: _this.props.lent,
       lentTo: _this.props.lentTo
     };
@@ -10430,6 +10446,24 @@ var BookInfo = function (_React$Component) {
   }
 
   _createClass(BookInfo, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var description = this.props.description;
+      // Auto height in textareas
+      $(document).one('focus.autoExpand', 'textarea.autoExpand', function () {
+        var savedValue = this.value;
+        this.value = description;
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+      }).on('input.autoExpand', 'textarea.autoExpand', function () {
+        var minRows = this.getAttribute('data-min-rows') | 0,
+            rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 20);
+        this.rows = minRows + rows + 1;
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -10466,7 +10500,7 @@ var BookInfo = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row info' },
-            _react2.default.createElement('textarea', { maxLength: '50', value: this.props.description, disabled: true })
+            _react2.default.createElement('textarea', { className: 'autoExpand', rows: '3', 'data-min-rows': '3', maxLength: '50', value: this.props.description, disabled: true })
           ),
           _react2.default.createElement(
             'div',
@@ -10580,6 +10614,23 @@ var BookRow = function (_React$Component) {
   _createClass(BookRow, [{
     key: 'render',
     value: function render() {
+      var rating = void 0;
+      if (this.props.read) {
+        rating = _react2.default.createElement(
+          'span',
+          null,
+          _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true', style: { color: "#087E8B" } }),
+          ' ',
+          this.props.rating
+        );
+      } else {
+        rating = _react2.default.createElement(
+          'span',
+          null,
+          _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true', style: { color: "#E56399" } })
+        );
+      }
+
       return _react2.default.createElement(
         'div',
         { className: 'table-row' },
@@ -10597,6 +10648,11 @@ var BookRow = function (_React$Component) {
           'div',
           { className: 'table__author' },
           this.props.author
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'table__rating' },
+          rating
         ),
         _react2.default.createElement(
           'div',
@@ -10709,13 +10765,6 @@ var BooksList = function (_React$Component) {
           newLentTo = "";
         }
 
-        var ifRead = void 0;
-        if (rating >= 0 && rating <= 10) {
-          ifRead = true;
-        } else {
-          ifRead = false;
-        }
-
         tableRows.push(_react2.default.createElement(_bookrow2.default, {
           key: key,
           title: title,
@@ -10726,7 +10775,7 @@ var BooksList = function (_React$Component) {
           description: description,
           publisher: publisher,
           publishedOn: publishedOn,
-          read: ifRead,
+          read: read,
           rating: rating,
           index: key,
           linkTo: linkTo,
@@ -10813,7 +10862,7 @@ var Footer = function (_React$Component) {
         _react2.default.createElement(
           'p',
           null,
-          'Ewa Dworczak, 2017'
+          'Layout, front-end: Ewa Dworczak 2017 || Back-end: Tomasz Grzesiak 2016'
         )
       );
     }
@@ -10896,6 +10945,8 @@ var _books = __webpack_require__(28);
 var _books2 = _interopRequireDefault(_books);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -11013,6 +11064,24 @@ var EditBookForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var description = this.props.description;
+      // Auto height in textareas
+      $(document).one('focus.autoExpand', 'textarea.autoExpand', function () {
+        var savedValue = this.value;
+        this.value = description;
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+      }).on('input.autoExpand', 'textarea.autoExpand', function () {
+        var minRows = this.getAttribute('data-min-rows') | 0,
+            rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 20);
+        this.rows = minRows + rows + 1;
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -11093,7 +11162,8 @@ var EditBookForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this2 = this,
+          _React$createElement;
 
       return _react2.default.createElement(
         'div',
@@ -11130,9 +11200,9 @@ var EditBookForm = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row' },
-            _react2.default.createElement('textarea', { placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
-                return _this2.addDescription(event);
-              } })
+            _react2.default.createElement('textarea', (_React$createElement = { className: 'autoExpand', rows: '3', 'data-min-rows': '3', maxLength: '1000' }, _defineProperty(_React$createElement, 'rows', '4'), _defineProperty(_React$createElement, 'placeholder', 'podaj opis'), _defineProperty(_React$createElement, 'value', this.state.description), _defineProperty(_React$createElement, 'onChange', function onChange(event) {
+              return _this2.addDescription(event);
+            }), _React$createElement))
           ),
           _react2.default.createElement(
             'div',

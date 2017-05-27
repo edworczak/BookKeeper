@@ -95,6 +95,24 @@ export default class EditBookForm extends React.Component {
     })
   }
 
+  componentDidMount() {
+    let description = this.props.description;
+    // Auto height in textareas
+    $(document)
+      .one('focus.autoExpand', 'textarea.autoExpand', function(){
+        var savedValue = this.value;
+        this.value = description;
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+      })
+      .on('input.autoExpand', 'textarea.autoExpand', function(){
+        var minRows = this.getAttribute('data-min-rows')|0, rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 20);
+        this.rows = minRows + rows + 1;
+    });
+  }
+
   cancelAction(event) {
     ReactDOM.render(
       <App />,
@@ -200,7 +218,7 @@ export default class EditBookForm extends React.Component {
           <input type="text" className="input-details" placeholder="podaj datę wydania" value={this.state.publishedOn} onChange={event => this.addPublishedOn(event)} />
         </div>
         <div className="add-new-book__row">
-          <textarea placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
+          <textarea className="autoExpand" rows="3" data-min-rows="3" maxLength="1000" rows="4" placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
         </div>
         <div className="add-new-book__row--read">
           <div className="checkbox-container">

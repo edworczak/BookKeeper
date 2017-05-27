@@ -92,6 +92,23 @@ export default class AddNewBookForm extends React.Component {
     })
   }
 
+  componentDidMount() {
+    // Auto height in textareas
+    $(document)
+      .one('focus.autoExpand', 'textarea.autoExpand', function(){
+        var savedValue = this.value;
+        this.value = '';
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+      })
+      .on('input.autoExpand', 'textarea.autoExpand', function(){
+        var minRows = this.getAttribute('data-min-rows')|0, rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 20);
+        this.rows = minRows + rows;
+    });
+  }
+
   cancelAction(event) {
     ReactDOM.render(
       <App />,
@@ -147,33 +164,30 @@ export default class AddNewBookForm extends React.Component {
       (this.state.title.length > 0) &&
       (this.state.author.length > 0)
     ) {
-      if (
-        (this.state.lent) &&
-        (this.state.lentTo.length > 0)
+      if ((!this.state.lent) ||
+        ((this.state.lent) &&
+        (this.state.lentTo.length > 0))
       ) {
-        $.ajax({
-          method: "POST",
-          url: BOOKSURL,
-          dataType: "json",
-          contentType:"application/json; charset=utf-8",
-          data: JSON.stringify(bookDetails)
-        }).done((response) => {
-          refreshList();
-        }).fail(function(error) {
-          console.log("error");
-        });
-      } else if (!this.state.lent) {
-        $.ajax({
-          method: "POST",
-          url: BOOKSURL,
-          dataType: "json",
-          contentType:"application/json; charset=utf-8",
-          data: JSON.stringify(bookDetails)
-        }).done((response) => {
-          refreshList();
-        }).fail(function(error) {
-          console.log("error");
-        });
+        if (((this.state.rating >= 0) &&
+          (this.state.rating <= 10)) ||
+          (this.state.rating = "")
+        ) {
+          $.ajax({
+            method: "POST",
+            url: BOOKSURL,
+            dataType: "json",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify(bookDetails)
+          }).done((response) => {
+            refreshList();
+          }).fail(function(error) {
+            console.log("error");
+          });
+        } else {
+          this.setState({
+            info: "Ocena musi być w skali 0-10"
+          })
+        }
       } else {
         this.setState({
           info: "Podaj dane osoby pożyczającej"
@@ -200,7 +214,7 @@ export default class AddNewBookForm extends React.Component {
           <input type="text" className="input-details" placeholder="podaj datę wydania" value={this.state.publishedOn} onChange={event => this.addPublishedOn(event)} />
         </div>
         <div className="add-new-book__row">
-          <textarea placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
+          <textarea className="autoExpand" rows="3" data-min-rows="3" maxLength="1000" placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
         </div>
         <div className="add-new-book__row--read">
           <div className="checkbox-container">

@@ -6,7 +6,6 @@
     box-sizing: border-box;
     color: $color-font;
     font-size: 1.4rem;
-    height: 5rem;
     padding: 0 2rem;
   }
 
@@ -16,9 +15,14 @@
 
 }
 
+input {
+  height: 5rem;
+}
+
 textarea {
   @extend %input;
-  height: 10.6rem;
+  height: auto;
+  line-height: 2rem;
   padding: 2rem;
   resize: none;
   width: 100%;
@@ -31,7 +35,7 @@ input[type="text"]:disabled {
 .info {
   input[type="text"]:disabled, textarea:disabled {
     background: $color-row-bg-darker;
-    border: 1px solid $color-row-bg-darker;
+    border: 0;
   }
 
   input[type="checkbox"] + label {

@@ -8,7 +8,7 @@ import BooksList from './bookslist.jsx';
 class Footer extends React.Component {
   render() {
     return <footer>
-      <p>Ewa Dworczak, 2017</p>
+      <p>Layout, front-end: Ewa Dworczak 2017 || Back-end: Tomasz Grzesiak 2016</p>
     </footer>;
   }
 }

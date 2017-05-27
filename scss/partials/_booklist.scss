@@ -32,17 +32,19 @@
     width: 3rem;
   }
   .table__title {
-    width: 40%;
+    width: 30%;
   }
   .table__author, .table__state {
     width: 20%;
+  }
+  .table__rating {
+    width: 10%;
   }
   .table__title, .table__author, .table__state {
     padding-right: 3rem;
   }
   .table__action {
-    min-width: 9rem;
-    width: 10%;
+    width: 9rem;
   }
 }
 

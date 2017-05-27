@@ -6,10 +6,18 @@ import BookActionButtons from './bookactionbuttons.jsx';
 
 export default class BookRow extends React.Component {
   render() {
+    let rating;
+    if (this.props.read) {
+      rating = <span><i className="fa fa-check" aria-hidden="true" style={{color: "#087E8B"}}></i> {this.props.rating}</span>;
+    } else {
+      rating = <span><i className="fa fa-times" aria-hidden="true" style={{color: "#E56399"}}></i></span>;
+    }
+
     return <div className="table-row">
       <div className="table__id">{this.props.index + 1}</div>
       <div className="table__title">{this.props.title}</div>
       <div className="table__author">{this.props.author}</div>
+      <div className="table__rating">{rating}</div>
       <div className="table__state">{this.props.state}</div>
       <div className="table__action">
         <BookActionButtons

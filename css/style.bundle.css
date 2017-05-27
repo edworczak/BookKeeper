@@ -49,14 +49,17 @@ textarea, .menu .search input, .add-new-book__bg .input-details {
   box-sizing: border-box;
   color: #4f4f4f;
   font-size: 1.4rem;
-  height: 5rem;
   padding: 0 2rem; }
 
 textarea:focus, .menu .search input:focus, .add-new-book__bg .input-details:focus {
   outline: none; }
 
+input {
+  height: 5rem; }
+
 textarea {
-  height: 10.6rem;
+  height: auto;
+  line-height: 2rem;
   padding: 2rem;
   resize: none;
   width: 100%; }
@@ -66,7 +69,7 @@ input[type="text"]:disabled {
 
 .info input[type="text"]:disabled, .info textarea:disabled {
   background: #f9f9f9;
-  border: 1px solid #f9f9f9; }
+  border: 0; }
 
 .info input[type="checkbox"] + label {
   cursor: default; }
@@ -211,17 +214,19 @@ hr.ondark {
   width: 3rem; }
 
 .table-row .table__title {
-  width: 40%; }
+  width: 30%; }
 
 .table-row .table__author, .table-row .table__state {
   width: 20%; }
+
+.table-row .table__rating {
+  width: 10%; }
 
 .table-row .table__title, .table-row .table__author, .table-row .table__state {
   padding-right: 3rem; }
 
 .table-row .table__action {
-  min-width: 9rem;
-  width: 10%; }
+  width: 9rem; }
 
 .table-content {
   min-height: 5rem; }
