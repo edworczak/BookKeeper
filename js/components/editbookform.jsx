@@ -27,42 +27,15 @@ export default class EditBookForm extends React.Component {
     }
   }
 
-  addTitle(event) {
-    this.setState({
-      title: event.target.value
-    })
-  }
-
   addAuthor(event) {
     this.setState({
       author: event.target.value
     })
   }
 
-  ifLent(event) {
-    if (event.target.checked) {
-      this.setState({
-        lent: true,
-        disabledLentTo: false
-      })
-    } else {
-      this.setState({
-        lent: false,
-        lentTo: "",
-        disabledLentTo: true
-      })
-    }
-  }
-
-  addLentTo(event) {
+  addTitle(event) {
     this.setState({
-      lentTo: event.target.value
-    })
-  }
-
-  addDescription(event) {
-    this.setState({
-      description: event.target.value
+      title: event.target.value
     })
   }
 
@@ -78,19 +51,48 @@ export default class EditBookForm extends React.Component {
     })
   }
 
+  addDescription(event) {
+    this.setState({
+      description: event.target.value
+    })
+  }
+
   ifRead(event) {
-    if (event.target.checked) {
+    if (!this.state.read) {
       this.setState({
         read: true,
-        disabledRating: false
       })
     } else {
       this.setState({
         read: false,
-        rating: "",
-        disabledRating: true
+        rating: ""
       })
     }
+  }
+
+  addRating(event) {
+    this.setState({
+      rating: event.target.value
+    })
+  }
+
+  ifLent(event) {
+    if (!this.state.lent) {
+      this.setState({
+        lent: true
+      })
+    } else {
+      this.setState({
+        lent: false,
+        lentTo: ""
+      })
+    }
+  }
+
+  addLentTo(event) {
+    this.setState({
+      lentTo: event.target.value
+    })
   }
 
   cancelAction(event) {
@@ -101,13 +103,36 @@ export default class EditBookForm extends React.Component {
   }
 
   saveAction(event) {
-    function newBook (title, author, lent, lentTo, description) {
+    function newBook (title, author, publisher, publishedOn, description, read, rating, lent, lentTo) {
+      let checkPublisher;
+      publisher == "" ? checkPublisher = null : checkPublisher = publisher;
+      let checkPublishedOn;
+      publishedOn == "" ? checkPublishedOn = null : checkPublishedOn = publishedOn;
+      let checkDescription;
+      description == "" ? checkDescription = null : checkDescription = description;
+      let checkRating;
+      if ((read) && (rating >= 0) && (rating <= 10)) {
+        checkRating = rating;
+      } else {
+        checkRating = null;
+      }
+      let checkLentTo;
+      if ((lent) && (lentTo.length > 0)) {
+        checkLentTo = lentTo;
+      } else {
+        checkLentTo = null;
+      }
+
       const newBook = {
         title: title,
         author: author,
+        publisher: checkPublisher,
+        publishedOn: checkPublishedOn,
+        description: checkDescription,
+        read: read,
+        rating: checkRating,
         lent: lent,
-        lentTo: lentTo,
-        description: description
+        lentTo: checkLentTo
       }
       return newBook;
     }
@@ -119,39 +144,36 @@ export default class EditBookForm extends React.Component {
       );
     }
 
+    const bookDetails = newBook(this.state.title, this.state.author, this.state.publisher, this.state.publishedOn, this.state.description, this.state.read, this.state.rating, this.state.lent, this.state.lentTo);
+
     if (
       (this.state.title.length > 0) &&
       (this.state.author.length > 0)
     ) {
-      if (
-        (this.state.lent) &&
-        (this.state.lentTo.length > 0)
+      if ((!this.state.lent) ||
+        ((this.state.lent) &&
+        (this.state.lentTo.length > 0))
       ) {
-        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, this.state.lentTo, this.state.description);
-        $.ajax({
-          method: "PUT",
-          url: this.props.linkTo,
-          dataType: "json",
-          contentType:"application/json; charset=utf-8",
-          data: JSON.stringify(bookDetails)
-        }).done((response) => {
-          refreshList();
-        }).fail(function(error) {
-          console.log("error");
-        });
-      } else if (!this.state.newLent) {
-        const bookDetails = newBook(this.state.title, this.state.author, this.state.lent, null, this.state.description);
-        $.ajax({
-          method: "PUT",
-          url: this.props.linkTo,
-          dataType: "json",
-          contentType:"application/json; charset=utf-8",
-          data: JSON.stringify(bookDetails)
-        }).done((response) => {
-          refreshList();
-        }).fail(function(error) {
-          console.log("error");
-        });
+        if (((this.state.rating >= 0) &&
+          (this.state.rating <= 10)) ||
+          (this.state.rating = "")
+        ) {
+          $.ajax({
+            method: "PUT",
+            url: this.props.linkTo,
+            dataType: "json",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify(bookDetails)
+          }).done((response) => {
+            refreshList();
+          }).fail(function(error) {
+            console.log("error");
+          });
+        } else {
+          this.setState({
+            info: "Ocena musi być w skali 0-10"
+          })
+        }
       } else {
         this.setState({
           info: "Podaj dane osoby pożyczającej"
@@ -173,26 +195,26 @@ export default class EditBookForm extends React.Component {
           <input type="text" className="input-details" placeholder="podaj autora" value={this.state.author} onChange={event => this.addAuthor(event)} />
           <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.title} onChange={event => this.addTitle(event)} />
         </div>
-        <div className="add-new-book__row info">
+        <div className="add-new-book__row">
           <input type="text" className="input-details" placeholder="podaj nazwę wydawnictwa" value={this.state.publisher} onChange={event => this.addPublisher(event)} />
           <input type="text" className="input-details" placeholder="podaj datę wydania" value={this.state.publishedOn} onChange={event => this.addPublishedOn(event)} />
         </div>
-        <div className="add-new-book__row info">
+        <div className="add-new-book__row">
           <textarea placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
         </div>
-        <div className="add-new-book__row--read info">
+        <div className="add-new-book__row--read">
           <div className="checkbox-container">
-            <input type="checkbox" id="if-read" value={this.state.read} checked={this.state.read} onChange={event => this.ifRead(event)} defaultChecked={this.state.read} />
+            <input type="checkbox" id="if-read" value={this.state.read}  onChange={event => this.ifRead(event)} defaultChecked={this.state.read} />
             <label htmlFor="if-read">Książka przeczytana</label>
           </div>
-          <input type="text" className="input-details" value={this.state.rating} disabled={!this.state.read} />
+          <input type="text" className="input-details" placeholder="podaj ocenę w skali 0-10" value={this.state.rating} onChange={event => this.addRating(event)} disabled={!this.state.read} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
             <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent} />
             <label htmlFor="box-1">Książka została pożyczona</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabledLentTo} />
+          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={!this.state.lent} />
         </div>
         <div className="add-new-book__row">
           <div className="add-new-book__info"><h2>{this.state.info}</h2></div>

@@ -17,30 +17,22 @@ export default class AddNewBookForm extends React.Component {
       publishedOn: "",
       description: "",
       read: false,
-      disabledRating: true,
       rating: "",
       lent: false,
-      disabledLentTo: true,
       lentTo: "",
       info: ""
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  addAuthor(event) {
     this.setState({
-      books: newProps.books
+      author: event.target.value
     })
   }
 
   addTitle(event) {
     this.setState({
       title: event.target.value
-    })
-  }
-
-  addAuthor(event) {
-    this.setState({
-      author: event.target.value
     })
   }
 
@@ -56,17 +48,21 @@ export default class AddNewBookForm extends React.Component {
     })
   }
 
+  addDescription(event) {
+    this.setState({
+      description: event.target.value
+    })
+  }
+
   ifRead(event) {
-    if (this.state.lent) {
+    if (!this.state.read) {
       this.setState({
-        read: false,
-        rating: "",
-        disabledRating: true
+        read: true,
       })
     } else {
       this.setState({
-        read: true,
-        disabledRating: false
+        read: false,
+        rating: ""
       })
     }
   }
@@ -77,23 +73,15 @@ export default class AddNewBookForm extends React.Component {
     })
   }
 
-  addDescription(event) {
-    this.setState({
-      description: event.target.value
-    })
-  }
-
   ifLent(event) {
-    if (this.state.lent) {
+    if (!this.state.lent) {
       this.setState({
-        lent: false,
-        lentTo: "",
-        disabledLentTo: true
+        lent: true
       })
     } else {
       this.setState({
-        lent: true,
-        disabledLentTo: false
+        lent: false,
+        lentTo: ""
       })
     }
   }
@@ -201,32 +189,32 @@ export default class AddNewBookForm extends React.Component {
   render() {
     return <div className="add-new-book__bg">
       <div className="add-new-book__form">
-        <h1>Dodaj nową książkę</h1>
+        <h1>Edytuj książkę</h1>
         <hr />
         <div className="add-new-book__row">
           <input type="text" className="input-details" placeholder="podaj autora" value={this.state.author} onChange={event => this.addAuthor(event)} />
           <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.title} onChange={event => this.addTitle(event)} />
         </div>
-        <div className="add-new-book__row info">
+        <div className="add-new-book__row">
           <input type="text" className="input-details" placeholder="podaj nazwę wydawnictwa" value={this.state.publisher} onChange={event => this.addPublisher(event)} />
           <input type="text" className="input-details" placeholder="podaj datę wydania" value={this.state.publishedOn} onChange={event => this.addPublishedOn(event)} />
         </div>
-        <div className="add-new-book__row info">
+        <div className="add-new-book__row">
           <textarea placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
         </div>
-        <div className="add-new-book__row--read info">
+        <div className="add-new-book__row--read">
           <div className="checkbox-container">
-            <input type="checkbox" id="if-read" value={this.state.read} onChange={event => this.ifRead(event)} />
+            <input type="checkbox" id="if-read" value={this.state.read}  onChange={event => this.ifRead(event)} defaultChecked={this.state.read} />
             <label htmlFor="if-read">Książka przeczytana</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj ocenę w skali 0-10" value={this.state.rating} onChange={event => this.addRating(event)} disabled={this.state.disabledRating} />
+          <input type="text" className="input-details" placeholder="podaj ocenę w skali 0-10" value={this.state.rating} onChange={event => this.addRating(event)} disabled={!this.state.read} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
-            <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)}/>
+            <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent} />
             <label htmlFor="box-1">Książka została pożyczona</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabledLentTo} />
+          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={!this.state.lent} />
         </div>
         <div className="add-new-book__row">
           <div className="add-new-book__info"><h2>{this.state.info}</h2></div>
