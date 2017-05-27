@@ -313,6 +313,13 @@ hr.ondark {
   margin-bottom: 2rem;
   width: 100%; }
 
+.add-new-book__bg .add-new-book__row--read {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  width: 100%; }
+
 .add-new-book__bg .add-new-book__row--lent {
   align-items: center;
   display: flex;

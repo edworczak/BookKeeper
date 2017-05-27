@@ -17,9 +17,13 @@ export default class BookRow extends React.Component {
         index={this.props.index}
         title={this.props.title}
         author={this.props.author}
+        description={this.props.description}
+        publisher={this.props.publisher}
+        publishedOn={this.props.publishedOn}
+        read={this.props.read}
+        rating={this.props.rating}
         lent={this.props.lent}
         lentTo={this.props.lentTo}
-        description={this.props.description}
         linkTo={this.props.linkTo} />
       </div>
     </div>;

@@ -2968,14 +2968,14 @@ var App = function (_React$Component) {
       books: []
     };
 
+    // Search bar
     _this.handleSearchBar = _this.handleSearchBar.bind(_this);
     _this.handleCheckboxAreLent = _this.handleCheckboxAreLent.bind(_this);
-    _this.handleNewTitle = _this.handleNewTitle.bind(_this);
-    _this.handleNewAuthor = _this.handleNewAuthor.bind(_this);
-    _this.handleNewLent = _this.handleNewLent.bind(_this);
-    _this.handleNewLentTo = _this.handleNewLentTo.bind(_this);
     return _this;
   }
+
+  // Search bar
+
 
   _createClass(App, [{
     key: 'handleSearchBar',
@@ -2989,34 +2989,6 @@ var App = function (_React$Component) {
     value: function handleCheckboxAreLent(areLent) {
       this.setState({
         areLent: areLent
-      });
-    }
-  }, {
-    key: 'handleNewTitle',
-    value: function handleNewTitle(newTitle) {
-      this.setState({
-        newTitle: newTitle
-      });
-    }
-  }, {
-    key: 'handleNewAuthor',
-    value: function handleNewAuthor(newAuthor) {
-      this.setState({
-        newAuthor: newAuthor
-      });
-    }
-  }, {
-    key: 'handleNewLent',
-    value: function handleNewLent(newLent) {
-      this.setState({
-        newLent: newLent
-      });
-    }
-  }, {
-    key: 'handleNewLentTo',
-    value: function handleNewLentTo(newLentTo) {
-      this.setState({
-        newLentTo: newLentTo
       });
     }
 
@@ -3077,6 +3049,11 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // clear set state from did mount
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
@@ -3092,11 +3069,7 @@ var App = function (_React$Component) {
             filterText: this.state.filterText,
             areLent: this.state.areLent,
             onSearchBar: this.handleSearchBar,
-            onCheckboxAreLent: this.handleCheckboxAreLent,
-            onNewTitle: this.handleNewTitle,
-            onNewAuthor: this.handleNewAuthor,
-            onNewLent: this.handleNewLent,
-            onNewLentTo: this.handleNewLentTo }),
+            onCheckboxAreLent: this.handleCheckboxAreLent }),
           _react2.default.createElement(_bookstable2.default, {
             books: this.state.books,
             filterText: this.state.filterText,
@@ -9841,12 +9814,17 @@ var AddNewBookForm = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (AddNewBookForm.__proto__ || Object.getPrototypeOf(AddNewBookForm)).call(this, props));
 
     _this.state = {
-      newTitle: "",
-      newAuthor: "",
-      newLent: false,
-      newLentTo: "",
-      disabled: true,
+      title: "",
+      author: "",
+      publisher: "",
+      publishedOn: "",
       description: "",
+      read: false,
+      disabledRating: true,
+      rating: "",
+      lent: false,
+      disabledLentTo: true,
+      lentTo: "",
       info: ""
     };
     return _this;
@@ -9863,37 +9841,51 @@ var AddNewBookForm = function (_React$Component) {
     key: 'addTitle',
     value: function addTitle(event) {
       this.setState({
-        newTitle: event.target.value
+        title: event.target.value
       });
     }
   }, {
     key: 'addAuthor',
     value: function addAuthor(event) {
       this.setState({
-        newAuthor: event.target.value
+        author: event.target.value
       });
     }
   }, {
-    key: 'ifLent',
-    value: function ifLent(event) {
-      if (this.state.newLent) {
+    key: 'addPublisher',
+    value: function addPublisher(event) {
+      this.setState({
+        publisher: event.target.value
+      });
+    }
+  }, {
+    key: 'addPublishedOn',
+    value: function addPublishedOn(event) {
+      this.setState({
+        publishedOn: event.target.value
+      });
+    }
+  }, {
+    key: 'ifRead',
+    value: function ifRead(event) {
+      if (this.state.lent) {
         this.setState({
-          newLent: false,
-          newLentTo: "",
-          disabled: true
+          read: false,
+          rating: "",
+          disabledRating: true
         });
       } else {
         this.setState({
-          newLent: true,
-          disabled: false
+          read: true,
+          disabledRating: false
         });
       }
     }
   }, {
-    key: 'addLentTo',
-    value: function addLentTo(event) {
+    key: 'addRating',
+    value: function addRating(event) {
       this.setState({
-        newLentTo: event.target.value
+        rating: event.target.value
       });
     }
   }, {
@@ -9904,6 +9896,29 @@ var AddNewBookForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'ifLent',
+    value: function ifLent(event) {
+      if (this.state.lent) {
+        this.setState({
+          lent: false,
+          lentTo: "",
+          disabledLentTo: true
+        });
+      } else {
+        this.setState({
+          lent: true,
+          disabledLentTo: false
+        });
+      }
+    }
+  }, {
+    key: 'addLentTo',
+    value: function addLentTo(event) {
+      this.setState({
+        lentTo: event.target.value
+      });
+    }
+  }, {
     key: 'cancelAction',
     value: function cancelAction(event) {
       _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
@@ -9911,13 +9926,36 @@ var AddNewBookForm = function (_React$Component) {
   }, {
     key: 'saveAction',
     value: function saveAction(event) {
-      function newBook(title, author, lent, lentTo, description) {
+      function newBook(title, author, publisher, publishedOn, description, read, rating, lent, lentTo) {
+        var checkPublisher = void 0;
+        publisher == "" ? checkPublisher = null : checkPublisher = publisher;
+        var checkPublishedOn = void 0;
+        publishedOn == "" ? checkPublishedOn = null : checkPublishedOn = publishedOn;
+        var checkDescription = void 0;
+        description == "" ? checkDescription = null : checkDescription = description;
+        var checkRating = void 0;
+        if (read && rating >= 0 && rating <= 10) {
+          checkRating = rating;
+        } else {
+          checkRating = null;
+        }
+        var checkLentTo = void 0;
+        if (lent && lentTo.length > 0) {
+          checkLentTo = lentTo;
+        } else {
+          checkLentTo = null;
+        }
+
         var newBook = {
           title: title,
           author: author,
+          publisher: checkPublisher,
+          publishedOn: checkPublishedOn,
+          description: checkDescription,
+          read: read,
+          rating: checkRating,
           lent: lent,
-          lentTo: lentTo,
-          description: description
+          lentTo: checkLentTo
         };
         return newBook;
       }
@@ -9926,9 +9964,10 @@ var AddNewBookForm = function (_React$Component) {
         _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
       }
 
-      if (this.state.newTitle.length > 0 && this.state.newAuthor.length > 0) {
-        if (this.state.newLent && this.state.newLentTo.length > 0) {
-          var bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, this.state.newLentTo, this.state.description);
+      var bookDetails = newBook(this.state.title, this.state.author, this.state.publisher, this.state.publishedOn, this.state.description, this.state.read, this.state.rating, this.state.lent, this.state.lentTo);
+
+      if (this.state.title.length > 0 && this.state.author.length > 0) {
+        if (this.state.lent && this.state.lentTo.length > 0) {
           $.ajax({
             method: "POST",
             url: _books2.default,
@@ -9940,14 +9979,13 @@ var AddNewBookForm = function (_React$Component) {
           }).fail(function (error) {
             console.log("error");
           });
-        } else if (!this.state.newLent) {
-          var _bookDetails = newBook(this.state.newTitle, this.state.newAuthor, this.state.newLent, null, this.state.description);
+        } else if (!this.state.lent) {
           $.ajax({
             method: "POST",
             url: _books2.default,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(_bookDetails)
+            data: JSON.stringify(bookDetails)
           }).done(function (response) {
             refreshList();
           }).fail(function (error) {
@@ -9984,19 +10022,48 @@ var AddNewBookForm = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row' },
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.newAuthor, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj autora', value: this.state.author, onChange: function onChange(event) {
                 return _this2.addAuthor(event);
               } }),
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.newTitle, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj tytu\u0142', value: this.state.title, onChange: function onChange(event) {
                 return _this2.addTitle(event);
               } })
           ),
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row info' },
-            _react2.default.createElement('textarea', { maxLength: '500', placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj nazw\u0119 wydawnictwa', value: this.state.publisher, onChange: function onChange(event) {
+                return _this2.addPublisher(event);
+              } }),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj dat\u0119 wydania', value: this.state.publishedOn, onChange: function onChange(event) {
+                return _this2.addPublishedOn(event);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row info' },
+            _react2.default.createElement('textarea', { placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
                 return _this2.addDescription(event);
               } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row--read info' },
+            _react2.default.createElement(
+              'div',
+              { className: 'checkbox-container' },
+              _react2.default.createElement('input', { type: 'checkbox', id: 'if-read', value: this.state.read, onChange: function onChange(event) {
+                  return _this2.ifRead(event);
+                } }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'if-read' },
+                'Ksi\u0105\u017Cka przeczytana'
+              )
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj ocen\u0119 w skali 0-10', value: this.state.rating, onChange: function onChange(event) {
+                return _this2.addRating(event);
+              }, disabled: this.state.disabledRating })
           ),
           _react2.default.createElement(
             'div',
@@ -10004,7 +10071,7 @@ var AddNewBookForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'checkbox-container' },
-              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.newLent, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.lent, onChange: function onChange(event) {
                   return _this2.ifLent(event);
                 } }),
               _react2.default.createElement(
@@ -10013,9 +10080,9 @@ var AddNewBookForm = function (_React$Component) {
                 'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
               )
             ),
-            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.newLentTo, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.lentTo, onChange: function onChange(event) {
                 return _this2.addLentTo(event);
-              }, disabled: this.state.disabled })
+              }, disabled: this.state.disabledLentTo })
           ),
           _react2.default.createElement(
             'div',
@@ -10105,47 +10172,89 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var BookActionButtons = function (_React$Component) {
   _inherits(BookActionButtons, _React$Component);
 
-  function BookActionButtons(props) {
+  function BookActionButtons() {
     _classCallCheck(this, BookActionButtons);
 
-    var _this = _possibleConstructorReturn(this, (BookActionButtons.__proto__ || Object.getPrototypeOf(BookActionButtons)).call(this, props));
-
-    _this.state = {
-      info: false,
-      edit: false
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (BookActionButtons.__proto__ || Object.getPrototypeOf(BookActionButtons)).apply(this, arguments));
   }
 
   _createClass(BookActionButtons, [{
     key: 'showInfo',
     value: function showInfo(event) {
-      if (this.props.lentTo == "") {
-        _reactDom2.default.render(_react2.default.createElement(_bookinfo2.default, {
-          title: this.props.title,
-          author: this.props.author,
-          lent: this.props.lent,
-          lentTo: "na miejscu",
-          description: this.props.description }), document.getElementById('app'));
+      var author = "autor: " + this.props.author;
+      var title = "tytuł: " + this.props.title;
+
+      var checkPublisher = void 0;
+      this.props.publisher == null ? checkPublisher = "nie podano nazwy wydawnictwa" : checkPublisher = "wydawnictwo: " + this.props.publisher;
+
+      var checkPublishedOn = void 0;
+      this.props.publishedOn == null ? checkPublishedOn = "nie podano daty wydania" : checkPublishedOn = "data wydania: " + this.props.publishedOn;
+
+      var checkDescription = void 0;
+      this.props.description == null ? checkDescription = "nie podano opisu" : checkDescription = this.props.description;
+
+      var checkRating = void 0;
+      if (this.props.rating == null) {
+        checkRating = "brak oceny";
       } else {
-        _reactDom2.default.render(_react2.default.createElement(_bookinfo2.default, {
-          title: this.props.title,
-          author: this.props.author,
-          lent: this.props.lent,
-          lentTo: "pożyczona: " + this.props.lentTo,
-          description: this.props.description }), document.getElementById('app'));
+        checkRating = "ocena: " + this.props.rating + "/10";
       }
+
+      var checkLentTo = void 0;
+      if (this.props.lentTo.length > 0) {
+        checkLentTo = "pożyczona: " + this.props.lentTo;
+      } else {
+        checkLentTo = "na miejscu";
+      }
+
+      _reactDom2.default.render(_react2.default.createElement(_bookinfo2.default, {
+        title: title,
+        author: author,
+        description: checkDescription,
+        publisher: checkPublisher,
+        publishedOn: checkPublishedOn,
+        read: this.props.read,
+        rating: checkRating,
+        lent: this.props.lent,
+        lentTo: checkLentTo }), document.getElementById('app'));
     }
   }, {
     key: 'editBook',
     value: function editBook(event) {
+      var checkPublisher = void 0;
+      this.props.publisher == null ? checkPublisher = "" : checkPublisher = this.props.publisher;
+
+      var checkPublishedOn = void 0;
+      this.props.publishedOn == null ? checkPublishedOn = "" : checkPublishedOn = this.props.publishedOn;
+
+      var checkDescription = void 0;
+      this.props.description == null ? checkDescription = "" : checkDescription = this.props.description;
+
+      var checkRating = void 0;
+      if (this.props.rating == null) {
+        checkRating = "";
+      } else {
+        checkRating = this.props.rating;
+      }
+
+      var checkLentTo = void 0;
+      if (this.props.lentTo.length > 0) {
+        checkLentTo = this.props.lentTo;
+      } else {
+        checkLentTo = "";
+      }
+
       _reactDom2.default.render(_react2.default.createElement(_editbookform2.default, {
         title: this.props.title,
         author: this.props.author,
+        description: checkDescription,
+        publisher: checkPublisher,
+        publishedOn: checkPublishedOn,
+        read: this.props.read,
+        rating: checkRating,
         lent: this.props.lent,
-        lentTo: this.props.lentTo,
-        linkTo: this.props.linkTo,
-        description: this.props.description }), document.getElementById('app'));
+        lentTo: checkLentTo,
+        linkTo: this.props.linkTo }), document.getElementById('app'));
     }
   }, {
     key: 'deleteThisBook',
@@ -10320,11 +10429,15 @@ var BookInfo = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (BookInfo.__proto__ || Object.getPrototypeOf(BookInfo)).call(this, props));
 
     _this.state = {
-      title: "tytuł: " + _this.props.title,
-      author: "autor: " + _this.props.author,
+      title: _this.props.title,
+      author: _this.props.author,
+      publisher: _this.props.publisher,
+      publishedOn: _this.props.publishedOn,
+      read: _this.props.read,
+      rating: _this.props.rating,
+      description: _this.props.description,
       lent: _this.props.lent,
-      lentTo: _this.props.lentTo,
-      disabled: true
+      lentTo: _this.props.lentTo
     };
     return _this;
   }
@@ -10360,7 +10473,28 @@ var BookInfo = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row info' },
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', value: this.state.publisher, disabled: true }),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', value: this.state.publishedOn, disabled: true })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row info' },
             _react2.default.createElement('textarea', { maxLength: '50', value: this.props.description, disabled: true })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row--read info' },
+            _react2.default.createElement(
+              'div',
+              { className: 'checkbox-container' },
+              _react2.default.createElement('input', { type: 'checkbox', id: 'if-read', value: this.state.read, disabled: true, checked: this.state.read }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'if-read' },
+                'Ksi\u0105\u017Cka przeczytana'
+              )
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', value: this.state.rating, disabled: true })
           ),
           _react2.default.createElement(
             'div',
@@ -10490,9 +10624,13 @@ var BookRow = function (_React$Component) {
             index: this.props.index,
             title: this.props.title,
             author: this.props.author,
+            description: this.props.description,
+            publisher: this.props.publisher,
+            publishedOn: this.props.publishedOn,
+            read: this.props.read,
+            rating: this.props.rating,
             lent: this.props.lent,
             lentTo: this.props.lentTo,
-            description: this.props.description,
             linkTo: this.props.linkTo })
         )
       );
@@ -10573,7 +10711,7 @@ var BooksList = function (_React$Component) {
     value: function render() {
       var tableRows = [];
 
-      function createRow(key, title, author, lent, lentTo, description, linkTo, callback) {
+      function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
         var state = "";
         var newLentTo = "";
         if (lent) {
@@ -10583,6 +10721,14 @@ var BooksList = function (_React$Component) {
           state = "na miejscu";
           newLentTo = "";
         }
+
+        var ifRead = void 0;
+        if (rating >= 0 && rating <= 10) {
+          ifRead = true;
+        } else {
+          ifRead = false;
+        }
+
         tableRows.push(_react2.default.createElement(_bookrow2.default, {
           key: key,
           title: title,
@@ -10591,6 +10737,10 @@ var BooksList = function (_React$Component) {
           lent: lent,
           lentTo: newLentTo,
           description: description,
+          publisher: publisher,
+          publishedOn: publishedOn,
+          read: ifRead,
+          rating: rating,
           index: key,
           linkTo: linkTo,
           callback: callback }));
@@ -10601,7 +10751,7 @@ var BooksList = function (_React$Component) {
         var authorLower = this.state.books[i].author.toLowerCase();
 
         if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
-          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i]._links.book.href, this.props.callback);
+          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i].publisher, this.state.books[i].publishedOn, this.state.books[i].read, this.state.books[i].rating, this.state.books[i]._links.book.href, this.props.callback);
         }
       }
 
@@ -10783,11 +10933,16 @@ var EditBookForm = function (_React$Component) {
     _this.state = {
       title: _this.props.title,
       author: _this.props.author,
+      publisher: _this.props.publisher,
+      publishedOn: _this.props.publishedOn,
+      description: _this.props.description,
+      read: _this.props.read,
+      disabledRating: !_this.props.read,
+      rating: _this.props.rating,
       lent: _this.props.lent,
+      disabledLentTo: !_this.props.lent,
       lentTo: _this.props.lentTo,
       linkTo: _this.props.linkTo,
-      disabled: !_this.props.lent,
-      description: _this.props.description,
       info: ""
     };
     return _this;
@@ -10813,13 +10968,13 @@ var EditBookForm = function (_React$Component) {
       if (event.target.checked) {
         this.setState({
           lent: true,
-          disabled: false
+          disabledLentTo: false
         });
       } else {
         this.setState({
           lent: false,
           lentTo: "",
-          disabled: true
+          disabledLentTo: true
         });
       }
     }
@@ -10836,6 +10991,36 @@ var EditBookForm = function (_React$Component) {
       this.setState({
         description: event.target.value
       });
+    }
+  }, {
+    key: 'addPublisher',
+    value: function addPublisher(event) {
+      this.setState({
+        publisher: event.target.value
+      });
+    }
+  }, {
+    key: 'addPublishedOn',
+    value: function addPublishedOn(event) {
+      this.setState({
+        publishedOn: event.target.value
+      });
+    }
+  }, {
+    key: 'ifRead',
+    value: function ifRead(event) {
+      if (event.target.checked) {
+        this.setState({
+          read: true,
+          disabledRating: false
+        });
+      } else {
+        this.setState({
+          read: false,
+          rating: "",
+          disabledRating: true
+        });
+      }
     }
   }, {
     key: 'cancelAction',
@@ -10928,9 +11113,36 @@ var EditBookForm = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'add-new-book__row info' },
-            _react2.default.createElement('textarea', { maxLength: '500', placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj nazw\u0119 wydawnictwa', value: this.state.publisher, onChange: function onChange(event) {
+                return _this2.addPublisher(event);
+              } }),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj dat\u0119 wydania', value: this.state.publishedOn, onChange: function onChange(event) {
+                return _this2.addPublishedOn(event);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row info' },
+            _react2.default.createElement('textarea', { placeholder: 'podaj opis', value: this.state.description, onChange: function onChange(event) {
                 return _this2.addDescription(event);
               } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'add-new-book__row--read info' },
+            _react2.default.createElement(
+              'div',
+              { className: 'checkbox-container' },
+              _react2.default.createElement('input', { type: 'checkbox', id: 'if-read', value: this.state.read, checked: this.state.read, onChange: function onChange(event) {
+                  return _this2.ifRead(event);
+                }, defaultChecked: this.state.read }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'if-read' },
+                'Ksi\u0105\u017Cka przeczytana'
+              )
+            ),
+            _react2.default.createElement('input', { type: 'text', className: 'input-details', value: this.state.rating, disabled: !this.state.read })
           ),
           _react2.default.createElement(
             'div',
@@ -10949,7 +11161,7 @@ var EditBookForm = function (_React$Component) {
             ),
             _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.lentTo, onChange: function onChange(event) {
                 return _this2.addLentTo(event);
-              }, disabled: this.state.disabled })
+              }, disabled: this.state.disabledLentTo })
           ),
           _react2.default.createElement(
             'div',

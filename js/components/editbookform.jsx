@@ -13,11 +13,16 @@ export default class EditBookForm extends React.Component {
     this.state = {
       title: this.props.title,
       author: this.props.author,
+      publisher: this.props.publisher,
+      publishedOn: this.props.publishedOn,
+      description: this.props.description,
+      read: this.props.read,
+      disabledRating: !this.props.read,
+      rating: this.props.rating,
       lent: this.props.lent,
+      disabledLentTo: !this.props.lent,
       lentTo: this.props.lentTo,
       linkTo: this.props.linkTo,
-      disabled: !this.props.lent,
-      description: this.props.description,
       info: "",
     }
   }
@@ -38,13 +43,13 @@ export default class EditBookForm extends React.Component {
     if (event.target.checked) {
       this.setState({
         lent: true,
-        disabled: false
+        disabledLentTo: false
       })
     } else {
       this.setState({
         lent: false,
         lentTo: "",
-        disabled: true
+        disabledLentTo: true
       })
     }
   }
@@ -59,6 +64,33 @@ export default class EditBookForm extends React.Component {
     this.setState({
       description: event.target.value
     })
+  }
+
+  addPublisher(event) {
+    this.setState({
+      publisher: event.target.value
+    })
+  }
+
+  addPublishedOn(event) {
+    this.setState({
+      publishedOn: event.target.value
+    })
+  }
+
+  ifRead(event) {
+    if (event.target.checked) {
+      this.setState({
+        read: true,
+        disabledRating: false
+      })
+    } else {
+      this.setState({
+        read: false,
+        rating: "",
+        disabledRating: true
+      })
+    }
   }
 
   cancelAction(event) {
@@ -142,14 +174,25 @@ export default class EditBookForm extends React.Component {
           <input type="text" className="input-details" placeholder="podaj tytuł" value={this.state.title} onChange={event => this.addTitle(event)} />
         </div>
         <div className="add-new-book__row info">
-          <textarea maxLength="500" placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
+          <input type="text" className="input-details" placeholder="podaj nazwę wydawnictwa" value={this.state.publisher} onChange={event => this.addPublisher(event)} />
+          <input type="text" className="input-details" placeholder="podaj datę wydania" value={this.state.publishedOn} onChange={event => this.addPublishedOn(event)} />
+        </div>
+        <div className="add-new-book__row info">
+          <textarea placeholder="podaj opis" value={this.state.description} onChange={event => this.addDescription(event)} />
+        </div>
+        <div className="add-new-book__row--read info">
+          <div className="checkbox-container">
+            <input type="checkbox" id="if-read" value={this.state.read} checked={this.state.read} onChange={event => this.ifRead(event)} defaultChecked={this.state.read} />
+            <label htmlFor="if-read">Książka przeczytana</label>
+          </div>
+          <input type="text" className="input-details" value={this.state.rating} disabled={!this.state.read} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
             <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent} />
             <label htmlFor="box-1">Książka została pożyczona</label>
           </div>
-          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabled} />
+          <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={this.state.disabledLentTo} />
         </div>
         <div className="add-new-book__row">
           <div className="add-new-book__info"><h2>{this.state.info}</h2></div>

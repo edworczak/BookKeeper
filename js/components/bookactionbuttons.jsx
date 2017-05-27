@@ -7,48 +7,85 @@ import EditBookForm from './editbookform.jsx';
 import BookInfo from './bookinfo.jsx';
 
 export default class BookActionButtons extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state= {
-      info: false,
-      edit: false
-    }
-  }
 
   showInfo(event) {
-    if (this.props.lentTo == "") {
-      ReactDOM.render(
-        <BookInfo
-          title={this.props.title}
-          author={this.props.author}
-          lent={this.props.lent}
-          lentTo={"na miejscu"}
-          description={this.props.description} />,
-        document.getElementById('app')
-      );
+    let author = "autor: " + this.props.author;
+    let title = "tytuł: " + this.props.title;
+
+    let checkPublisher;
+    this.props.publisher == null ? checkPublisher = "nie podano nazwy wydawnictwa" : checkPublisher = "wydawnictwo: " + this.props.publisher;
+
+    let checkPublishedOn;
+    this.props.publishedOn == null ? checkPublishedOn = "nie podano daty wydania" : checkPublishedOn = "data wydania: " + this.props.publishedOn;
+
+    let checkDescription;
+    this.props.description == null ? checkDescription = "nie podano opisu" : checkDescription = this.props.description;
+
+    let checkRating;
+    if (this.props.rating == null) {
+      checkRating = "brak oceny";
     } else {
-      ReactDOM.render(
-        <BookInfo
-          title={this.props.title}
-          author={this.props.author}
-          lent={this.props.lent}
-          lentTo={"pożyczona: " + this.props.lentTo}
-          description={this.props.description} />,
-        document.getElementById('app')
-      );
+      checkRating = "ocena: " + this.props.rating + "/10";
     }
 
+    let checkLentTo;
+    if ((this.props.lentTo.length > 0)) {
+      checkLentTo = "pożyczona: " + this.props.lentTo;
+    } else {
+      checkLentTo = "na miejscu";
+    }
+
+    ReactDOM.render(
+      <BookInfo
+        title={title}
+        author={author}
+        description={checkDescription}
+        publisher={checkPublisher}
+        publishedOn={checkPublishedOn}
+        read={this.props.read}
+        rating={checkRating}
+        lent={this.props.lent}
+        lentTo={checkLentTo} />,
+      document.getElementById('app')
+    );
   }
 
   editBook(event) {
+    let checkPublisher;
+    this.props.publisher == null ? checkPublisher = "" : checkPublisher = this.props.publisher;
+
+    let checkPublishedOn;
+    this.props.publishedOn == null ? checkPublishedOn = "" : checkPublishedOn = this.props.publishedOn;
+
+    let checkDescription;
+    this.props.description == null ? checkDescription = "" : checkDescription = this.props.description;
+
+    let checkRating;
+    if (this.props.rating == null) {
+      checkRating = "";
+    } else {
+      checkRating = this.props.rating;
+    }
+
+    let checkLentTo;
+    if ((this.props.lentTo.length > 0)) {
+      checkLentTo = this.props.lentTo;
+    } else {
+      checkLentTo = "";
+    }
+
     ReactDOM.render(
       <EditBookForm
         title={this.props.title}
         author={this.props.author}
+        description={checkDescription}
+        publisher={checkPublisher}
+        publishedOn={checkPublishedOn}
+        read={this.props.read}
+        rating={checkRating}
         lent={this.props.lent}
-        lentTo={this.props.lentTo}
-        linkTo={this.props.linkTo}
-        description={this.props.description} />,
+        lentTo={checkLentTo}
+        linkTo={this.props.linkTo} />,
       document.getElementById('app')
     );
   }

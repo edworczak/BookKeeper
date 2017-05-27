@@ -17,14 +17,12 @@ export default class App extends React.Component {
       books: []
     };
 
+    // Search bar
     this.handleSearchBar = this.handleSearchBar.bind(this);
     this.handleCheckboxAreLent = this.handleCheckboxAreLent.bind(this);
-    this.handleNewTitle = this.handleNewTitle.bind(this);
-    this.handleNewAuthor = this.handleNewAuthor.bind(this);
-    this.handleNewLent = this.handleNewLent.bind(this);
-    this.handleNewLentTo = this.handleNewLentTo.bind(this);
   }
 
+  // Search bar
   handleSearchBar(filterText) {
     this.setState({
       filterText: filterText
@@ -34,30 +32,6 @@ export default class App extends React.Component {
   handleCheckboxAreLent(areLent) {
     this.setState({
       areLent: areLent
-    });
-  }
-
-  handleNewTitle(newTitle) {
-    this.setState({
-      newTitle: newTitle
-    });
-  }
-
-  handleNewAuthor(newAuthor) {
-    this.setState({
-      newAuthor: newAuthor
-    });
-  }
-
-  handleNewLent(newLent) {
-    this.setState({
-      newLent: newLent
-    });
-  }
-
-  handleNewLentTo(newLentTo) {
-    this.setState({
-      newLentTo: newLentTo
     });
   }
 
@@ -108,6 +82,10 @@ export default class App extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    // clear set state from did mount
+  }
+
   render() {
     return <div>
       <div className="container">
@@ -116,11 +94,7 @@ export default class App extends React.Component {
           filterText={this.state.filterText}
           areLent={this.state.areLent}
           onSearchBar={this.handleSearchBar}
-          onCheckboxAreLent={this.handleCheckboxAreLent}
-          onNewTitle = {this.handleNewTitle}
-          onNewAuthor = {this.handleNewAuthor}
-          onNewLent = {this.handleNewLent}
-          onNewLentTo = {this.handleNewLentTo} />
+          onCheckboxAreLent={this.handleCheckboxAreLent} />
         <BooksTable
           books={this.state.books}
           filterText={this.state.filterText}

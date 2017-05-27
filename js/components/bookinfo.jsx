@@ -11,11 +11,15 @@ export default class BookInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "tytuł: " + this.props.title,
-      author: "autor: " + this.props.author,
+      title: this.props.title,
+      author: this.props.author,
+      publisher: this.props.publisher,
+      publishedOn: this.props.publishedOn,
+      read: this.props.read,
+      rating: this.props.rating,
+      description: this.props.description,
       lent: this.props.lent,
-      lentTo: this.props.lentTo,
-      disabled: true
+      lentTo: this.props.lentTo
     }
   }
 
@@ -36,7 +40,18 @@ export default class BookInfo extends React.Component {
           <input type="text" className="input-details" value={this.state.title} disabled={true} />
         </div>
         <div className="add-new-book__row info">
+          <input type="text" className="input-details" value={this.state.publisher} disabled={true} />
+          <input type="text" className="input-details" value={this.state.publishedOn} disabled={true} />
+        </div>
+        <div className="add-new-book__row info">
           <textarea maxLength="50" value={this.props.description} disabled={true} />
+        </div>
+        <div className="add-new-book__row--read info">
+          <div className="checkbox-container">
+            <input type="checkbox" id="if-read" value={this.state.read} disabled={true} checked={this.state.read} />
+            <label htmlFor="if-read">Książka przeczytana</label>
+          </div>
+          <input type="text" className="input-details" value={this.state.rating} disabled={true} />
         </div>
         <div className="add-new-book__row--lent info">
           <div className="checkbox-container">
