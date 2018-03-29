@@ -3004,6 +3004,8 @@ var App = function (_React$Component) {
     // Search bar
     _this.handleSearchBar = _this.handleSearchBar.bind(_this);
     _this.handleCheckboxAreLent = _this.handleCheckboxAreLent.bind(_this);
+    _this.getBooks = _this.getBooks.bind(_this);
+    _this.loadBooks = _this.loadBooks.bind(_this);
     return _this;
   }
 
@@ -3052,34 +3054,36 @@ var App = function (_React$Component) {
     // Load data
 
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this3 = this;
-
-      function load(books) {
-        var array = [];
-        for (var key in books) {
-          array.push(books[key]);
-        }
-
-        var booksArray = [];
-        for (var i = 0; i < array[0].books.length; i++) {
-          booksArray.push(array[0].books[i]);
-        }
-        return booksArray;
+    key: 'loadBooks',
+    value: function loadBooks(books) {
+      var array = [];
+      for (var key in books) {
+        array.push(books[key]);
       }
 
-      $.ajax({
-        method: "GET",
-        url: _books2.default,
-        dataType: "json"
-      }).done(function (response) {
+      var booksArray = [];
+      for (var i = 0; i < array[0].books.length; i++) {
+        booksArray.push(array[0].books[i]);
+      }
+      return booksArray;
+    }
+  }, {
+    key: 'getBooks',
+    value: function getBooks() {
+      var _this3 = this;
+
+      fetch(_books2.default).then(function (resp) {
+        return resp.json();
+      }).then(function (data) {
         _this3.setState({
-          books: load(response)
+          books: _this3.loadBooks(data)
         });
-      }).fail(function (error) {
-        console.log("error");
       });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getBooks();
     }
   }, {
     key: 'componentWillUnmount',

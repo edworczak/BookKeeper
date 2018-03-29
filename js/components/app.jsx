@@ -20,6 +20,8 @@ export default class App extends React.Component {
     // Search bar
     this.handleSearchBar = this.handleSearchBar.bind(this);
     this.handleCheckboxAreLent = this.handleCheckboxAreLent.bind(this);
+    this.getBooks = this.getBooks.bind(this);
+    this.loadBooks = this.loadBooks.bind(this);
   }
 
   // Search bar
@@ -55,31 +57,33 @@ export default class App extends React.Component {
   }
 
   // Load data
-  componentDidMount() {
-    function load(books) {
-      const array = [];
-      for (let key in books) {
-        array.push(books[key]);
-      }
+  loadBooks(books) {
+    const array = [];
+    for (let key in books) {
+      array.push(books[key]);
+    }
 
-      const booksArray = [];
+    const booksArray = [];
       for (let i=0; i<array[0].books.length; i++) {
         booksArray.push(array[0].books[i]);
       }
-      return booksArray;
-    }
+    return booksArray;
+  }
 
-    $.ajax({
-      method: "GET",
-      url: BOOKSURL,
-      dataType: "json"
-    }).done((response) => {
-      this.setState({
-        books: load(response)
+  getBooks() {
+    fetch(BOOKSURL)
+      .then((resp) => {
+        return resp.json();
       })
-    }).fail(function(error) {
-      console.log("error");
+      .then((data) => {
+        this.setState({
+          books: this.loadBooks(data)
+        });
     });
+  };
+
+  componentDidMount() {
+    this.getBooks();
   }
 
   componentWillUnmount() {
