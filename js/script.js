@@ -10355,25 +10355,25 @@ var BookActionButtons = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(
-          'button',
-          { className: 'book-action', onClick: function onClick(event) {
+          'a',
+          { onClick: function onClick(event) {
               return _this2.showInfo(event);
             } },
-          _react2.default.createElement('i', { className: 'fa fa-info', 'aria-hidden': 'true' })
+          _react2.default.createElement('i', { className: 'fas fa-info book-action', 'data-fa-transform': 'shrink-8', 'data-fa-mask': 'fas fa-square' })
         ),
         _react2.default.createElement(
-          'button',
-          { className: 'book-action', onClick: function onClick(event) {
+          'a',
+          { onClick: function onClick(event) {
               return _this2.editBook(event);
             } },
-          _react2.default.createElement('i', { className: 'fa fa-pencil-square-o', 'aria-hidden': 'true' })
+          _react2.default.createElement('i', { className: 'fas fa-pencil-alt book-action', 'data-fa-transform': 'shrink-8', 'data-fa-mask': 'fas fa-square' })
         ),
         _react2.default.createElement(
-          'button',
-          { className: 'book-action--alert', onClick: function onClick(index) {
+          'a',
+          { onClick: function onClick(index) {
               return _this2.deleteThisBook(index);
             } },
-          _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true' })
+          _react2.default.createElement('i', { className: 'fas fa-times book-action--alert', 'data-fa-transform': 'shrink-8', 'data-fa-mask': 'fas fa-square' })
         )
       );
     }
@@ -10706,7 +10706,7 @@ var BookRow = function (_React$Component) {
         rating = _react2.default.createElement(
           'span',
           null,
-          _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true', style: { color: "#087E8B" } }),
+          _react2.default.createElement('i', { className: 'fas fa-check', style: { color: "#087E8B" } }),
           ' ',
           this.props.rating
         );
@@ -10714,7 +10714,7 @@ var BookRow = function (_React$Component) {
         rating = _react2.default.createElement(
           'span',
           null,
-          _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true', style: { color: "#E56399" } })
+          _react2.default.createElement('i', { className: 'fas fa-times', style: { color: "#E56399" } })
         );
       }
 
@@ -11575,7 +11575,7 @@ var Search = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'search' },
-          _react2.default.createElement('span', { className: 'fa fa-search' }),
+          _react2.default.createElement('i', { className: 'fas fa-search' }),
           _react2.default.createElement('input', { type: 'text', placeholder: 'Wyszukaj', value: this.props.filterText, onChange: this.handleTextChange })
         ),
         _react2.default.createElement(

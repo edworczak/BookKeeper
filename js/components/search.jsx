@@ -19,7 +19,7 @@ export default class Search extends React.Component {
   render() {
     return <div>
       <div className="search">
-        <span className="fa fa-search"></span>
+        <i className="fas fa-search"></i>
         <input type="text" placeholder="Wyszukaj" value={this.props.filterText} onChange={this.handleTextChange} />
       </div>
       <div className="checkbox-container">

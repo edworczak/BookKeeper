@@ -8,9 +8,9 @@ export default class BookRow extends React.Component {
   render() {
     let rating;
     if (this.props.read) {
-      rating = <span><i className="fa fa-check" aria-hidden="true" style={{color: "#087E8B"}}></i> {this.props.rating}</span>;
+      rating = <span><i className="fas fa-check" style={{color: "#087E8B"}}></i> {this.props.rating}</span>;
     } else {
-      rating = <span><i className="fa fa-times" aria-hidden="true" style={{color: "#E56399"}}></i></span>;
+      rating = <span><i className="fas fa-times" style={{color: "#E56399"}}></i></span>;
     }
 
     return <div className="table-row">
