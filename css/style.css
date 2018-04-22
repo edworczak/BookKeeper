@@ -221,7 +221,9 @@ hr.ondark {
   background-color: #ffffff;
   border-bottom: 1px solid #c7c7c7;
   position: fixed;
-  top: 0; }
+  top: 0;
+  left: 0;
+  padding-left: 35rem; }
 
 .table-row .table__hidden {
   margin-right: 5rem;
@@ -286,7 +288,8 @@ hr.ondark {
   justify-content: space-between;
   padding: 5rem;
   position: fixed;
-  width: 30rem; }
+  width: 30rem;
+  z-index: 2; }
 
 .menu > * {
   color: #ffffff;

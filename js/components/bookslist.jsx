@@ -24,9 +24,7 @@ export default class BooksList extends React.Component {
       loading: newProps.loading,
       error: newProps.error,
       loaded: newProps.loaded
-    }, () => {
-      console.log("Error: " + this.state.error);
-    })
+    });
   }
 
   render() {

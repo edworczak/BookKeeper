@@ -10850,15 +10850,11 @@ var BooksList = function (_React$Component) {
   _createClass(BooksList, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
-      var _this2 = this;
-
       this.setState({
         books: newProps.books,
         loading: newProps.loading,
         error: newProps.error,
         loaded: newProps.loaded
-      }, function () {
-        console.log("Error: " + _this2.state.error);
       });
     }
   }, {

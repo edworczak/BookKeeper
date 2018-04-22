@@ -18,6 +18,7 @@
     padding: $padding;
     position: fixed;
     width: 30rem;
+    z-index: 2;
   }
 
   & > * {
