@@ -11575,7 +11575,7 @@ var Search = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'search' },
-          _react2.default.createElement('span', { className: 'fa fa-search' }),
+          _react2.default.createElement('i', { className: 'fas fa-search' }),
           _react2.default.createElement('input', { type: 'text', placeholder: 'Wyszukaj', value: this.props.filterText, onChange: this.handleTextChange })
         ),
         _react2.default.createElement(
