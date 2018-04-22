@@ -10706,7 +10706,7 @@ var BookRow = function (_React$Component) {
         rating = _react2.default.createElement(
           'span',
           null,
-          _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true', style: { color: "#087E8B" } }),
+          _react2.default.createElement('i', { className: 'fas fa-check', style: { color: "#087E8B" } }),
           ' ',
           this.props.rating
         );
@@ -10714,7 +10714,7 @@ var BookRow = function (_React$Component) {
         rating = _react2.default.createElement(
           'span',
           null,
-          _react2.default.createElement('i', { className: 'fa fa-times', 'aria-hidden': 'true', style: { color: "#E56399" } })
+          _react2.default.createElement('i', { className: 'fas fa-times', style: { color: "#E56399" } })
         );
       }
 
