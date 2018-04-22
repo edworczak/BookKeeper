@@ -37,7 +37,6 @@ export default class BooksTable extends React.Component {
     return <div className="table-footer-container">
       <div className="books-list">
         <BookHeader />
-        <hr />
         <BooksList books={this.state.books}
                    loading={this.state.loading}
                    error={this.state.error}

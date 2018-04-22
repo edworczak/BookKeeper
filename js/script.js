@@ -10442,7 +10442,7 @@ var BookHeader = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'table-row' },
+        { className: 'table-row table-row--header' },
         _react2.default.createElement(
           'div',
           { className: 'table__id' },
@@ -10850,21 +10850,24 @@ var BooksList = function (_React$Component) {
   _createClass(BooksList, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      var _this2 = this;
+
       this.setState({
         books: newProps.books,
         loading: newProps.loading,
         error: newProps.error,
         loaded: newProps.loaded
+      }, function () {
+        console.log("Error: " + _this2.state.error);
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var tableRows = _react2.default.createElement(
-        'div',
-        { className: 'books-loading' },
-        _react2.default.createElement('i', { className: 'fas fa-spinner fa-pulse' })
-      );
+      var tableRows = void 0;
+      var loading = void 0;
+      var error = void 0;
+      var loadingCenter = { alignItems: "center", display: "flex", justifyContent: "center", height: "95vh" };
 
       function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
         var state = "";
@@ -10894,22 +10897,47 @@ var BooksList = function (_React$Component) {
           callback: callback }));
       }
 
-      if (this.state.books.length != 0) {
+      if (this.state.books.length == 0 && !this.state.error) {
+        loading = { display: "block" };
+        error = { display: "none" };
+      } else if (this.state.error) {
+        loading = { display: "none" };
+        error = { display: "block" };
+      } else if (this.state.books.length != 0 && this.state.loaded) {
+        loading = { display: "none" };
+        error = { display: "none" };
         tableRows = [];
-      }
+        loadingCenter = {};
 
-      for (var i = 0; i < this.state.books.length; i++) {
-        var titleLower = this.state.books[i].title.toLowerCase();
-        var authorLower = this.state.books[i].author.toLowerCase();
+        for (var i = 0; i < this.state.books.length; i++) {
+          var titleLower = this.state.books[i].title.toLowerCase();
+          var authorLower = this.state.books[i].author.toLowerCase();
 
-        if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
-          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i].publisher, this.state.books[i].publishedOn, this.state.books[i].read, this.state.books[i].rating, this.state.books[i]._links.book.href, this.props.callback);
+          if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
+            createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i].publisher, this.state.books[i].publishedOn, this.state.books[i].read, this.state.books[i].rating, this.state.books[i]._links.book.href, this.props.callback);
+          }
         }
       }
 
       return _react2.default.createElement(
         'div',
-        { className: 'table-content' },
+        { className: 'table-content', style: loadingCenter },
+        _react2.default.createElement(
+          'div',
+          { className: 'books-loading', style: loading },
+          _react2.default.createElement('i', { className: 'fas fa-spinner fa-pulse' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'books-error', style: error },
+          _react2.default.createElement('i', { className: 'fas fa-exclamation-triangle' }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Wyst\u0105pi\u0142 b\u0142\u0105d!'
+          )
+        ),
         tableRows
       );
     }
@@ -11024,7 +11052,6 @@ var BooksTable = function (_React$Component2) {
           'div',
           { className: 'books-list' },
           _react2.default.createElement(_bookheader2.default, null),
-          _react2.default.createElement('hr', null),
           _react2.default.createElement(_bookslist2.default, { books: this.state.books,
             loading: this.state.loading,
             error: this.state.error,

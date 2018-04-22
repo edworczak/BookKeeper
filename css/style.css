@@ -217,6 +217,12 @@ hr.ondark {
   padding: 1.2rem 5rem;
   width: 100%; }
 
+.table-row--header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #c7c7c7;
+  position: fixed;
+  top: 0; }
+
 .table-row .table__hidden {
   margin-right: 5rem;
   width: 30rem; }
@@ -240,6 +246,7 @@ hr.ondark {
   width: 9rem; }
 
 .table-content {
+  padding-top: 5rem;
   min-height: 5rem; }
 
 .table-content > div:nth-child(odd) {
@@ -247,6 +254,21 @@ hr.ondark {
 
 .table-content > div:nth-child(even) {
   background-color: #f9f9f9; }
+
+.table-content .books-loading, .table-content .books-error {
+  background-color: #ffffff !important;
+  font-size: 5rem;
+  margin: auto;
+  text-align: center; }
+
+.table-content .books-loading {
+  color: #087E8B; }
+
+.table-content .books-error {
+  color: #E56399; }
+  .table-content .books-error p {
+    font-size: 2.5rem;
+    margin-top: 2rem; }
 
 .menu-below {
   background-color: #01172F;
