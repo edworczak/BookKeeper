@@ -2998,7 +2998,11 @@ var App = function (_React$Component) {
     _this.state = {
       filterText: '',
       areLent: false,
-      books: []
+      books: [],
+      loading: true,
+      error: false,
+      loaded: false,
+      emptyList: false
     };
 
     // Search bar
@@ -3045,6 +3049,12 @@ var App = function (_React$Component) {
         books.splice(index, 1);
         _this2.setState({
           books: books
+        }, function () {
+          if (_this2.state.books.length == 0) {
+            _this2.setState({
+              emptyList: true
+            });
+          }
         });
       }).fail(function (error) {
         console.log("error");
@@ -3075,8 +3085,30 @@ var App = function (_React$Component) {
       fetch(_books2.default).then(function (resp) {
         return resp.json();
       }).then(function (data) {
+        console.log();
+        if (data._embedded.books.length != 0) {
+          _this3.setState({
+            books: _this3.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: false
+          });
+        } else {
+          _this3.setState({
+            books: _this3.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: true
+          });
+        }
+      }).catch(function (error) {
+        console.log(error);
         _this3.setState({
-          books: _this3.loadBooks(data)
+          loading: false,
+          error: true,
+          loaded: false
         });
       });
     }
@@ -3111,6 +3143,10 @@ var App = function (_React$Component) {
             books: this.state.books,
             filterText: this.state.filterText,
             areLent: this.state.areLent,
+            loading: this.state.loading,
+            error: this.state.error,
+            loaded: this.state.loaded,
+            emptyList: this.state.emptyList,
             callback: function callback(index) {
               return _this4.removeBook(index);
             } })
@@ -10427,7 +10463,7 @@ var BookHeader = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'table-row' },
+        { className: 'table-row table-row--header' },
         _react2.default.createElement(
           'div',
           { className: 'table__id' },
@@ -10797,9 +10833,9 @@ var _bookrow = __webpack_require__(91);
 
 var _bookrow2 = _interopRequireDefault(_bookrow);
 
-var _examplebooklist = __webpack_require__(97);
+var _addbookform = __webpack_require__(87);
 
-var _examplebooklist2 = _interopRequireDefault(_examplebooklist);
+var _addbookform2 = _interopRequireDefault(_addbookform);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10812,9 +10848,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Import components
 
 
-// Example array
-
-
 var BooksList = function (_React$Component) {
   _inherits(BooksList, _React$Component);
 
@@ -10824,7 +10857,11 @@ var BooksList = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (BooksList.__proto__ || Object.getPrototypeOf(BooksList)).call(this, props));
 
     _this.state = {
-      books: []
+      books: [],
+      loading: _this.props.loading,
+      error: _this.props.error,
+      loaded: _this.props.loaded,
+      emptyList: _this.props.emptyList
     };
     return _this;
   }
@@ -10833,13 +10870,26 @@ var BooksList = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       this.setState({
-        books: newProps.books
+        books: newProps.books,
+        loading: newProps.loading,
+        error: newProps.error,
+        loaded: newProps.loaded,
+        emptyList: newProps.emptyList
       });
+    }
+  }, {
+    key: 'addNewBook',
+    value: function addNewBook() {
+      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, null), document.getElementById('app'));
     }
   }, {
     key: 'render',
     value: function render() {
-      var tableRows = [];
+      var tableRows = void 0;
+      var loading = void 0;
+      var error = void 0;
+      var empty = void 0;
+      var loadingCenter = { alignItems: "center", display: "flex", justifyContent: "center", height: "95vh" };
 
       function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
         var state = "";
@@ -10869,18 +10919,69 @@ var BooksList = function (_React$Component) {
           callback: callback }));
       }
 
-      for (var i = 0; i < this.state.books.length; i++) {
-        var titleLower = this.state.books[i].title.toLowerCase();
-        var authorLower = this.state.books[i].author.toLowerCase();
+      if (this.state.emptyList && !this.state.error && this.state.books.length == 0) {
+        loading = { display: "none" };
+        error = { display: "none" };
+        empty = { display: "block" };
+      } else if (!this.state.error && !this.state.emptyList && this.state.books.length == 0) {
+        loading = { display: "block" };
+        error = { display: "none" };
+        empty = { display: "none" };
+      } else if (this.state.error) {
+        loading = { display: "none" };
+        error = { display: "block" };
+        empty = { display: "none" };
+      } else if (!this.state.emptyList && this.state.loaded) {
+        loading = { display: "none" };
+        error = { display: "none" };
+        empty = { display: "none" };
+        tableRows = [];
+        loadingCenter = {};
 
-        if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
-          createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i].publisher, this.state.books[i].publishedOn, this.state.books[i].read, this.state.books[i].rating, this.state.books[i]._links.book.href, this.props.callback);
+        for (var i = 0; i < this.state.books.length; i++) {
+          var titleLower = this.state.books[i].title.toLowerCase();
+          var authorLower = this.state.books[i].author.toLowerCase();
+
+          if ((titleLower.indexOf(this.props.filterText.toLowerCase()) !== -1 || authorLower.indexOf(this.props.filterText.toLowerCase()) !== -1) && (this.state.books[i].lent || !this.props.areLent)) {
+            createRow(i, this.state.books[i].title, this.state.books[i].author, this.state.books[i].lent, this.state.books[i].lentTo, this.state.books[i].description, this.state.books[i].publisher, this.state.books[i].publishedOn, this.state.books[i].read, this.state.books[i].rating, this.state.books[i]._links.book.href, this.props.callback);
+          }
         }
       }
 
       return _react2.default.createElement(
         'div',
-        { className: 'table-content' },
+        { className: 'table-content', style: loadingCenter },
+        _react2.default.createElement(
+          'div',
+          { className: 'books-loading', style: loading },
+          _react2.default.createElement('i', { className: 'fas fa-spinner fa-pulse' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'books-error', style: error },
+          _react2.default.createElement('i', { className: 'fas fa-exclamation-triangle' }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Wyst\u0105pi\u0142 b\u0142\u0105d!'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'books-empty', style: empty },
+          _react2.default.createElement(
+            'a',
+            { onClick: this.addNewBook },
+            _react2.default.createElement('i', { className: 'fas fa-plus-circle' })
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Dodaj swoj\u0105 pierwsz\u0105 ksi\u0105\u017Ck\u0119!'
+          )
+        ),
         tableRows
       );
     }
@@ -10967,7 +11068,11 @@ var BooksTable = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (BooksTable.__proto__ || Object.getPrototypeOf(BooksTable)).call(this, props));
 
     _this2.state = {
-      books: _this2.props.books
+      books: _this2.props.books,
+      loading: _this2.props.loading,
+      error: _this2.props.error,
+      loaded: _this2.props.loaded,
+      emptyList: _this2.props.emptyList
     };
     return _this2;
   }
@@ -10976,7 +11081,11 @@ var BooksTable = function (_React$Component2) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       this.setState({
-        books: newProps.books
+        books: newProps.books,
+        loading: newProps.loading,
+        error: newProps.error,
+        loaded: newProps.loaded,
+        emptyList: newProps.emptyList
       });
     }
   }, {
@@ -10989,8 +11098,14 @@ var BooksTable = function (_React$Component2) {
           'div',
           { className: 'books-list' },
           _react2.default.createElement(_bookheader2.default, null),
-          _react2.default.createElement('hr', null),
-          _react2.default.createElement(_bookslist2.default, { books: this.state.books, filterText: this.props.filterText, areLent: this.props.areLent, callback: this.props.callback })
+          _react2.default.createElement(_bookslist2.default, { books: this.state.books,
+            loading: this.state.loading,
+            error: this.state.error,
+            loaded: this.state.loaded,
+            emptyList: this.state.emptyList,
+            filterText: this.props.filterText,
+            areLent: this.props.areLent,
+            callback: this.props.callback })
         ),
         _react2.default.createElement(Footer, null)
       );
@@ -11413,33 +11528,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AddNewBookButton = function (_React$Component) {
   _inherits(AddNewBookButton, _React$Component);
 
-  function AddNewBookButton(props) {
+  function AddNewBookButton() {
     _classCallCheck(this, AddNewBookButton);
 
-    var _this = _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).call(this, props));
-
-    _this.state = {
-      books: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).apply(this, arguments));
   }
 
   _createClass(AddNewBookButton, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      this.setState({
-        books: newProps.books
-      });
-    }
-  }, {
     key: 'addNewBook',
     value: function addNewBook(event) {
-      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, {
-        books: this.state.books,
-        onNewTitle: this.props.onNewTitle,
-        onNewAuthor: this.props.onNewAuthor,
-        onNewLent: this.props.onNewLent,
-        onNewLentTo: this.props.onNewLentTo }), document.getElementById('app'));
+      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, null), document.getElementById('app'));
     }
   }, {
     key: 'render',
@@ -11598,97 +11696,7 @@ var Search = function (_React$Component) {
 exports.default = Search;
 
 /***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(8);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(7);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var exampleBookList = [{
-  "Id": 1,
-  "Title": "Ginekolodzy",
-  "Author": "Jürgen Thorwald",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 2,
-  "Title": "Sekrety urody Koreanek. Elementarz pielęgnacji",
-  "Author": "Charlotte Cho",
-  "Lent": true,
-  "LentTo": "Monika Konieczna"
-}, {
-  "Id": 3,
-  "Title": "Zew Cthulhu",
-  "Author": "Howard Phillips Lovecraft",
-  "Lent": true,
-  "LentTo": "Olga Kierzkowska"
-}, {
-  "Id": 4,
-  "Title": "Autostopem przez galaktykę",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 5,
-  "Title": "Rodzina O. Sezon I. 1968/69",
-  "Author": "Ewa Madeyska",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 6,
-  "Title": "Idealna",
-  "Author": "Magda Stachula",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 7,
-  "Title": "Zaginiona dziewczyna",
-  "Author": "Gillian Flynn",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 8,
-  "Title": "Trafny wybór",
-  "Author": "Joanne Kathleen Rowling",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 9,
-  "Title": "Igrzyska śmierci",
-  "Author": "Suzanne Collins",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 10,
-  "Title": "Opowieści z  miasta wdów i kroniki z ziemi mężczyzn",
-  "Author": "James Cañón",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 11,
-  "Title": "Holistyczna agencja detektywistyczna Dirka Gentlyego",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}];
-
-exports.default = exampleBookList;
-
-/***/ }),
+/* 97 */,
 /* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 

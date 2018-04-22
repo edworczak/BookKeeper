@@ -217,6 +217,14 @@ hr.ondark {
   padding: 1.2rem 5rem;
   width: 100%; }
 
+.table-row--header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #c7c7c7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-left: 35rem; }
+
 .table-row .table__hidden {
   margin-right: 5rem;
   width: 30rem; }
@@ -240,6 +248,7 @@ hr.ondark {
   width: 9rem; }
 
 .table-content {
+  padding-top: 5rem;
   min-height: 5rem; }
 
 .table-content > div:nth-child(odd) {
@@ -247,6 +256,24 @@ hr.ondark {
 
 .table-content > div:nth-child(even) {
   background-color: #f9f9f9; }
+
+.table-content .books-loading, .table-content .books-error, .table-content .books-empty {
+  background-color: #ffffff !important;
+  font-size: 5rem;
+  margin: auto;
+  text-align: center; }
+  .table-content .books-loading p, .table-content .books-error p, .table-content .books-empty p {
+    font-size: 2.5rem;
+    margin-top: 2rem; }
+
+.table-content .books-loading, .table-content .books-empty {
+  color: #087E8B; }
+
+.table-content .books-error {
+  color: #E56399; }
+
+.table-content .books-empty svg {
+  cursor: pointer; }
 
 .menu-below {
   background-color: #01172F;
@@ -264,7 +291,8 @@ hr.ondark {
   justify-content: space-between;
   padding: 5rem;
   position: fixed;
-  width: 30rem; }
+  width: 30rem;
+  z-index: 2; }
 
 .menu > * {
   color: #ffffff;

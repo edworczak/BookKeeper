@@ -17,13 +17,21 @@ export default class BooksTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: this.props.books
+      books: this.props.books,
+      loading: this.props.loading,
+      error: this.props.error,
+      loaded: this.props.loaded,
+      emptyList: this.props.emptyList
     }
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      books: newProps.books
+      books: newProps.books,
+      loading: newProps.loading,
+      error: newProps.error,
+      loaded: newProps.loaded,
+      emptyList: newProps.emptyList
     })
   }
 
@@ -31,8 +39,14 @@ export default class BooksTable extends React.Component {
     return <div className="table-footer-container">
       <div className="books-list">
         <BookHeader />
-        <hr />
-        <BooksList books={this.state.books} filterText={this.props.filterText}  areLent={this.props.areLent} callback={this.props.callback} />
+        <BooksList books={this.state.books}
+                   loading={this.state.loading}
+                   error={this.state.error}
+                   loaded={this.state.loaded}
+                   emptyList={this.state.emptyList}
+                   filterText={this.props.filterText}
+                   areLent={this.props.areLent}
+                   callback={this.props.callback} />
       </div>
       <Footer />
     </div>;
