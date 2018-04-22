@@ -74,7 +74,7 @@ input[type="text"]:disabled {
 .info input[type="checkbox"] + label {
   cursor: default; }
 
-button.action, button.alert, button.book-action, button.book-action--alert {
+button.action, button.alert, button.book-action--alert {
   border: 0px;
   color: #ffffff;
   cursor: pointer; }
@@ -85,7 +85,7 @@ button.action, button.alert {
   height: 5rem;
   padding: 0 2rem; }
 
-button.book-action, button.book-action--alert {
+button.book-action--alert {
   border-radius: 0.3rem;
   font-size: 1.2rem;
   height: 2.5rem;
@@ -102,13 +102,24 @@ button.alert {
   background-color: #E56399; }
 
 button.book-action {
-  background-color: #087E8B; }
+  color: #087E8B; }
 
 button.book-action--alert {
   background-color: #E56399; }
 
 button.book-action:last-of-type {
   margin-right: 0px; }
+
+.book-action, .book-action--alert {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 5px; }
+
+.book-action {
+  color: #087E8B; }
+
+.book-action--alert {
+  color: #E56399; }
 
 input[type="checkbox"] {
   display: none; }

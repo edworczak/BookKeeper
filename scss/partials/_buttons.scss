@@ -37,9 +37,9 @@ button {
   }
 
   &.book-action {
-    @extend %buttons;
-    @extend %book-action;
-    background-color: $color-action;
+    //@extend %buttons;
+    //@extend %book-action;
+    color: $color-action;
   }
 
   &.book-action--alert {
@@ -52,4 +52,18 @@ button {
     margin-right: 0px;
   }
 
+}
+
+.book-action, .book-action--alert {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 5px;
+}
+
+.book-action {
+  color: $color-action;
+}
+
+.book-action--alert {
+  color: $color-alert;
 }
