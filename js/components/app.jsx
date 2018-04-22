@@ -14,7 +14,10 @@ export default class App extends React.Component {
     this.state = {
       filterText: '',
       areLent: false,
-      books: []
+      books: [],
+      loading: true,
+      error: false,
+      loaded: false
     };
 
     // Search bar
@@ -77,8 +80,17 @@ export default class App extends React.Component {
       })
       .then((data) => {
         this.setState({
-          books: this.loadBooks(data)
+          books: this.loadBooks(data),
+          loading: false,
+          error: false,
+          loaded: true
         });
+    }).catch(() => {
+      this.setState({
+        loading: false,
+        error: true,
+        loaded: false
+      });
     });
   };
 
@@ -103,6 +115,9 @@ export default class App extends React.Component {
           books={this.state.books}
           filterText={this.state.filterText}
           areLent={this.state.areLent}
+          loading={this.state.loading}
+          error={this.state.error}
+          loaded={this.state.loaded}
           callback={index => this.removeBook(index)}/>
       </div>
     </div>;

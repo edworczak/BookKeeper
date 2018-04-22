@@ -2998,7 +2998,10 @@ var App = function (_React$Component) {
     _this.state = {
       filterText: '',
       areLent: false,
-      books: []
+      books: [],
+      loading: true,
+      error: false,
+      loaded: false
     };
 
     // Search bar
@@ -3076,7 +3079,16 @@ var App = function (_React$Component) {
         return resp.json();
       }).then(function (data) {
         _this3.setState({
-          books: _this3.loadBooks(data)
+          books: _this3.loadBooks(data),
+          loading: false,
+          error: false,
+          loaded: true
+        });
+      }).catch(function () {
+        _this3.setState({
+          loading: false,
+          error: true,
+          loaded: false
         });
       });
     }
@@ -3111,6 +3123,9 @@ var App = function (_React$Component) {
             books: this.state.books,
             filterText: this.state.filterText,
             areLent: this.state.areLent,
+            loading: this.state.loading,
+            error: this.state.error,
+            loaded: this.state.loaded,
             callback: function callback(index) {
               return _this4.removeBook(index);
             } })
@@ -10824,7 +10839,10 @@ var BooksList = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (BooksList.__proto__ || Object.getPrototypeOf(BooksList)).call(this, props));
 
     _this.state = {
-      books: []
+      books: [],
+      loading: _this.props.loading,
+      error: _this.props.error,
+      loaded: _this.props.loaded
     };
     return _this;
   }
@@ -10833,13 +10851,20 @@ var BooksList = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       this.setState({
-        books: newProps.books
+        books: newProps.books,
+        loading: newProps.loading,
+        error: newProps.error,
+        loaded: newProps.loaded
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var tableRows = [];
+      var tableRows = _react2.default.createElement(
+        'div',
+        { className: 'books-loading' },
+        _react2.default.createElement('i', { className: 'fas fa-spinner fa-pulse' })
+      );
 
       function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
         var state = "";
@@ -10867,6 +10892,10 @@ var BooksList = function (_React$Component) {
           index: key,
           linkTo: linkTo,
           callback: callback }));
+      }
+
+      if (this.state.books.length != 0) {
+        tableRows = [];
       }
 
       for (var i = 0; i < this.state.books.length; i++) {
@@ -10967,7 +10996,10 @@ var BooksTable = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (BooksTable.__proto__ || Object.getPrototypeOf(BooksTable)).call(this, props));
 
     _this2.state = {
-      books: _this2.props.books
+      books: _this2.props.books,
+      loading: _this2.props.loading,
+      error: _this2.props.error,
+      loaded: _this2.props.loaded
     };
     return _this2;
   }
@@ -10976,7 +11008,10 @@ var BooksTable = function (_React$Component2) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       this.setState({
-        books: newProps.books
+        books: newProps.books,
+        loading: newProps.loading,
+        error: newProps.error,
+        loaded: newProps.loaded
       });
     }
   }, {
@@ -10990,7 +11025,13 @@ var BooksTable = function (_React$Component2) {
           { className: 'books-list' },
           _react2.default.createElement(_bookheader2.default, null),
           _react2.default.createElement('hr', null),
-          _react2.default.createElement(_bookslist2.default, { books: this.state.books, filterText: this.props.filterText, areLent: this.props.areLent, callback: this.props.callback })
+          _react2.default.createElement(_bookslist2.default, { books: this.state.books,
+            loading: this.state.loading,
+            error: this.state.error,
+            loaded: this.state.loaded,
+            filterText: this.props.filterText,
+            areLent: this.props.areLent,
+            callback: this.props.callback })
         ),
         _react2.default.createElement(Footer, null)
       );

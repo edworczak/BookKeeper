@@ -11,18 +11,24 @@ export default class BooksList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      loading: this.props.loading,
+      error: this.props.error,
+      loaded: this.props.loaded
     }
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      books: newProps.books
+      books: newProps.books,
+      loading: newProps.loading,
+      error: newProps.error,
+      loaded: newProps.loaded
     })
   }
 
   render() {
-    let tableRows = [];
+    let tableRows = <div className="books-loading"><i className="fas fa-spinner fa-pulse"></i></div>;
 
     function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
       let state = "";
@@ -52,6 +58,10 @@ export default class BooksList extends React.Component {
         linkTo={linkTo}
         callback={callback} />
       )
+    }
+
+    if (this.state.books.length != 0) {
+      tableRows = [];
     }
 
     for (let i=0; i<this.state.books.length; i++) {
