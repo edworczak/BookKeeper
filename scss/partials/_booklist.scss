@@ -88,4 +88,8 @@
   .books-error {
     color: $color-alert;
   }
+
+  .books-empty svg {
+    cursor: pointer;
+  }
 }

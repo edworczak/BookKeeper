@@ -10837,10 +10837,6 @@ var _addbookform = __webpack_require__(87);
 
 var _addbookform2 = _interopRequireDefault(_addbookform);
 
-var _examplebooklist = __webpack_require__(97);
-
-var _examplebooklist2 = _interopRequireDefault(_examplebooklist);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10850,9 +10846,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // Import components
-
-
-// Example array
 
 
 var BooksList = function (_React$Component) {
@@ -10883,6 +10876,11 @@ var BooksList = function (_React$Component) {
         loaded: newProps.loaded,
         emptyList: newProps.emptyList
       });
+    }
+  }, {
+    key: 'addNewBook',
+    value: function addNewBook() {
+      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, null), document.getElementById('app'));
     }
   }, {
     key: 'render',
@@ -10972,7 +10970,11 @@ var BooksList = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'books-empty', style: empty },
-          _react2.default.createElement('i', { className: 'fas fa-plus-circle' }),
+          _react2.default.createElement(
+            'a',
+            { onClick: this.addNewBook },
+            _react2.default.createElement('i', { className: 'fas fa-plus-circle' })
+          ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'p',
@@ -11526,33 +11528,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AddNewBookButton = function (_React$Component) {
   _inherits(AddNewBookButton, _React$Component);
 
-  function AddNewBookButton(props) {
+  function AddNewBookButton() {
     _classCallCheck(this, AddNewBookButton);
 
-    var _this = _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).call(this, props));
-
-    _this.state = {
-      books: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (AddNewBookButton.__proto__ || Object.getPrototypeOf(AddNewBookButton)).apply(this, arguments));
   }
 
   _createClass(AddNewBookButton, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      this.setState({
-        books: newProps.books
-      });
-    }
-  }, {
     key: 'addNewBook',
     value: function addNewBook(event) {
-      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, {
-        books: this.state.books,
-        onNewTitle: this.props.onNewTitle,
-        onNewAuthor: this.props.onNewAuthor,
-        onNewLent: this.props.onNewLent,
-        onNewLentTo: this.props.onNewLentTo }), document.getElementById('app'));
+      _reactDom2.default.render(_react2.default.createElement(_addbookform2.default, null), document.getElementById('app'));
     }
   }, {
     key: 'render',
@@ -11711,97 +11696,7 @@ var Search = function (_React$Component) {
 exports.default = Search;
 
 /***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(8);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(7);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var exampleBookList = [{
-  "Id": 1,
-  "Title": "Ginekolodzy",
-  "Author": "Jürgen Thorwald",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 2,
-  "Title": "Sekrety urody Koreanek. Elementarz pielęgnacji",
-  "Author": "Charlotte Cho",
-  "Lent": true,
-  "LentTo": "Monika Konieczna"
-}, {
-  "Id": 3,
-  "Title": "Zew Cthulhu",
-  "Author": "Howard Phillips Lovecraft",
-  "Lent": true,
-  "LentTo": "Olga Kierzkowska"
-}, {
-  "Id": 4,
-  "Title": "Autostopem przez galaktykę",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 5,
-  "Title": "Rodzina O. Sezon I. 1968/69",
-  "Author": "Ewa Madeyska",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 6,
-  "Title": "Idealna",
-  "Author": "Magda Stachula",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 7,
-  "Title": "Zaginiona dziewczyna",
-  "Author": "Gillian Flynn",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 8,
-  "Title": "Trafny wybór",
-  "Author": "Joanne Kathleen Rowling",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 9,
-  "Title": "Igrzyska śmierci",
-  "Author": "Suzanne Collins",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 10,
-  "Title": "Opowieści z  miasta wdów i kroniki z ziemi mężczyzn",
-  "Author": "James Cañón",
-  "Lent": false,
-  "LentTo": null
-}, {
-  "Id": 11,
-  "Title": "Holistyczna agencja detektywistyczna Dirka Gentlyego",
-  "Author": "Douglas Adams",
-  "Lent": false,
-  "LentTo": null
-}];
-
-exports.default = exampleBookList;
-
-/***/ }),
+/* 97 */,
 /* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 

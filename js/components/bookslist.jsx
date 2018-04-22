@@ -5,9 +5,6 @@ import ReactDOM from 'react-dom';
 import BookRow from './bookrow.jsx';
 import AddNewBookForm from './addbookform.jsx';
 
-// Example array
-import exampleBookList from '../example/examplebooklist.jsx';
-
 export default class BooksList extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +25,13 @@ export default class BooksList extends React.Component {
       loaded: newProps.loaded,
       emptyList: newProps.emptyList
     });
+  }
+
+  addNewBook() {
+    ReactDOM.render(
+      <AddNewBookForm />,
+      document.getElementById('app')
+    );
   }
 
   render() {
@@ -110,7 +114,7 @@ export default class BooksList extends React.Component {
         <p>Wystąpił błąd!</p>
       </div>
       <div className="books-empty" style={empty}>
-        <i className="fas fa-plus-circle"></i>
+        <a onClick={this.addNewBook}><i className="fas fa-plus-circle"></i></a>
         <br />
         <p>Dodaj swoją pierwszą książkę!</p>
       </div>

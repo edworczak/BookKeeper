@@ -272,6 +272,9 @@ hr.ondark {
 .table-content .books-error {
   color: #E56399; }
 
+.table-content .books-empty svg {
+  cursor: pointer; }
+
 .menu-below {
   background-color: #01172F;
   box-sizing: border-box;

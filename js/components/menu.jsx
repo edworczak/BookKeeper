@@ -6,27 +6,9 @@ import AddNewBookForm from './addbookform.jsx';
 import Search from './search.jsx';
 
 class AddNewBookButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      books: []
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      books: newProps.books
-    })
-  }
-
   addNewBook(event) {
     ReactDOM.render(
-      <AddNewBookForm
-        books={this.state.books}
-        onNewTitle = {this.props.onNewTitle}
-        onNewAuthor = {this.props.onNewAuthor}
-        onNewLent = {this.props.onNewLent}
-        onNewLentTo = {this.props.onNewLentTo} />,
+      <AddNewBookForm />,
       document.getElementById('app')
     );
   }
