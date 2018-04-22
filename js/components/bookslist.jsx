@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 // Import components
 import BookRow from './bookrow.jsx';
+import AddNewBookForm from './addbookform.jsx';
 
 // Example array
 import exampleBookList from '../example/examplebooklist.jsx';
@@ -14,7 +15,8 @@ export default class BooksList extends React.Component {
       books: [],
       loading: this.props.loading,
       error: this.props.error,
-      loaded: this.props.loaded
+      loaded: this.props.loaded,
+      emptyList: this.props.emptyList
     }
   }
 
@@ -23,7 +25,8 @@ export default class BooksList extends React.Component {
       books: newProps.books,
       loading: newProps.loading,
       error: newProps.error,
-      loaded: newProps.loaded
+      loaded: newProps.loaded,
+      emptyList: newProps.emptyList
     });
   }
 
@@ -31,6 +34,7 @@ export default class BooksList extends React.Component {
     let tableRows;
     let loading;
     let error;
+    let empty;
     let loadingCenter = {alignItems: "center", display: "flex", justifyContent: "center", height: "95vh"};
 
     function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
@@ -63,15 +67,22 @@ export default class BooksList extends React.Component {
       )
     }
 
-    if ((this.state.books.length == 0) && (!this.state.error)) {
+    if ((this.state.emptyList) && (!this.state.error) && (this.state.books.length == 0)) {
+      loading = {display: "none"};
+      error = {display: "none"};
+      empty = {display: "block"};
+    } else if ((!this.state.error) && (!this.state.emptyList) && (this.state.books.length == 0)) {
       loading = {display: "block"};
       error = {display: "none"};
+      empty = {display: "none"};
     } else if (this.state.error) {
       loading = {display: "none"};
       error = {display: "block"};
-    } else if ((this.state.books.length != 0) && (this.state.loaded)) {
+      empty = {display: "none"};
+    } else if ((!this.state.emptyList) && (this.state.loaded)) {
       loading = {display: "none"};
       error = {display: "none"};
+      empty = {display: "none"};
       tableRows = [];
       loadingCenter = {};
 
@@ -97,6 +108,11 @@ export default class BooksList extends React.Component {
         <i className="fas fa-exclamation-triangle"></i>
         <br />
         <p>Wystąpił błąd!</p>
+      </div>
+      <div className="books-empty" style={empty}>
+        <i className="fas fa-plus-circle"></i>
+        <br />
+        <p>Dodaj swoją pierwszą książkę!</p>
       </div>
       {tableRows}
     </div>

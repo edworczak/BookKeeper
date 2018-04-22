@@ -3001,7 +3001,8 @@ var App = function (_React$Component) {
       books: [],
       loading: true,
       error: false,
-      loaded: false
+      loaded: false,
+      emptyList: false
     };
 
     // Search bar
@@ -3048,6 +3049,12 @@ var App = function (_React$Component) {
         books.splice(index, 1);
         _this2.setState({
           books: books
+        }, function () {
+          if (_this2.state.books.length == 0) {
+            _this2.setState({
+              emptyList: true
+            });
+          }
         });
       }).fail(function (error) {
         console.log("error");
@@ -3078,13 +3085,26 @@ var App = function (_React$Component) {
       fetch(_books2.default).then(function (resp) {
         return resp.json();
       }).then(function (data) {
-        _this3.setState({
-          books: _this3.loadBooks(data),
-          loading: false,
-          error: false,
-          loaded: true
-        });
-      }).catch(function () {
+        console.log();
+        if (data._embedded.books.length != 0) {
+          _this3.setState({
+            books: _this3.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: false
+          });
+        } else {
+          _this3.setState({
+            books: _this3.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: true
+          });
+        }
+      }).catch(function (error) {
+        console.log(error);
         _this3.setState({
           loading: false,
           error: true,
@@ -3126,6 +3146,7 @@ var App = function (_React$Component) {
             loading: this.state.loading,
             error: this.state.error,
             loaded: this.state.loaded,
+            emptyList: this.state.emptyList,
             callback: function callback(index) {
               return _this4.removeBook(index);
             } })
@@ -10812,6 +10833,10 @@ var _bookrow = __webpack_require__(91);
 
 var _bookrow2 = _interopRequireDefault(_bookrow);
 
+var _addbookform = __webpack_require__(87);
+
+var _addbookform2 = _interopRequireDefault(_addbookform);
+
 var _examplebooklist = __webpack_require__(97);
 
 var _examplebooklist2 = _interopRequireDefault(_examplebooklist);
@@ -10842,7 +10867,8 @@ var BooksList = function (_React$Component) {
       books: [],
       loading: _this.props.loading,
       error: _this.props.error,
-      loaded: _this.props.loaded
+      loaded: _this.props.loaded,
+      emptyList: _this.props.emptyList
     };
     return _this;
   }
@@ -10854,7 +10880,8 @@ var BooksList = function (_React$Component) {
         books: newProps.books,
         loading: newProps.loading,
         error: newProps.error,
-        loaded: newProps.loaded
+        loaded: newProps.loaded,
+        emptyList: newProps.emptyList
       });
     }
   }, {
@@ -10863,6 +10890,7 @@ var BooksList = function (_React$Component) {
       var tableRows = void 0;
       var loading = void 0;
       var error = void 0;
+      var empty = void 0;
       var loadingCenter = { alignItems: "center", display: "flex", justifyContent: "center", height: "95vh" };
 
       function createRow(key, title, author, lent, lentTo, description, publisher, publishedOn, read, rating, linkTo, callback) {
@@ -10893,15 +10921,22 @@ var BooksList = function (_React$Component) {
           callback: callback }));
       }
 
-      if (this.state.books.length == 0 && !this.state.error) {
+      if (this.state.emptyList && !this.state.error && this.state.books.length == 0) {
+        loading = { display: "none" };
+        error = { display: "none" };
+        empty = { display: "block" };
+      } else if (!this.state.error && !this.state.emptyList && this.state.books.length == 0) {
         loading = { display: "block" };
         error = { display: "none" };
+        empty = { display: "none" };
       } else if (this.state.error) {
         loading = { display: "none" };
         error = { display: "block" };
-      } else if (this.state.books.length != 0 && this.state.loaded) {
+        empty = { display: "none" };
+      } else if (!this.state.emptyList && this.state.loaded) {
         loading = { display: "none" };
         error = { display: "none" };
+        empty = { display: "none" };
         tableRows = [];
         loadingCenter = {};
 
@@ -10932,6 +10967,17 @@ var BooksList = function (_React$Component) {
             'p',
             null,
             'Wyst\u0105pi\u0142 b\u0142\u0105d!'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'books-empty', style: empty },
+          _react2.default.createElement('i', { className: 'fas fa-plus-circle' }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Dodaj swoj\u0105 pierwsz\u0105 ksi\u0105\u017Ck\u0119!'
           )
         ),
         tableRows
@@ -11023,7 +11069,8 @@ var BooksTable = function (_React$Component2) {
       books: _this2.props.books,
       loading: _this2.props.loading,
       error: _this2.props.error,
-      loaded: _this2.props.loaded
+      loaded: _this2.props.loaded,
+      emptyList: _this2.props.emptyList
     };
     return _this2;
   }
@@ -11035,7 +11082,8 @@ var BooksTable = function (_React$Component2) {
         books: newProps.books,
         loading: newProps.loading,
         error: newProps.error,
-        loaded: newProps.loaded
+        loaded: newProps.loaded,
+        emptyList: newProps.emptyList
       });
     }
   }, {
@@ -11052,6 +11100,7 @@ var BooksTable = function (_React$Component2) {
             loading: this.state.loading,
             error: this.state.error,
             loaded: this.state.loaded,
+            emptyList: this.state.emptyList,
             filterText: this.props.filterText,
             areLent: this.props.areLent,
             callback: this.props.callback })

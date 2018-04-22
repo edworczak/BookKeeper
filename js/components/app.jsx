@@ -17,7 +17,8 @@ export default class App extends React.Component {
       books: [],
       loading: true,
       error: false,
-      loaded: false
+      loaded: false,
+      emptyList: false
     };
 
     // Search bar
@@ -53,6 +54,12 @@ export default class App extends React.Component {
       books.splice(index, 1);
       this.setState({
         books: books
+      }, () => {
+        if (this.state.books.length == 0) {
+          this.setState({
+            emptyList: true
+          })
+        }
       });
     }).fail(function(error) {
       console.log("error");
@@ -79,13 +86,26 @@ export default class App extends React.Component {
         return resp.json();
       })
       .then((data) => {
-        this.setState({
-          books: this.loadBooks(data),
-          loading: false,
-          error: false,
-          loaded: true
-        });
-    }).catch(() => {
+        console.log();
+        if (data._embedded.books.length != 0) {
+          this.setState({
+            books: this.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: false
+          });
+        } else {
+          this.setState({
+            books: this.loadBooks(data),
+            loading: false,
+            error: false,
+            loaded: true,
+            emptyList: true
+          });
+        }
+    }).catch((error) => {
+      console.log(error);
       this.setState({
         loading: false,
         error: true,
@@ -118,6 +138,7 @@ export default class App extends React.Component {
           loading={this.state.loading}
           error={this.state.error}
           loaded={this.state.loaded}
+          emptyList={this.state.emptyList}
           callback={index => this.removeBook(index)}/>
       </div>
     </div>;

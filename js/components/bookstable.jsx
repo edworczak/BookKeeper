@@ -20,7 +20,8 @@ export default class BooksTable extends React.Component {
       books: this.props.books,
       loading: this.props.loading,
       error: this.props.error,
-      loaded: this.props.loaded
+      loaded: this.props.loaded,
+      emptyList: this.props.emptyList
     }
   }
 
@@ -29,7 +30,8 @@ export default class BooksTable extends React.Component {
       books: newProps.books,
       loading: newProps.loading,
       error: newProps.error,
-      loaded: newProps.loaded
+      loaded: newProps.loaded,
+      emptyList: newProps.emptyList
     })
   }
 
@@ -41,6 +43,7 @@ export default class BooksTable extends React.Component {
                    loading={this.state.loading}
                    error={this.state.error}
                    loaded={this.state.loaded}
+                   emptyList={this.state.emptyList}
                    filterText={this.props.filterText}
                    areLent={this.props.areLent}
                    callback={this.props.callback} />

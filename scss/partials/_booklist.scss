@@ -69,23 +69,23 @@
     background-color: $color-row-bg-darker;
   }
 
-  .books-loading, .books-error {
+  .books-loading, .books-error, .books-empty {
     background-color: $color-row-bg-lighter !important;
     font-size: 5rem;
     margin: auto;
     text-align: center;
-  }
-
-  .books-loading {
-    color: $color-action;
-  }
-
-  .books-error {
-    color: $color-alert;
 
     p {
       font-size: 2.5rem;
       margin-top: 2rem;
     }
+  }
+
+  .books-loading, .books-empty {
+    color: $color-action;
+  }
+
+  .books-error {
+    color: $color-alert;
   }
 }
