@@ -1,47 +1,49 @@
+@import "../modules/variables";
+
 input[type="checkbox"] {
   display: none;
 }
 
 input[type="checkbox"] + label {
-  display: block;
   font-size: 1.6rem;
   line-height: 2rem;
-  position: relative;
-  padding-left: 3.5rem;
-  margin-bottom: 2rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 
-input[type="checkbox"] + label:last-child {
-  margin-bottom: 0;
+.checkbox-label {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+
+  .checkbox {
+    align-items: center;
+    border: 1px solid $color-action;
+    border-radius: 3px;
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    margin: 0;
+    width: 20px;
+
+    .fa-check {
+      color: $color-action;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity .2s ease-in-out;
+    }
+  }
+
+  p {
+    display: inline-block;
+    padding-left: 10px;
+  }
 }
 
-input[type="checkbox"] + label:before {
-  content: '';
-  display: block;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid $color-action;
-  border-radius: 0.3rem;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: .6;
-  -webkit-transition: all .12s, border-color .08s;
-  transition: all .12s, border-color .08s;
-}
-
-input[type="checkbox"]:checked + label:before {
-  width: 1rem;
-  top: -0.5rem;
-  left: 0.5rem;
-  border-radius: 0.3rem;
+input[type="checkbox"]:checked + label .fa-check {
   opacity: 1;
-  border-top-color: transparent;
-  border-left-color: transparent;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
+  transition: opacity .2s ease-in-out;
 }
+
