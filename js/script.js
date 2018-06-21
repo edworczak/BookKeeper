@@ -11417,8 +11417,17 @@ var EditBookForm = function (_React$Component) {
                 }, defaultChecked: this.state.read }),
               _react2.default.createElement(
                 'label',
-                { htmlFor: 'if-read' },
-                'Ksi\u0105\u017Cka przeczytana'
+                { className: 'checkbox-label', htmlFor: 'if-read' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'checkbox' },
+                  _react2.default.createElement('i', { className: 'fas fa-check' })
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Ksi\u0105\u017Cka przeczytana'
+                )
               )
             ),
             _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj ocen\u0119 w skali 0-10', value: this.state.rating, onChange: function onChange(event) {
@@ -11431,13 +11440,22 @@ var EditBookForm = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'checkbox-container' },
-              _react2.default.createElement('input', { type: 'checkbox', id: 'box-1', value: this.state.lent, onChange: function onChange(event) {
+              _react2.default.createElement('input', { type: 'checkbox', id: 'if-lent', value: this.state.lent, onChange: function onChange(event) {
                   return _this2.ifLent(event);
                 }, defaultChecked: this.state.lent }),
               _react2.default.createElement(
                 'label',
-                { htmlFor: 'box-1' },
-                'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+                { className: 'checkbox-label', htmlFor: 'if-lent' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'checkbox' },
+                  _react2.default.createElement('i', { className: 'fas fa-check' })
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Ksi\u0105\u017Cka zosta\u0142a po\u017Cyczona'
+                )
               )
             ),
             _react2.default.createElement('input', { type: 'text', className: 'input-details', placeholder: 'podaj imi\u0119 i nazwisko', value: this.state.lentTo, onChange: function onChange(event) {

@@ -222,15 +222,25 @@ export default class EditBookForm extends React.Component {
         </div>
         <div className="add-new-book__row--read">
           <div className="checkbox-container">
-            <input type="checkbox" id="if-read" value={this.state.read}  onChange={event => this.ifRead(event)} defaultChecked={this.state.read} />
-            <label htmlFor="if-read">Książka przeczytana</label>
+            <input type="checkbox" id="if-read" value={this.state.read} onChange={event => this.ifRead(event)} defaultChecked={this.state.read}/>
+            <label className="checkbox-label" htmlFor="if-read">
+                <div className="checkbox">
+                    <i className="fas fa-check"></i>
+                </div>
+                <p>Książka przeczytana</p>
+            </label>
           </div>
           <input type="text" className="input-details" placeholder="podaj ocenę w skali 0-10" value={this.state.rating} onChange={event => this.addRating(event)} disabled={!this.state.read} />
         </div>
         <div className="add-new-book__row--lent">
           <div className="checkbox-container">
-            <input type="checkbox" id="box-1" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent} />
-            <label htmlFor="box-1">Książka została pożyczona</label>
+            <input type="checkbox" id="if-lent" value={this.state.lent} onChange={event => this.ifLent(event)} defaultChecked={this.state.lent}/>
+            <label className="checkbox-label" htmlFor="if-lent">
+                <div className="checkbox">
+                    <i className="fas fa-check"></i>
+                </div>
+                <p>Książka została pożyczona</p>
+            </label>
           </div>
           <input type="text" className="input-details" placeholder="podaj imię i nazwisko" value={this.state.lentTo} onChange={event => this.addLentTo(event)} disabled={!this.state.lent} />
         </div>

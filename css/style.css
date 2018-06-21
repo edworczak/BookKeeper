@@ -127,7 +127,6 @@ input[type="checkbox"] {
 input[type="checkbox"] + label {
   font-size: 1.6rem;
   line-height: 2rem;
-  margin-bottom: 2rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -147,6 +146,7 @@ input[type="checkbox"] + label {
     margin: 0;
     width: 20px; }
     .checkbox-label .checkbox .fa-check {
+      color: #087E8B;
       display: none;
       font-size: 12px; }
   .checkbox-label p {

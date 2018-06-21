@@ -7,7 +7,6 @@ input[type="checkbox"] {
 input[type="checkbox"] + label {
   font-size: 1.6rem;
   line-height: 2rem;
-  margin-bottom: 2rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -30,6 +29,7 @@ input[type="checkbox"] + label {
     width: 20px;
 
     .fa-check {
+      color: $color-action;
       display: none;
       font-size: 12px;
     }
