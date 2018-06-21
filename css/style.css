@@ -147,14 +147,16 @@ input[type="checkbox"] + label {
     width: 20px; }
     .checkbox-label .checkbox .fa-check {
       color: #087E8B;
-      display: none;
-      font-size: 12px; }
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity .2s ease-in-out; }
   .checkbox-label p {
     display: inline-block;
     padding-left: 10px; }
 
 input[type="checkbox"]:checked + label .fa-check {
-  display: block; }
+  opacity: 1;
+  transition: opacity .2s ease-in-out; }
 
 html, * {
   font-family: 'Raleway', Verdana, sans-serif;
