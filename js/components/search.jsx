@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      areLent: ""
+    };
+
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
@@ -24,7 +28,12 @@ export default class Search extends React.Component {
       </div>
       <div className="checkbox-container">
         <input type="checkbox" id="areLent" checked={this.props.areLent}  onChange={this.handleCheckboxChange}/>
-        <label htmlFor="areLent">tylko pożyczone</label>
+        <label className="checkbox-label" htmlFor="areLent">
+            <div className="checkbox">
+                <i className="fas fa-check"></i>
+            </div>
+            <p>tylko pożyczone</p>
+        </label>
       </div>
     </div>;
   }
